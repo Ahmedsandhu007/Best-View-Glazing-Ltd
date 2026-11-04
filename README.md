@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Best View Glazing Ltd – website
 
-## Getting Started
+Lead-generation website for a fictional London window and door repair company.
+Built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 and Lucide icons.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build && npm start   # production build
+npm run lint                 # ESLint
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Connect the enquiry form (required before launch)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The form posts to `/api/enquiry` (`src/app/api/enquiry/route.ts`). The route validates the
+submission server-side, checks image signatures, then hands it to `src/lib/enquiry/deliver.ts`,
+which picks a backend from environment variables. Copy `.env.example` to `.env.local` and set ONE:
 
-## Learn More
+| Backend | Variables |
+| --- | --- |
+| Webhook (Make, Zapier, n8n, CRM, own server) | `ENQUIRY_WEBHOOK_URL`, optional `ENQUIRY_WEBHOOK_SECRET` |
+| Email via Resend | `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` |
 
-To learn more about Next.js, take a look at the following resources:
+Until one is configured the API answers `503` and the form shows an honest "not connected" message.
+A success screen is only shown when the backend accepted the enquiry. To add another provider,
+implement the `Provider` shape in `deliver.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Also set `NEXT_PUBLIC_SITE_URL` to the live domain (canonical URLs, Open Graph, sitemap, robots).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Where things live
 
-## Deploy on Vercel
+```
+src/content/      business facts, navigation, services, areas, FAQs, testimonials, image register
+src/components/   page sections (Header, Hero, TrustStrip, Introduction, Services, WhyChooseUs,
+                  WorkingProcess, AreasWeCover, Testimonials, Pricing, FAQ, QuoteForm, Footer …)
+src/components/ui Button, SectionHeading, PageHeader
+src/lib/enquiry/  shared validation (client + server) and delivery providers
+src/lib/seo.ts    structured-data builders (business, services, FAQ, breadcrumbs)
+src/app/          routes: /, /services, /services/[slug], /about, /areas, /areas/[slug],
+                  /faqs, /contact, /privacy-policy, /terms, sitemap, robots, icon, OG image
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+No copy or company facts are hard-coded in components; edit `src/content/*`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Before going live
+
+- **Testimonials** – `src/content/testimonials.ts` holds clearly labelled placeholder quotes.
+  Replace them with genuine, permissioned feedback and set `placeholder: false`. While any entry is
+  a placeholder the section shows a "sample content" label and no star ratings.
+- **Photography** – `src/content/images.ts` points at Unsplash photographs (free licence) chosen to
+  match each subject. Swap any entry for the company's own photos by placing files in `/public` and
+  updating `src`. Alt text lives alongside each image.
+- **Legal pages** – the privacy policy and terms are sensible defaults for a form-only enquiry site
+  and should be checked by the business before launch. No registration numbers, addresses, phone
+  numbers, accreditations or opening hours are published anywhere, by design.
+- **Structured data** – `HomeAndConstructionBusiness`, `Service`, `FAQPage` and `BreadcrumbList`
+  schemas are emitted without address, telephone or coordinates. Add them in `src/lib/seo.ts`
+  only once the business is happy to publish them.
+
+## Form behaviour
+
+- Required: name, email, postcode, property type, service, description, preferred contact time, consent.
+- Optional: phone, full address, up to three images (JPG/PNG/WebP/HEIC, 5 MB each) with previews.
+- UK postcode format validated; a non-blocking notice appears when the postcode looks outside Greater London.
+- Client-side validation on blur and on submit, with an error summary, `aria-invalid` and focus management.
+- Server-side re-validation, file signature sniffing, honeypot field and a light per-IP rate limit.
