@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}Fees - {{ store.name }} - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>Fees <small class="muted">what OnBuy deducts on {{ store.name }}, and what the sheet assumes</small></h1>
+<details class="brief"><summary>What this page does</summary><p>OnBuy takes a commission that depends on the product's category. The sheet prices each row with the fee it assumes; this page shows which fee model the store uses, keeps the commission tables fresh,
+  compares what the orders really paid with the sheet's assumption (so under-charged rows get fixed) and lets you move rows to the right category. The reports are safe to run; <strong>saving the fee model, committing tables, writing overrides and relabelling ask for the confirmation box</strong> because every sync prices from them.</p></details>
+<p class="stores">{% for s in stores %}<a href="/fees?store={{ s.id }}" class="chip {{ 'on' if s.id == store.id else '' }}">{{ s.name }}</a>{% endfor %}</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+{% if data %}
+{% set model = data.model %}{% set L = data.latest %}{% set A = data.available %}
+<div class="grid two" id="fees" data-store="{{ store.id }}">
+  <section class="card">
+    <h2>Fee model in force <span class="pill {{ 'ok' if model.mode == 'category' else 'stale' }}">{{ 'category tables' if model.mode == 'category' else 'flat ' ~ (model.flat | num) ~ '%' }}</span></h2>
+    <p class="muted">OnBuy's commission is a rate per category (7% consumer electronics, 13% DIY, 15% most things, 20% jewellery; some tiers have a second rate above a price threshold) plus 20% VAT on the commission, so a 15% category costs 18% of the price. In category mode the formula deducts each row's tier; in flat mode it deducts {{ model.flat | num }}% + VAT = {{ model.flat_effective | num }}% on every row. Tier mode "{{ model.tier_mode }}": {{ 'the upper rate applies to the part of the price above the threshold' if model.tier_mode == 'marginal' else 'the upper rate applies to the whole price once it passes the threshold' }}.</p>
+    <div class="runctl">
+      <label>mode <select id="feeMode"><option value="category" {{ 'selected' if model.mode == 'category' else '' }}>category tables</option><option value="flat" {{ 'selected' if model.mode == 'flat' else '' }}>flat {{ model.flat | num }}%</option></select></label>
+      <label>two-rate tiers <select id="tierMode"><option value="marginal" {{ 'selected' if model.tier_mode == 'marginal' else '' }}>marginal</option><option value="step" {{ 'selected' if model.tier_mode == 'step' else '' }}>step</option></select></label>
+      <label class="confirm"><input type="checkbox" id="modeConfirm"> I understand the store's next syncs price every row with this</label>
+      <button type="button" onclick="return Dash.saveFeeMode()">Save</button>
+    </div>
+    <p class="hint"><strong>Save</strong> sets the store's fee variables: from the next sync every row is priced with the chosen model (<em>category tables</em> = each row's own tier, <em>flat</em> = one rate for all). It does not touch OnBuy by itself.</p>
+    <div class="result" id="modeResult" hidden></div>
+
+    <h3>Commission tables in the repository</h3>
+    {% if data.tables_error %}<p class="error">{{ data.tables_error }}</p>{% endif %}
+    {% set R = L.refresh %}
+    <table class="compact">
+      <tr><td>Tiers</td><td><strong>{{ data.tiers | length }}</strong></td></tr>
+      <tr><td>Categories mapped to a tier</td><td><strong>{{ data.categories.categories }}</strong>{% if data.categories.without_tier %} <span class="muted">({{ data.categories.without_tier }} without a tier)</span>{% endif %}</td></tr>
+      <tr><td>Committed</td><td>{% if data.committed %}<a href="{{ data.committed.url }}" target="_blank" rel="noopener">{{ data.committed.date | when }}</a> <span class="muted">({{ data.committed.date | age }}) {{ data.committed.message }}</span>{% else %}<span class="muted">unknown</span>{% endif %}</td></tr>
+      <tr><td>Last refresh from OnBuy</td><td>
+        {% if R %}<a href="{{ R.run.url }}" target="_blank" rel="noopener">{{ R.run.created_at | age }}</a>{% if R.facts.tiers is defined %}: OnBuy lists <strong>{{ R.facts.tiers }}</strong> tiers and <strong>{{ R.facts.categories }}</strong> categories ({{ R.facts.categories_with_tier }} with a tier; {{ R.facts.listable_without_tier }} of our listable categories without one){% endif %}
+          {% if R.facts.tables %}<br><span class="pill {{ 'ok' if R.facts.tables == 'unchanged' else ('running' if R.facts.tables == 'committed' else 'stale') }}">tables {{ R.facts.tables }}</span> <span class="muted">{{ R.facts.tables_note }}</span>{% if R.facts.gone is defined %} <span class="muted">({{ R.facts.gone }} categories gone, {{ R.facts.new }} new, {{ R.facts.changed_tier }} changed tier)</span>{% endif %}
+          {% elif R.facts.tiers is defined %}<br><span class="muted">This run predates the compare step: whether the tables changed is not known.</span>{% endif %}
+        {% else %}<span class="muted">never</span>{% endif %}</td></tr>
+    </table>
+    {% if A.refresh %}
+    <form class="runrow" data-store="{{ store.id }}" data-workflow="refresh_fees.yml" data-risk="danger" data-reload="1" onsubmit="return Dash.runFromForm(event)">
+      <div class="runhead"><strong>Refresh the tables from OnBuy</strong> <span class="muted">read-only GET calls; waits for the store's slot. The run compares the fresh tables with the committed ones; commit = yes commits them, and every sync prices from them.</span></div>
+      <div class="runctl">
+        <label>commit <select name="commit"><option value="no">no - compare only</option><option value="yes">yes - commit the fresh tables</option></select></label>
+        <label class="confirm"><input type="checkbox" name="confirm"> I understand a committed table changes what every sync deducts</label>
+        <button type="submit">Start</button>
+      </div>
+      <div class="result" hidden></div>
+    </form>
+    {% endif %}
+    {% if data.tiers %}
+    <details><summary>The {{ data.tiers | length }} tiers of the committed table</summary>
+      <table class="compact">
+        <tr><th>Tier</th><th>OnBuy's rate</th><th>Deducted (with VAT)</th><th>Min fee</th></tr>
+        {% for t in data.tiers %}<tr><td>{{ t.name }}</td><td>{{ t.rule }}</td><td><strong>{{ t.effective_lower | num }}%</strong>{% if t.effective_upper is not none %} / {{ t.effective_upper | num }}%{% endif %}</td><td class="muted">£{{ t.min_fee | num }}</td></tr>{% endfor %}
+      </table>
+    </details>
+    {% endif %}
+
+    {% set P = L.impact %}
+    <h3>What category pricing does to the prices</h3>
+    {% if P and P.facts.rows is defined %}
+    <p><a href="{{ P.run.url }}" target="_blank" rel="noopener">{{ P.run.created_at | age }}</a>: of <strong>{{ P.facts.rows }}</strong> priced rows the tier formula would lower <strong>{{ P.facts.lower }}</strong>, raise <strong>{{ P.facts.raise_ }}</strong> and keep {{ P.facts.keep }} <span class="muted">({{ P.facts.no_tier }} rows sit in a category without a tier, {{ P.facts.no_cost }} have no cost)</span>.</p>
+    {% if P.facts.tiers %}<details><summary>Per tier</summary><table class="compact"><tr><th>Tier</th><th>Rows</th><th>Lower</th><th>Raise</th><th>Keep</th><th>Avg flat</th><th>Avg tier</th><th>Avg cell</th></tr>
+      {% for t in P.facts.tiers %}<tr><td>{{ t.tier }}</td><td>{{ t.rows }}</td><td>{{ t.lower }}</td><td>{{ t.raise_ }}</td><td>{{ t.keep }}</td><td class="muted">£{{ t.avg_flat }}</td><td class="muted">£{{ t.avg_tier }}</td><td class="muted">£{{ t.avg_cell }}</td></tr>{% endfor %}</table></details>{% endif %}
+    {% elif P %}<p class="muted">The last report (<a href="{{ P.run.url }}" target="_blank" rel="noopener">{{ P.run.created_at | age }}</a>) ended with "{{ P.run.conclusion }}" and no readable summary.</p>
+    {% else %}<p class="muted">No price impact report yet.</p>{% endif %}
+    {% if A.impact %}
+    <form class="runrow" data-store="{{ store.id }}" data-workflow="price_impact_report.yml" data-risk="read" data-reload="1" onsubmit="return Dash.runFromForm(event)">
+      <div class="runctl"><strong>Price impact report</strong> <span class="muted">reads the sheet and the committed tables; writes nothing</span> <button type="submit">Start</button></div>
+      <div class="result" hidden></div>
+    </form>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h2>What OnBuy really charged</h2>
+    <p class="muted">OnBuy bills the tier of ITS catalogue product's category, not the sheet's. The orders are the ground truth: each states the commission taken. A row OnBuy charges more than the sheet's tier gets a Fee % override (the sync re-prices from it and never overwrites it); a row it charges less is listed only.</p>
+    {% set F = L.feedback %}
+    <h3>Orders against the sheet's tiers</h3>
+    {% if F and F.facts.mode is defined %}
+    <p><a href="{{ F.run.url }}" target="_blank" rel="noopener">{{ F.run.created_at | age }}</a>, {{ F.facts.mode }}, {{ F.facts.days }} days: <strong>{{ F.facts.skus_with_orders }}</strong> ordered SKUs;
+      <strong class="{{ 'bad-text' if F.facts.under else 'ok-text' }}">{{ F.facts.under | default(0) }}</strong> under-charged row(s) to override{% if F.facts.already %} (+{{ F.facts.already }} already overridden){% endif %},
+      {{ F.facts.over | default(0) }} over-charged, {{ F.facts.matching | default(0) }} matching their tier{% if F.facts.tiered %}, {{ F.facts.tiered }} on two-rate tiers{% endif %}{% if F.facts.no_tier %}, {{ F.facts.no_tier }} without a tier{% endif %}; {{ F.facts.not_in_sheet | default(0) }} ordered SKUs are not on the sheet.
+      {% if F.facts.extra_inc %}Extra commission already paid on the under-charged ones: <strong>£{{ F.facts.extra_inc }}</strong> inc VAT.{% endif %}
+      {% if F.facts.written is defined %}<span class="pill ok">written: {{ F.facts.written }} override(s), {{ F.facts.skipped }} skipped</span>{% if F.facts.backup_tab %} <span class="muted">backup tab "{{ F.facts.backup_tab }}"</span>{% endif %}{% elif F.facts.mode == 'dry run' and F.facts.under %}<span class="pill stale">dry run - nothing written yet</span>{% endif %}</p>
+    {% if F.facts.rows %}
+    <table class="compact">
+      <tr><th>Kind</th><th>SKU</th><th>Row</th><th>Category</th><th>Sheet tier</th><th>Charged</th><th>Orders</th><th>Fee %</th><th>Price</th></tr>
+      {% for r in F.facts.rows[:60] %}
+      <tr class="{{ 'row-bad' if r.kind == 'under' else '' }}"><td>{{ r.kind }}</td><td><code>{{ r.sku }}</code></td><td class="muted">{{ r.tab }} {{ r.row }}</td><td class="muted">{{ r.category }}</td><td>{{ r.sheet_tier }}</td><td><strong>{{ r.charged | num }}%</strong> ex VAT</td><td class="muted">{{ r.orders }} ({{ r.examples }})</td><td>{{ r.fee_cell }}{% if r.target %} <strong>&rarr; {{ r.target }}</strong>{% endif %}</td><td class="muted">{{ r.price }}</td></tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% elif F %}<p class="muted">The last run (<a href="{{ F.run.url }}" target="_blank" rel="noopener">{{ F.run.created_at | age }}</a>) ended with "{{ F.run.conclusion }}" and no readable summary.</p>
+    {% else %}<p class="muted">Never run on this store.</p>{% endif %}
+    {% if A.feedback %}
+    <form class="runrow" data-store="{{ store.id }}" data-workflow="observed_fee_feedback.yml" data-risk="danger" data-reload="1" onsubmit="return Dash.runFromForm(event)">
+      <div class="runhead"><strong>Compare the orders with the sheet</strong> <span class="muted">reads the orders (money fields only) and the sheet; apply = yes writes the Fee % overrides after a backup tab</span></div>
+      <div class="runctl">
+        <label>days <input type="number" name="days" value="90" min="1" max="365" style="width:80px"></label>
+        <label>apply <select name="apply"><option value="no">no - report only</option><option value="yes">yes - write the overrides</option></select></label>
+        <label class="confirm"><input type="checkbox" name="confirm"> I understand the overridden rows are re-priced from the real fee at the next sync</label>
+        <button type="submit">Start</button>
+      </div>
+      <div class="result" hidden></div>
+    </form>
+    {% endif %}
+
+    {% set O = L.probe %}
+    <h3>Fee probe: what OnBuy charged per tier</h3>
+    {% if O and O.facts.tiers %}
+    <p class="muted"><a href="{{ O.run.url }}" target="_blank" rel="noopener">{{ O.run.created_at | age }}</a>: {{ O.facts.scanned }} orders scanned back to {{ O.facts.oldest }}; <strong>{{ O.facts.mismatches }}</strong> single-line orders were charged another rate than the sheet's tier{% if O.facts.extra_inc %} (£{{ O.facts.extra_inc }} extra inc VAT on the kept ones){% endif %}.</p>
+    <table class="compact"><tr><th>Sheet tier</th><th>Orders</th><th>Charged (median, ex VAT)</th><th>Range</th><th>Rates seen</th></tr>
+      {% for t in O.facts.tiers %}<tr><td>{{ t.nominal | num }}%</td><td>{{ t.orders }}</td><td><strong>{{ t.median }}%</strong></td><td class="muted">{{ t.min }} to {{ t.max }}%</td><td class="muted">{{ t.charged }}</td></tr>{% endfor %}</table>
+    {% if O.facts.by_category %}<details><summary>Mismatches by category ({{ O.facts.by_category | length }})</summary><table class="compact"><tr><th>Orders</th><th>Sheet tier</th><th>Charged</th><th>Category</th><th>e.g.</th></tr>
+      {% for g in O.facts.by_category %}<tr><td>{{ g.orders }}</td><td>{{ g.sheet_tier | num }}%</td><td><strong>{{ g.charged | join(', ') }}%</strong></td><td class="muted">{{ g.category }}</td><td><code>{{ g.examples }}</code></td></tr>{% endfor %}</table></details>{% endif %}
+    {% elif O %}<p class="muted">The last probe (<a href="{{ O.run.url }}" target="_blank" rel="noopener">{{ O.run.created_at | age }}</a>) ended with "{{ O.run.conclusion }}" and no per-tier summary (no single-line orders on a flat tier in its window).</p>
+    {% else %}<p class="muted">Never run on this store.</p>{% endif %}
+    {% if A.probe %}
+    <form class="runrow" data-store="{{ store.id }}" data-workflow="order_fee_probe.yml" data-risk="read" data-reload="1" onsubmit="return Dash.runFromForm(event)">
+      <div class="runctl"><strong>Probe recent orders</strong> <label>days <input type="number" name="days" value="30" min="1" max="365" style="width:80px"></label> <span class="muted">money fields only, never a buyer field; waits for the store's slot</span> <button type="submit">Start</button></div>
+      <div class="result" hidden></div>
+    </form>
+    {% endif %}
+  </section>
+</div>
+
+<section class="card">
+  <h2>Categories and their tiers</h2>
+  <p class="muted">The sheet's category decides the tier in the price formula, so a row must carry the category OnBuy really uses (3D printers sit under Arts, Crafts &amp; Sewing at 15%, not under Printers at 7%). The census shows which rows match a title pattern and how the priced rows spread over tiers and Fee % cells; the relabel moves matching rows to the right category (sheet only, backup tab first; the sync re-prices them from the new tier).</p>
+  <div class="cols">
+    <div>
+      {% set C = L.census %}
+      <h3>Census</h3>
+      {% if C and C.facts.exposure %}
+      <p><a href="{{ C.run.url }}" target="_blank" rel="noopener">{{ C.run.created_at | age }}</a>: the pattern <code>{{ C.facts.pattern }}</code> matches <strong>{{ C.facts.keyword_rows }}</strong> rows{% if C.facts.per_category %} ({% for p in C.facts.per_category[:4] %}{{ p.name }}: {{ p.rows }}{% if not loop.last %}; {% endif %}{% endfor %}){% endif %}.
+        {{ C.facts.rows_priced }} priced rows in all{% if C.facts.flat_fallback_rows %}; <span class="bad-text">{{ C.facts.flat_fallback_rows }} rows carry the flat-fallback Fee % of 24.00</span>{% endif %}.</p>
+      {% if C.facts.tiers_empty %}<p class="error">This census ran before the tier column was fixed (22 October): every row shows "no tier". Run it again to see the tiers.</p>{% endif %}
+      <table class="compact"><tr><th>Tab</th><th>Tier</th><th>Nominal</th><th>Fee % cell</th><th>Rows</th><th>In stock</th><th>Prices sum</th></tr>
+        {% for e in C.facts.exposure[:30] %}<tr><td>{{ e.tab }}</td><td>{{ e.tier }}</td><td>{{ e.nominal }}</td><td><strong>{{ e.fee_cell }}</strong></td><td>{{ e.rows }}</td><td class="muted">{{ e.in_stock }}</td><td class="muted">£{{ "{:,}".format(e.total) }}</td></tr>{% endfor %}</table>
+      {% if C.facts.no_tier_categories %}<p class="muted">Categories with no tier (rows): {% for p in C.facts.no_tier_categories[:8] %}{{ p.name }}: {{ p.rows }}{% if not loop.last %}; {% endif %}{% endfor %}</p>{% endif %}
+      {% if C.facts.hits %}<details><summary>The {{ C.facts.hits | length }} keyword rows</summary><table class="compact"><tr><th>SKU</th><th>Row</th><th>Category</th><th>Fee %</th><th>Price</th><th>Stock</th><th>Title</th></tr>
+        {% for h in C.facts.hits[:150] %}<tr><td><code>{{ h.sku }}</code></td><td class="muted">{{ h.tab }} {{ h.row }}</td><td class="muted">{{ h.category }}</td><td>{{ h.fee_cell }}</td><td>{{ h.price }}</td><td>{{ h.stock }}</td><td class="muted">{{ h.title }}</td></tr>{% endfor %}</table></details>{% endif %}
+      {% elif C %}<p class="muted">The last census (<a href="{{ C.run.url }}" target="_blank" rel="noopener">{{ C.run.created_at | age }}</a>) ended with "{{ C.run.conclusion }}" and no readable table.</p>
+      {% else %}<p class="muted">Never run on this store.</p>{% endif %}
+      {% if A.census %}
+      <form class="runrow" data-store="{{ store.id }}" data-workflow="category_keyword_census.yml" data-risk="read" data-reload="1" onsubmit="return Dash.runFromForm(event)">
+        <div class="runctl"><strong>Census</strong> <label>title pattern <input type="text" name="keywords" placeholder="empty = 3D printing products" style="width:240px"></label> <span class="muted">reads the sheet only</span> <button type="submit">Start</button></div>
+        <div class="result" hidden></div>
+      </form>
+      {% endif %}
+    </div>
+    <div>
+      {% set X = L.relabel %}
+      <h3>Relabel by keyword</h3>
+      {% if X and X.facts.mode is defined %}
+      <p><a href="{{ X.run.url }}" target="_blank" rel="noopener">{{ X.run.created_at | age }}</a>, {{ X.facts.mode }}, {{ X.facts.rules }} rule(s): <strong>{{ X.facts.to_relabel | default(0) }}</strong> row(s) to relabel ({{ X.facts.already | default(0) }} already on the target path{% if X.facts.tier_changes is defined %}; {{ X.facts.tier_changes }} change tier{% endif %}).
+        {% if X.facts.written is defined %}<span class="pill ok">written: {{ X.facts.written }}, {{ X.facts.skipped }} skipped</span>{% if X.facts.backup_tab %} <span class="muted">backup tab "{{ X.facts.backup_tab }}"</span>{% endif %}{% elif X.facts.mode == 'dry run' and X.facts.to_relabel %}<span class="pill stale">dry run - nothing written yet</span>{% endif %}</p>
+      {% if X.facts.rows %}<details {{ 'open' if (X.facts.rows | length) <= 15 else '' }}><summary>The rows</summary><table class="compact"><tr><th>SKU</th><th>Row</th><th>From</th><th>To</th><th>Fee %</th><th>Title</th></tr>
+        {% for r in X.facts.rows[:100] %}<tr><td><code>{{ r.sku }}</code></td><td class="muted">{{ r.tab }} {{ r.row }}</td><td class="muted">{{ r.old_category }} ({{ r.old_tier }})</td><td><strong>{{ r.new_leaf }}</strong> ({{ r.new_tier }})</td><td>{{ r.fee_cell }}</td><td class="muted">{{ r.title }}</td></tr>{% endfor %}</table></details>{% endif %}
+      {% elif X %}<p class="muted">The last run (<a href="{{ X.run.url }}" target="_blank" rel="noopener">{{ X.run.created_at | age }}</a>) ended with "{{ X.run.conclusion }}" and no readable plan.</p>
+      {% else %}<p class="muted">Never run on this store.</p>{% endif %}
+      {% if A.relabel %}
+      <form class="runrow" data-store="{{ store.id }}" data-workflow="set_category_by_keyword.yml" data-risk="danger" data-reload="1" onsubmit="return Dash.runFromForm(event)">
+        <div class="runhead"><strong>Relabel matching rows</strong> <span class="muted">one rule per line: title regex =&gt; OnBuy category path (leave empty for the built-in 3D printing rules)</span></div>
+        <textarea name="rules" placeholder="{{ data.rules }}"></textarea>
+        <div class="runctl">
+          <label>only rows whose category matches <input type="text" name="only_from" placeholder="regex, empty = any" style="width:220px"></label>
+          <label>apply <select name="apply"><option value="no">no - report only</option><option value="yes">yes - relabel (backup tab first)</option></select></label>
+          <label class="confirm"><input type="checkbox" name="confirm"> I understand the relabelled rows are re-priced from their new tier</label>
+          <button type="submit">Start</button>
+        </div>
+        <div class="result" hidden></div>
+      </form>
+      {% if data.rules %}<details><summary>Built-in rules</summary><pre>{{ data.rules }}</pre></details>{% endif %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

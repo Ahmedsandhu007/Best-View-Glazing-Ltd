@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}eBay - {{ store.name }} - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>eBay sync <small class="muted">{{ store.name }}</small></h1>
+<details class="brief"><summary>What this page does</summary><p>The store's eBay rows get their price, stock and delivery cost from eBay every hour: each run takes a batch of the rows that are due (oldest and riskiest first), checks them on eBay, and pushes what changed to OnBuy. eBay lets the store make only 5,000 calls a day, so the whole sheet comes round every day or two - and until a row's turn comes, an eBay seller who has run out can still sell on OnBuy. Here you see how the last runs went, <strong>how long the whole sheet really takes to come round</strong>, how much of eBay's daily allowance is left, and what the dead-row purge removed. <strong>It only reads.</strong></p></details>
+<p class="stores">{% for s in stores %}<a href="/ebay?store={{ s.id }}" class="chip {{ 'on' if s.id == store.id else '' }}">{{ s.name }}</a>{% endfor %}</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+{% if data and not data.available %}<p class="error">This store's repository has no eBay sync workflow (run.yml).</p>{% endif %}
+{% if data and data.available %}
+<div id="ebay" data-store="{{ store.id }}">
+  {% set L = data.latest %}{% set C = data.cycle %}
+  <p>
+    {% if L %}<span class="pill ok" title="The newest eBay sync that finished well">last good sync {{ L.created_at | age }}</span>{% endif %}
+    {% if C %}<span class="pill {{ 'failed' if C.slow else 'ok' }}" title="Worked out from what the syncs really did in the last 24 hours">whole sheet every ~{{ C.hours | num }} h</span>{% endif %}
+    {% if L and L.facts.allowance_left is defined %}<span class="pill quiet" title="eBay's calls left in today's window at the start of that sync; the day resets at 07:00 UTC">{{ '{:,}'.format(L.facts.allowance_left) }} eBay calls left</span>{% endif %}
+    {% for c in data.schedule %}<span class="pill quiet" title="GitHub often starts a scheduled run a few hours late">{{ c }}</span>{% endfor %}
+  </p>
+  {% if C and C.slow %}<p class="warn-text"><strong>The whole sheet takes about {{ C.hours | num }} hours to come round</strong> (more than {{ slow_hours | num }}): a row can go a long time without a look at eBay. The syncs of the last 24 hours refreshed only {{ '{:,}'.format(C.per_day) }} rows.</p>{% endif %}
+
+  <div class="grid two">
+    <section class="card">
+      <h2>The last good sync</h2>
+      {% if L %}{% set f = L.facts %}
+      <p class="muted"><a href="{{ L.run.url }}" target="_blank" rel="noopener">{{ L.created_at | age }}</a> · {{ 'scheduled' if L.run.event == 'schedule' else 'manual' }}{% if f.minutes is defined %} · the batch took {{ f.minutes }} min{% endif %}</p>
+      <table class="compact">
+        <tr><th>What</th><th>Rows</th><th class="hint">What it means</th></tr>
+        <tr><td>On the sheet</td><td>{{ '{:,}'.format(f.rows) }}</td><td class="meaning">All rows of the eBay tab.</td></tr>
+        {% if f.no_link is defined %}<tr><td>No supplier link</td><td>{{ '{:,}'.format(f.no_link) }}</td><td class="meaning">Rows with no eBay / Amazon link are never refreshed: give them a link or remove them.</td></tr>{% endif %}
+        {% if f.rotation %}<tr><td>In stock / out of stock / flagged</td><td>{{ '{:,}'.format(f.rotation.in_stock) }} / {{ f.rotation.out_of_stock }} / {{ f.rotation.flagged }}</td><td class="meaning">How the rotation sees the rows that have a link: live and in stock come first by age and risk; flagged rows (a content problem, a blocked brand) are low weight.</td></tr>{% endif %}
+        <tr><td>Refreshed on eBay</td><td><strong>{{ '{:,}'.format(f.updated_rows if f.updated_rows is defined else f.processing) }}</strong>{% if f.batch %} <span class="muted">(batch {{ '{:,}'.format(f.batch) }})</span>{% endif %}</td><td class="meaning">The run's batch: about one eBay call per row.</td></tr>
+        {% if f.batch_cut %}<tr><td>Batch cut</td><td class="bad-text">{{ '{:,}'.format(f.batch_cut['from']) }} to {{ '{:,}'.format(f.batch_cut.to) }}</td><td class="meaning">The batch was made smaller to stay inside eBay's daily allowance: the day's calls were nearly used up.</td></tr>{% endif %}
+        {% if f.priced is defined %}<tr><td>Priced</td><td>{{ '{:,}'.format(f.priced) }}{% if f.followed_down %} <span class="muted">({{ f.followed_down }} followed a price down)</span>{% endif %}</td><td class="meaning">Priced from the cost with the category's commission and the profit schedule.</td></tr>{% endif %}
+        {% if f.delivery %}<tr><td>eBay delivery cost</td><td>{{ '{:,}'.format(f.delivery.free) }} free · {{ f.delivery.paid }} paid{% if f.delivery.not_stated %} · {{ f.delivery.not_stated }} not stated{% endif %}</td><td class="meaning">What eBay says delivery costs for the refreshed rows{% if f.delivery.paid %} (paid ones: median £{{ '%.2f' | format(f.delivery.median) }}, up to £{{ '%.2f' | format(f.delivery.max) }}){% endif %}.{% if f.delivery.cells_written %} {{ f.delivery.cells_written }} Shipping Cost cell(s) were written.{% endif %}</td></tr>{% endif %}
+        {% if f.onbuy %}<tr><td>Pushed to OnBuy</td><td>{{ f.onbuy.updated }} <span class="muted">updated</span>{% if f.onbuy.created %}, {{ f.onbuy.created }} created{% endif %}{% if f.onbuy.failed %} <span class="bad-text">({{ f.onbuy.failed }} failed)</span>{% endif %}</td><td class="meaning">{% if f.onbuy.deferred %}{{ f.onbuy.deferred }} waiting for OnBuy to put them live. {% endif %}{% if f.onbuy.protected %}{{ f.onbuy.protected }} protected (content repair pending).{% endif %}</td></tr>{% endif %}
+        {% if f.purge and f.purge.done is defined %}<tr><td>Dead rows removed</td><td>{{ f.purge.done }}{% if f.purge.done_oos %} <span class="muted">({{ f.purge.done_oos }} out of stock{% if f.purge.done_brand %}, {{ f.purge.done_brand }} blocked brand{% endif %})</span>{% endif %}</td><td class="meaning">The purge at the end of the sync deletes rows that eBay says are gone, from the sheet and from OnBuy (backed up first).</td></tr>{% endif %}
+      </table>
+      {% if f.purge and f.purge.suspended %}<p class="warn-text"><strong>{{ f.purge.suspended | length }} purged listing(s) are suspended on OnBuy</strong>: OnBuy refuses to delete those, so delete them by hand: {% for s in f.purge.suspended[:12] %}<code>{{ s }}</code>{{ ', ' if not loop.last }}{% endfor %}{% if f.purge.suspended | length > 12 %} ...{% endif %} (Catalogue page lists every one).</p>{% endif %}
+      {% if f.warnings %}<p class="warn-text">{% for w in f.warnings %}{{ w }}{{ '; ' if not loop.last }}{% endfor %}</p>{% endif %}
+      {% else %}<p class="muted">No finished sync with numbers yet.</p>{% endif %}
+    </section>
+
+    <section class="card">
+      <h2>How fresh is the eBay data?</h2>
+      {% if C %}
+      <p style="font-size:18px;margin:4px 0"><strong>The whole sheet comes round about every {{ C.hours | num }} hours.</strong></p>
+      <table class="compact facts">
+        <tr><td>Rows that are due</td><td>{{ '{:,}'.format(C.eligible) }}</td></tr>
+        <tr><td>Syncs in the 24 hours up to the newest</td><td>{{ C.runs }}</td></tr>
+        <tr><td>Rows refreshed in those 24 hours</td><td>{{ '{:,}'.format(C.per_day) }} <span class="muted">(about {{ '{:,}'.format(C.per_run) }} a sync)</span></td></tr>
+      </table>
+      <p class="hint">Worked out from what the syncs really did: the rows that are due (the sheet without the rows that have no supplier link) divided by the rows refreshed in a day. GitHub delivers only a few of the 24 scheduled runs a day, so this is longer than the sync's own log line ("a full refresh cycle takes ~0.2 day"), which assumes every scheduled run comes.</p>
+      {% else %}<p class="muted">Not enough finished syncs to work it out.</p>{% endif %}
+      <h3>The budget behind it</h3>
+      <table class="compact facts">
+        <tr><td>Daily call budget</td><td>{% if L and L.facts.budget is defined %}{{ '{:,}'.format(L.facts.budget) }}{% else %}{{ data.variables.EBAY_DAILY_CALL_BUDGET or '4800 (default)' }}{% endif %} <span class="muted">of eBay's 5,000 a day{% if data.variables.EBAY_DAILY_CALL_BUDGET %} · variable EBAY_DAILY_CALL_BUDGET = {{ data.variables.EBAY_DAILY_CALL_BUDGET }}{% endif %}</span></td></tr>
+        {% if L and L.facts.allowance_left is defined %}<tr><td>Left at the last sync</td><td>{{ '{:,}'.format(L.facts.allowance_left) }} <span class="muted">(the sync keeps a reserve of {{ L.facts.reserve }}; the day resets at 07:00 UTC)</span></td></tr>{% endif %}
+        <tr><td>Delivery cost from eBay</td><td>{{ data.variables.EBAY_SHIPPING_COST or 'measured only (default)' }} <span class="muted">variable EBAY_SHIPPING_COST</span></td></tr>
+      </table>
+      <p class="hint">These are repository variables: change them on the Settings page. A bigger budget makes each batch bigger and the cycle shorter, but eBay's own limit of 5,000 calls a day is the ceiling.</p>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>The last syncs <small class="muted">scheduled and manual</small></h2>
+    {% if data.history %}
+    <table class="compact"><tr><th>When</th><th>How</th><th>Result</th><th>Refreshed</th><th>eBay calls left</th><th>Pushed to OnBuy</th><th>Dead rows removed</th></tr>
+      {% for h in data.history %}{% set f = h.facts %}
+      <tr><td><a href="{{ h.run.url }}" target="_blank" rel="noopener">{{ h.run.created_at | age }}</a></td><td>{{ 'scheduled' if h.run.event == 'schedule' else 'manual' }}</td>
+        <td><span class="pill {{ 'ok' if h.run.conclusion == 'success' else ('cancelled' if h.run.conclusion == 'cancelled' else 'failed') }}">{{ h.run.conclusion }}</span></td>
+        <td>{% if f.updated_rows is defined %}{{ '{:,}'.format(f.updated_rows) }}{% if f.batch_cut %} <span class="bad-text">(cut)</span>{% endif %}{% elif f.processing is defined %}{{ '{:,}'.format(f.processing) }}{% endif %}</td>
+        <td>{% if f.allowance_left is defined %}{{ '{:,}'.format(f.allowance_left) }}{% endif %}</td>
+        <td>{% if f.onbuy %}{{ f.onbuy.updated }} updated{% if f.onbuy.created %}, {{ f.onbuy.created }} created{% endif %}{% if f.onbuy.failed %} <span class="bad-text">({{ f.onbuy.failed }} failed)</span>{% endif %}{% endif %}</td>
+        <td>{% if f.purge and f.purge.done is defined %}{{ f.purge.done }}{% if f.purge.suspended_count %} <span class="warn-text">({{ f.purge.suspended_count }} suspended)</span>{% endif %}{% endif %}</td></tr>
+      {% endfor %}
+    </table>
+    <p class="hint">A scheduled run that was cancelled is one the next run replaced in the store's queue (only one run can wait for the slot): nothing is lost, the rows simply wait for the next batch.</p>
+    {% else %}<p class="muted">No finished eBay sync yet.</p>{% endif %}
+  </section>
+
+  <section class="card">
+    <h2>How the sync picks its rows</h2>
+    <details class="how" open><summary>Every hour, while eBay's daily allowance lasts</summary>
+      <p>1. It reads the eBay tab and leaves out the rows that have no supplier link (they cannot be checked).</p>
+      <p>2. It sorts the rest by age and risk: in-stock rows that have not been looked at the longest come first; rows flagged for a content problem or a blocked brand come last.</p>
+      <p>3. It sizes the batch from the time since the last run (a late run gets a bigger batch, so a day's calls are used whenever the runs come) and cuts it if eBay's remaining allowance is smaller.</p>
+      <p>4. Each row in the batch is looked up on eBay (price, stock, delivery cost), priced with the profit schedule and the category's commission, and written to the sheet; changes are pushed to OnBuy.</p>
+      <p>5. The last step removes rows eBay says are gone (out of stock for good, or a blocked brand) from the sheet and from OnBuy, with a backup tab.</p>
+      <p class="muted">The Amazon rows are not part of this: they come from Keepa, see the Amazon page.</p>
+    </details>
+  </section>
+</div>
+{% endif %}
+{% endblock %}

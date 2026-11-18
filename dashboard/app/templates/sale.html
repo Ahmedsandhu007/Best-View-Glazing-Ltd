@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Sale - {{ store.name }} - OnBuy dashboard{% endblock %}
+{% macro facts_table(f) %}
+  {% if f.sale %}<p>{{ f.sale | replace('GBP ', '£') }}{% if f.window_end %} <span class="muted">· last day {{ f.window_end[:10] }}</span>{% endif %}{% if f.floor %} <span class="muted">· margin floor {{ f.floor }}</span>{% endif %}</p>{% endif %}
+  <table class="compact facts">
+    {% if f.listings is defined %}<tr><td>Listings on the account</td><td><strong>{{ f.listings }}</strong>{% if f.sales_now is defined %} <span class="muted">({{ f.sales_now }} carried a sale before the run{% if f.sales_end_dates %}, ending {{ f.sales_end_dates }}{% endif %})</span>{% endif %}</td></tr>{% endif %}
+    {% if f.on_sale_after is defined %}<tr><td>On sale after the run</td><td><strong>{{ f.on_sale_after }}</strong> <span class="muted">· £{{ '{:,.2f}'.format(f.discount) }} off in total if each sold once</span></td></tr>{% endif %}
+    {% if f.updates is defined %}<tr><td>Updates sent</td><td>{{ f.updates }} in {{ f.requests }} request(s)</td></tr>{% endif %}
+    {% if f.applied_ok is defined %}<tr><td>Applied</td><td><strong>{{ f.applied_ok }}</strong> ok, {{ f.applied_failed }} failed{% if f.readback %} <span class="muted">· read-back {{ f.readback }} showing</span>{% endif %}</td></tr>{% endif %}
+    {% if f.cancelled_ok is defined %}<tr><td>Sales ended</td><td><strong>{{ f.cancelled_ok }}</strong> ok, {{ f.cancelled_failed }} failed{% if f.state_removed %} <span class="muted">· sale file removed</span>{% endif %}</td></tr>{% endif %}
+    {% if f.test_sku is defined %}<tr><td>Test listing</td><td><code>{{ f.test_sku }}</code> {{ f.test_plan }}{% if f.test_on %}<br>sale on: {{ f.test_on }}{% endif %}{% if f.test_off %}<br>sale off: {{ f.test_off }}{% endif %}</td></tr>{% endif %}
+  </table>
+  {% if f.ranges %}
+  <table class="compact">
+    <tr><th>#</th><th>Prices</th><th>Sale</th><th>Listings</th><th>On sale</th><th>No cost</th><th>Under floor</th><th>Other</th><th>£ off</th></tr>
+    {% for r in f.ranges %}<tr><td>{{ r.range }}</td><td>{{ r.prices }}</td><td>{{ r.sale }}</td><td>{{ r.listings }}</td><td><strong>{{ r.on_sale }}</strong></td><td class="muted">{{ r.no_cost }}</td><td class="muted">{{ r.below_floor }}</td><td class="muted">{{ r.other }}{% if r.ended %} (+{{ r.ended }} ended){% endif %}</td><td>{{ '{:,.2f}'.format(r.discount) }}</td></tr>{% endfor %}
+    {% if f.outside %}<tr><td colspan="9" class="muted">{{ f.outside }} listings are outside every range and get no sale.</td></tr>{% endif %}
+  </table>
+  {% elif f.actions %}
+  <table class="compact"><tr><th>What happens</th><th>Listings</th></tr>{% for a in f.actions %}<tr><td>{{ a.action }}</td><td>{{ a.listings }}</td></tr>{% endfor %}</table>
+  {% endif %}
+{% endmacro %}
+{% block content %}
+<h1>Sale <small class="muted">a sale % for each price range of {{ store.name }}</small></h1>
+<details class="brief"><summary>What this page does</summary><p>Puts a time-limited sale on a store: pick price ranges, give each a sale %, set the last day and a margin floor (so no sale price leaves less than your minimum profit). <strong>Preview</strong> counts what would happen and
+  changes nothing; <strong>Apply</strong> puts the sale live on OnBuy for customers; <strong>Cancel</strong> ends it. While a sale runs, the nightly job keeps new and re-priced listings on it until its last day.</p></details>
+<p class="stores">{% for s in stores %}<a href="/sale?store={{ s.id }}" class="chip {{ 'on' if s.id == store.id else '' }}">{{ s.name }}</a>{% endfor %}</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+{% if data and not data.available %}<p class="error">{{ store.name }} has no Store Sale workflow yet.</p>{% endif %}
+{% if data and data.available %}
+{% set state = data.state %}{% set L = data.latest %}
+<div class="grid two" id="sale" data-store="{{ store.id }}" data-today="{{ today }}">
+  <section class="card">
+    <h2>Sale now
+      {% if state and state.active %}<span class="pill ok">running</span>{% elif state %}<span class="pill quiet">expired</span>{% else %}<span class="pill quiet">none</span>{% endif %}
+    </h2>
+    {% if state and state.active %}
+    <p><strong>{{ state.summary }}</strong></p>
+    <table class="compact">
+      <tr><td>Last day</td><td><strong>{{ state.ends }}</strong> <span class="muted">(started {{ state.starts }})</span></td></tr>
+      <tr><td>Applied</td><td>{{ state.applied_at }}{% if state.listings is not none %} · <strong>{{ state.listings }}</strong> listings on sale{% endif %}</td></tr>
+      <tr><td>Margin floor</td><td>{{ state.floor or 'not recorded' }}</td></tr>
+      <tr><td>Scope</td><td>{{ 'only listings with stock' if state.scope == 'in_stock' else 'every priced listing' }}</td></tr>
+    </table>
+    {% if state.ranges %}
+    <table class="compact"><tr><th>Prices</th><th>Sale</th></tr>
+      {% for r in state.ranges %}<tr><td>{{ r.label }}</td><td>{% if r.percent %}<strong>{{ r.percent | num }}%</strong>{% else %}<span class="muted">kept out</span>{% endif %}</td></tr>{% endfor %}
+    </table>
+    {% endif %}
+    <p class="muted">The nightly keeps new and re-priced listings on the sale, and the sale guard leaves it alone until the last day. Changing the ranges or the last day below and applying again replaces it.</p>
+    <div class="runctl">
+      <label class="confirm"><input type="checkbox" id="cancelConfirm"> I understand this ends the sale on every listing of {{ store.name }}</label>
+      <button type="button" onclick="return Dash.saleCancel()">Cancel the sale</button>
+    </div>
+    <p class="hint"><strong>Cancel</strong> ends the sale on every listing of the store at once; OnBuy drops it within a minute or two.</p>
+    <div class="result" id="cancelResult" hidden></div>
+    {% elif state %}
+    <p class="muted">The last sale ended on {{ state.ends }}: {{ state.summary }}. OnBuy drops an ended sale by itself.</p>
+    {% else %}
+    <p class="muted">No store sale is running on {{ store.name }}. Pick the price ranges and their sale % on the right, preview, then apply.</p>
+    {% endif %}
+
+    <h3>Last run</h3>
+    {% if L and L.newer %}<p class="error">A newer run ended with <strong>{{ L.newer.conclusion }}</strong> ({{ L.newer.created_at | age }}): <a href="{{ L.newer.url }}" target="_blank" rel="noopener">open it on GitHub</a>. The numbers below are from the last run that finished.</p>{% endif %}
+    {% if L %}
+    <p><a href="{{ L.run.url }}" target="_blank" rel="noopener">{{ L.run.created_at | age }}</a> <span class="pill quiet">{{ L.facts.mode or 'run' }}</span> <span class="pill {{ 'ok' if L.run.conclusion == 'success' else 'failed' }}">{{ L.run.conclusion }}</span></p>
+    {% if L.facts %}{{ facts_table(L.facts) }}{% elif L.run.conclusion != 'success' %}<p class="muted">That run did not finish; open it on GitHub for the log.</p>{% endif %}
+    {% else %}<p class="muted">Nothing has run on this store yet.</p>{% endif %}
+
+    {% if data.dispatches %}
+    <h3>Started from here</h3>
+    <table class="compact"><tr><th>When</th><th>Mode</th><th>Result</th><th>Run</th></tr>
+      {% for d in data.dispatches %}<tr><td>{{ d.at | when }}</td><td>{{ d.inputs.mode or '' }}</td><td><span class="pill {{ 'ok' if d.status == 'success' else ('failed' if d.status == 'failure' else 'quiet') }}">{{ d.status }}</span></td><td>{% if d.run_url %}<a href="{{ d.run_url }}" target="_blank" rel="noopener">{{ d.run_id }}</a>{% endif %}</td></tr>{% endfor %}
+    </table>
+    {% endif %}
+  </section>
+
+  <section class="card">
+    <h2>Plan a sale</h2>
+    <p class="muted">Each row is a price range of the listing's price on OnBuy, both ends included; the first row that holds a price decides. Type the sale % you want in a range, leave it empty (or 0) to keep that range out of the sale. A price that sits in no row gets no sale. {% if state and state.active %}A sale is running: applying replaces it.{% endif %}</p>
+    <table class="compact" id="sranges">
+      <tr><th>From £ (empty = open)</th><th>To £ (empty = open)</th><th>Sale %</th><th></th></tr>
+      {% for lo, hi in brackets %}
+      <tr class="srow"><td><input type="number" step="0.01" min="0" class="sfrom" value="{{ '' if lo is none else lo | num }}"></td>
+          <td><input type="number" step="0.01" min="0" class="sto" value="{{ '' if hi is none else hi | num }}"></td>
+          <td><input type="number" step="0.5" min="0" max="90" class="spct" placeholder="none"></td>
+          <td><button type="button" class="ghost" onclick="return Dash.saleRemove(this)">remove</button></td></tr>
+      {% endfor %}
+    </table>
+    <div class="runctl" style="margin:8px 0">
+      <button type="button" class="ghost" onclick="return Dash.saleAdd()" title="Add an empty row to the table">Add a range</button>
+      <button type="button" class="ghost" onclick="return Dash.saleReset()" title="Replace the rows with the usual price brackets (0-4.99, 5-9.99, 10-20, 20.01-50, 50.01 and over)">Usual brackets</button>
+      <label>give every empty row <input type="number" step="0.5" min="1" max="90" id="fillPct" style="width:70px" placeholder="%"> % <button type="button" class="ghost" onclick="return Dash.saleFill()" title="Put this sale % into every row that has none">Fill</button></label>
+    </div>
+    <div class="runctl">
+      <label><strong>Last day</strong> <input type="date" id="saleEnd" min="{{ today }}" max="{{ max_end }}" required></label>
+      <label>margin floor % <input type="number" step="0.5" min="0" max="500" id="floorPct" value="10" style="width:80px"></label>
+      <label>a listing under its floor <select id="floorMode"><option value="skip">stays out</option><option value="cap">goes on sale at the floor</option></select></label>
+      <label>scope <select id="saleScope"><option value="all">every priced listing</option><option value="in_stock">only listings with stock</option></select></label>
+    </div>
+    <p class="muted">The floor keeps a sale price from leaving less than that profit on cost + shipping after OnBuy's fee. A listing with no cost on the sheet stays out.</p>
+    <div class="runctl">
+      <button type="button" onclick="return Dash.salePreview()">Preview (changes nothing)</button>
+    </div>
+    <p class="hint"><strong>Preview</strong> reads the whole account and shows, per range, how many listings would go on sale, how many stay out (no cost, under the floor) and the total discount. It changes nothing (a few minutes).</p>
+    <div class="result" id="salePreviewResult" hidden></div>
+    <div class="runctl" style="margin-top:14px">
+      <label class="confirm"><input type="checkbox" id="applyConfirm"> I understand this puts the sale live on OnBuy for customers</label>
+      <button type="button" onclick="return Dash.saleApply()">Apply the sale</button>
+    </div>
+    <p class="hint"><strong>Apply</strong> sends the sale prices to OnBuy and saves the plan in the repository so the nightly job can keep it up to date. Customers see the sale within a minute or two.</p>
+    <div class="result" id="saleApplyResult" hidden></div>
+    <details style="margin-top:12px"><summary>Try it on one listing first</summary>
+      <p class="muted">Puts the first matching range's sale on that one listing, waits for it to show, takes it off again and prints the timeline (about 3 minutes).</p>
+      <div class="runctl">
+        <label>SKU <input type="text" id="testSku" style="width:220px"></label>
+        <label class="confirm"><input type="checkbox" id="testConfirm"> I understand this touches that one listing</label>
+        <button type="button" class="ghost" onclick="return Dash.saleTest()">Test</button>
+      </div>
+      <div class="result" id="saleTestResult" hidden></div>
+    </details>
+  </section>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Help - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>Help <small class="muted">what this is, how to make it work, how to put it online</small></h1>
+<details class="brief"><summary>What this dashboard is</summary><p>One web page for all the OnBuy stores. It never talks to OnBuy itself and holds no OnBuy password: it only reads what the stores' GitHub jobs have done and starts those same jobs for you
+  (and edits their on/off switches and a few list files). So it is only as good as its link to GitHub - the checklist below shows that link live. <strong>Everything that changes a store asks for a tick in a confirmation box first.</strong></p></details>
+
+<section class="card">
+  <h2>1. Is it working? <small class="muted">live checklist</small></h2>
+  <table class="compact">
+    <tr><th>Check</th><th>Now</th><th>If it is not green</th></tr>
+    <tr><td>The dashboard is running</td><td><span class="pill ok">yes</span></td><td class="muted">You are reading this page, so yes.</td></tr>
+    <tr><td>GitHub token</td>
+      <td>{% if token_set and whoami.login %}<span class="pill ok">signed in as {{ whoami.login }}</span>{% elif token_set %}<span class="pill failed">set, but GitHub refused it</span> <span class="muted">{{ who_error }}</span>{% else %}<span class="pill failed">missing</span>{% endif %}</td>
+      <td class="muted">Open PowerShell and run <code>gh auth login</code> (GitHub.com, HTTPS, "Login with a web browser") with the GitHub account that can open the store repositories, then restart the dashboard. Or put a token in the file <code>.env</code> as <code>GITHUB_TOKEN=...</code> (see step 7 below).</td></tr>
+    {% for s, (ok, msg) in checks %}
+    <tr><td>Access to <strong>{{ s.name }}</strong> <span class="muted">{{ s.repo }}</span></td><td>{% if ok %}<span class="pill ok">ok</span>{% else %}<span class="pill failed">no</span> <span class="muted">{{ msg }}</span>{% endif %}</td>
+      <td class="muted">{% if not ok %}The token's account must be allowed to read and start GitHub Actions jobs, read and write files and edit variables in that repository (an owner or collaborator of it).{% endif %}</td></tr>
+    {% endfor %}
+    <tr><td>Google key <span class="muted">(optional)</span></td><td>{% if google_ok %}<span class="pill ok">found</span>{% else %}<span class="pill quiet">not set</span>{% endif %}</td><td class="muted">Not needed: no card reads the Google sheets directly yet.</td></tr>
+    <tr><td>Password</td><td>{% if login_required %}<span class="pill ok">required</span>{% else %}<span class="pill quiet">none</span>{% endif %}</td><td class="muted">None is fine while the dashboard runs only on this PC. <strong>Set one (step 7) before it is ever put online.</strong></td></tr>
+  </table>
+  <p class="hint">The same checks, plus the switches of each store, are on the <a href="/settings">Settings</a> page.</p>
+</section>
+
+<section class="card">
+  <h2>2. Run it on your PC <small class="muted">Windows, step by step</small></h2>
+  <ol class="steps">
+    <li><strong>Install Python</strong> (3.11 or newer) from python.org. On the first installer screen tick <em>Add python.exe to PATH</em>. Check: open PowerShell and run <code>python --version</code>.</li>
+    <li><strong>Install the GitHub CLI</strong> from cli.github.com, then sign in once: <code>gh auth login</code> (GitHub.com, HTTPS, "Login with a web browser", use the account that owns the store repositories). Check: <code>gh auth status</code> says "Logged in".</li>
+    <li><strong>Have the dashboard folder.</strong> On this PC it is already at <code>E:\Academics\Dev-Projects\best-view-glazing-dashboard</code>. On another PC: <code>git clone https://github.com/bestviewglazing/BVG-Site</code> (the dashboard is its <code>dashboard</code> folder) (after step 2 the CLI lets you clone the private repository).</li>
+    <li><strong>Start it.</strong> Double-click <code>start-dashboard.bat</code> in that folder - the first time it installs what it needs (about a minute), then starts the dashboard and opens your browser. By hand instead: in PowerShell <code>cd E:\Academics\Dev-Projects\best-view-glazing-dashboard</code>, then <code>pip install -r requirements.txt</code> (first time only), then <code>python run.py</code>.</li>
+    <li><strong>Open</strong> <a href="http://127.0.0.1:8787">http://127.0.0.1:8787</a>. Check the table in section 1: the GitHub token and every store should be green.</li>
+    <li><strong>Leave the black window open</strong> while you use the dashboard - it is the dashboard. Close it (or press Ctrl+C in it) to stop. Red text in it is where to look first when a page shows an error.</li>
+    <li><strong>Settings file (only if you need it).</strong> Copy <code>.env.example</code> to <code>.env</code> in the same folder and fill in what you need: <code>GITHUB_TOKEN</code> (when the CLI is not used), <code>DASHBOARD_PASSWORD</code> (a password for the page), <code>DASHBOARD_PORT</code> (another port if 8787 is taken). Restart after changing it.</li>
+  </ol>
+  <p class="hint">Only this PC can open 127.0.0.1. The dashboard works only while the PC is on and the black window is open.</p>
+</section>
+
+<section class="card">
+  <h2>3. Put it online <small class="muted">so you (and later your team) can open it from anywhere</small></h2>
+  <p class="muted">To be reachable from anywhere the dashboard must run on a computer that is always on. These are the ways, from simplest to most work:</p>
+  <table class="compact">
+    <tr><th>Where</th><th>What it takes</th><th>Good for</th></tr>
+    <tr><td><strong>This PC</strong> (now)</td><td>Nothing more: steps above.</td><td>You alone, while the PC is on.</td></tr>
+    <tr><td><strong>A small rented server (VPS)</strong> <span class="pill ok">the plan</span></td><td>Roughly 4 to 6 pounds a month. Copy the folder, set <code>GITHUB_TOKEN</code> and <code>DASHBOARD_PASSWORD</code>, run it as a service behind HTTPS. Step by step in <code>HOSTING.md</code> in the dashboard folder.</td><td>Always on, a web address of your own, later logins for employees.</td></tr>
+    <tr><td><strong>Google Cloud Run</strong></td><td>A Google Cloud account with billing switched on (a one-person dashboard stays inside the free monthly allowance - check Google's current pricing). The folder already has a <code>Dockerfile</code>; one command deploys it (<code>HOSTING.md</code>).
+      Its disk is wiped whenever it restarts, so the "What was pressed" and "Started from here" lists reset; everything real lives in GitHub and is unaffected.</td><td>Google-hosted, no server to look after.</td></tr>
+    <tr><td><strong>Google Apps Script</strong> <span class="pill failed">not as it is</span></td><td>This dashboard is written in Python; Apps Script runs only JavaScript, each call is limited to a few minutes, and there is no database or file system. It cannot be pasted in. An Apps Script version would be a rewrite of every card
+      (like the eBay orders dashboard you paste and deploy) - possible, but a large piece of work, so it is only worth it if the Google-only route matters more than a rented server.</td><td>Ask for it if you want it; say which cards matter most.</td></tr>
+  </table>
+  <p class="hint">Whatever the host: set a password first, use HTTPS, and give the token only the access it needs. A classic GitHub token with the <code>repo</code> scope is enough (the CLI's own token already has it).</p>
+</section>
+
+<section class="card">
+  <h2>4. The pages in one line each</h2>
+  <table class="compact">
+    <tr><th>Page</th><th>What it is for</th><th>Changes things?</th></tr>
+    <tr><td><a href="/">Home</a></td><td>The latest result of every automatic job, per store.</td><td>No</td></tr>
+    <tr><td><a href="/todo">To do</a></td><td>What needs you today, store by store, most urgent first: late orders, failed syncs, price falls, listings waiting for your call - each with the page that deals with it.</td><td>No</td></tr>
+    <tr><td><a href="/daily">Daily check</a></td><td>The morning check: failures, late jobs, what the nightly found, budgets, orders due.</td><td>No</td></tr>
+    <tr><td><a href="/orders">Orders</a></td><td>Orders waiting to be dispatched, with the dispatch-by dates.</td><td>No (Refresh = a read-only lookup)</td></tr>
+    <tr><td><a href="/pricing">Pricing</a></td><td>The profit schedule behind every selling price; preview, apply, push.</td><td>Apply and Push, with a box</td></tr>
+    <tr><td><a href="/fees">Fees</a></td><td>OnBuy's commission: the model, the tables, what orders really paid, category fixes.</td><td>Saving, committing, overrides, relabel: with a box</td></tr>
+    <tr><td><a href="/sale">Sale</a></td><td>A time-limited sale by price range.</td><td>Apply, Cancel, Try on one listing: with a box</td></tr>
+    <tr><td><a href="/delivery">Delivery</a></td><td>Which delivery template each supplier's listings sit on, the template ids, and moving the strays.</td><td>Saving ids, Test and Apply: with a box</td></tr>
+    <tr><td><a href="/buybox">Buy Box</a></td><td>The daily price cuts that win the Buy Box: results, settings, on/off.</td><td>Saving settings and a live run: with a box</td></tr>
+    <tr><td><a href="/ebay">eBay</a></td><td>The hourly eBay sync: how the last runs went, how long the whole sheet takes to come round, eBay's daily call allowance, the dead rows the purge removed.</td><td>No</td></tr>
+    <tr><td><a href="/amazon">Amazon</a></td><td>The Amazon sync (Keepa): how the last syncs went, the prices they lowered most, what the guards took out of stock, the settings behind those rules.</td><td>Saving settings, with a box (the strict stock rule: a second box)</td></tr>
+    <tr><td><a href="/pictures">Pictures</a></td><td>Products whose pictures never load on OnBuy: the file and reply for OnBuy support, and OnBuy's resubmission workaround. The browser scan's CSV can be uploaded - only the stuck products are taken.</td><td>Canary and Resubmit the rest, with a box</td></tr>
+    <tr><td><a href="/catalogue">Catalogue</a></td><td>Frozen listings (same product / release / delete), freezing by hand, the dead-row purge.</td><td>Release, freeze, delete for real: with a box</td></tr>
+    <tr><td><a href="/delete">Delete</a></td><td>Delete a list of SKUs: sheet rows (backed up) and OnBuy listings.</td><td>Delete for real, after a plan, with a box</td></tr>
+    <tr><td><a href="/tools">Tools</a></td><td>Every manual job of a store, for anything the cards do not cover.</td><td>Dangerous ones need the apply switch and a box</td></tr>
+    <tr><td><a href="/settings">Settings</a></td><td>The connection checks, the stores' on/off switches, the employee sign-ins (each with a role: view looks, operate presses the run and apply buttons, admin also changes settings and accounts), the log of what was pressed.</td><td>Variable edits, with a box; employees: admin only</td></tr>
+  </table>
+</section>
+
+<section class="card">
+  <h2>5. Words used</h2>
+  <dl class="words">
+    <dt>Dry run / preview / plan</dt><dd>A run that works everything out and reports it but changes nothing. Always do one before the real thing.</dd>
+    <dt>Apply</dt><dd>Do it for real on the store's sheet or settings. Needs the confirmation box.</dd>
+    <dt>Push</dt><dd>Send what is on the sheet to the live OnBuy listings, so customers see it.</dd>
+    <dt>Backup tab</dt><dd>A tab of the store's sheet where a tool copies every row it is about to change or remove, so nothing is lost.</dd>
+    <dt>Slot / queue</dt><dd>A store runs one OnBuy job at a time. A job started while another runs waits behind it; a second waiting job would cancel the first, so the dashboard refuses to start one.</dd>
+    <dt>Frozen / hold list / protected list</dt><dd>A listing whose stock is held at 0 and which no sync touches, because its OnBuy page shows another product or it is being investigated.</dd>
+    <dt>Stale</dt><dd>An automatic job that has not run for longer than it normally takes.</dd>
+    <dt>Floor</dt><dd>The lowest price at which a sale or a Buy Box price cut is still allowed: it keeps a minimum profit after OnBuy's commission.</dd>
+    <dt>Delivery template</dt><dd>A bundle of handling time, delivery time and cost you set up on OnBuy; every listing sits on one. Each store has its own templates (their ids are per account).</dd>
+    <dt>OPC</dt><dd>OnBuy's own code for a product of its catalogue (like PYQX8PS). Support asks for it when a product page misbehaves.</dd>
+    <dt>Canary</dt><dd>A small first batch (a few products) done for real before the rest, so a problem shows on three products and not on three hundred.</dd>
+    <dt>Resubmit</dt><dd>Send a product to OnBuy again with its content and picture links, so OnBuy's image workers try once more. The listing's price and stock stay as they are.</dd>
+    <dt>Repository variable</dt><dd>An on/off switch or number kept in a store's GitHub repository that its jobs read (see Settings). A change applies from the next run.</dd>
+  </dl>
+</section>
+
+<section class="card">
+  <h2>6. If something goes wrong</h2>
+  <ul class="plain">
+    <li><strong>The page does not open</strong> - the black window must be open and show "Uvicorn running". If it says the address is already in use, the dashboard is already running: just open the address. Otherwise set another <code>DASHBOARD_PORT</code> in <code>.env</code>.</li>
+    <li><strong>"GitHub token missing" or a store shows "no"</strong> - see the checklist above: sign in with <code>gh auth login</code> as the account that owns the repositories.</li>
+    <li><strong>A button says a run is waiting for the store's slot</strong> - wait a few minutes and press again; starting a second waiting run would cancel the first one.</li>
+    <li><strong>The result box stays on "in progress"</strong> - GitHub can delay a run by minutes. Open the run's link: it shows the live log. The box follows it for up to 40 minutes.</li>
+    <li><strong>GitHub says rate limit</strong> - GitHub allows 5,000 requests an hour per token; wait until the hour turns over.</li>
+    <li><strong>Anything else</strong> - the red text in the black window and the run's log on GitHub say what happened; send them to me.</li>
+  </ul>
+</section>
+{% endblock %}

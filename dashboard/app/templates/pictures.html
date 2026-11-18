@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Pictures - {{ store.name }} - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>Pictures <small class="muted">products whose pictures never load on OnBuy - {{ store.name }}</small></h1>
+<details class="brief"><summary>What this page does</summary><p>Some products stay stuck on OnBuy with their pictures "loading" and a product page that does not open: OnBuy's image workers time out now and then and the pictures are never applied (their own answer - it is on their side, not our links).
+  Two things help. <strong>1. The ticket:</strong> paste the SKUs you found - or upload the browser scan's CSV, and only the stuck products are taken - and the dashboard builds the file OnBuy support works from (OPC, SKU, main image link, additional image links), checks that every image link opens, and drafts your reply to their agent.
+  <strong>2. The resubmission:</strong> OnBuy's own workaround - the same products are sent to OnBuy again with their OPC and picture links, a small test batch first. <strong>Building the ticket changes nothing on OnBuy</strong> (it only reads the sheet and OnBuy).
+  <strong>Only "Canary" and "Resubmit the rest" change anything</strong>, for the SKUs you named only, and they ask for the confirmation box.</p></details>
+<p class="stores">{% for s in stores %}<a href="/pictures?store={{ s.id }}" class="chip {{ 'on' if s.id == store.id else '' }}">{{ s.name }}</a>{% endfor %}</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+{% if data %}
+{% set T = data.tools %}
+{% if not T.export or not T.lookup %}<p class="error">This store's repository has no {{ 'image_links_export.yml' if not T.export else 'listing_lookup.yml' }}, so the ticket cannot be built here.</p>{% endif %}
+{% if not T.repair %}<p class="error">This store's repository has no repair_shifted_content.yml, so nothing can be resubmitted from here.</p>{% endif %}
+<div id="pictures" data-store="{{ store.id }}" data-job="{{ data.running.id if data.running else '' }}" data-canary="{{ data.canary }}">
+<div class="grid two">
+  <section class="card">
+    <h2>1. The ticket <small class="muted">paste the SKUs of the products whose pictures do not load</small></h2>
+    <p class="hint">The SKUs exactly as they are on the sheet: one per line, or separated by commas or spaces (up to {{ data.max_skus }}). A text or CSV file works too - its first column is read.
+      The browser scan's own file (<code>onbuy_image_scan_&lt;Store&gt;.csv</code>, partial files too) is understood: only the <strong>stuck</strong> products land in the box - pages that answer 404,
+      pictures that fail to load, placeholder-only pages - and the fine ones are left out.</p>
+    <textarea id="picSkus" rows="9" placeholder="Ama-B0ABC12345-3&#10;281589222230&#10;734381598114" oninput="Dash.picSync()"></textarea>
+    <div class="runctl"><label>or a file <input type="file" id="picFile" accept=".txt,.csv,text/plain,text/csv" onchange="Dash.picFile(this)"></label>
+      {% if data.latest %}<button type="button" class="ghost" onclick="return Dash.picLast()">Start from the last ticket's list</button>{% endif %}
+      <span id="picCount" class="muted"></span></div>
+    <p class="hint" id="picScanNote"></p>
+    <div class="runctl" style="margin-top:6px">
+      <label>Reply addressed to <input type="text" id="picAgent" value="Ash" maxlength="30" style="width:120px"></label>
+      <label>signed by <input type="text" id="picSigned" value="Sadia" maxlength="30" style="width:120px"></label>
+    </div>
+    <p class="hint">Only the reply draft uses these two names (OnBuy's agent on the open ticket, and who signs). They are remembered in this browser.</p>
+    <div class="runctl" style="margin-top:8px"><button type="button" id="picBuild" onclick="return Dash.picBuild()"{% if not (T.export and T.lookup) %} disabled{% endif %}>Build the ticket</button>
+      <span class="muted">reads the sheet (and OnBuy for SKUs the sheet has no OPC for) - changes nothing on OnBuy</span></div>
+    <p class="hint">It saves your list in the store's repository, then takes a few minutes. You can leave this page: the build goes on, and its progress (or the result) is here when you come back.</p>
+    <div class="result" id="picJob" hidden></div>
+  </section>
+
+  <section class="card">
+    <h2>What the build does</h2>
+    <ul class="plain">
+      <li><strong>Saves the list</strong> as <code>cleanup/image_ticket_skus_&lt;date&gt;_&lt;id&gt;.txt</code> in the repository. Lists of earlier days are how it knows a product was <em>reported before</em>.</li>
+      <li><strong>Reads the sheet</strong> (a read-only run, no OnBuy): for each SKU its OPC, sync status, main picture and additional pictures; SKUs that are not on the sheet or are on it twice are listed.</li>
+      <li><strong>Asks OnBuy</strong> for the OPC of SKUs the sheet has none for (a read-only lookup of the store's listings; OnBuy allows about {{ data.sweeps }} of those an hour, and the resubmissions count too).</li>
+      <li><strong>Opens every picture link</strong> from this computer, as a browser would, to see that it answers with a picture. A product with a link that does not open is left out of the attachment and listed below.</li>
+      <li><strong>Writes three files</strong>: the attachment for OnBuy support, an internal reference sheet (do not send) and a draft of your reply.</li>
+    </ul>
+    <p class="muted">Nothing is sent to OnBuy support from here: you attach the file and send the reply yourself.</p>
+  </section>
+</div>
+
+{% if data.latest %}{% set L = data.latest %}{% set S = L.summary %}
+<section class="card" id="picLatest">
+  <h2>The last ticket <small class="muted">built {{ L.built_at | age }} - {{ S.asked }} SKUs asked</small></h2>
+  <p class="muted">List <a href="https://github.com/{{ store.repo }}/blob/main/{{ L.list_path }}" target="_blank" rel="noopener">{{ L.list_path.split('/')[-1] }}</a> in the repository.
+    {% if L.earlier %}Compared with the lists of {{ L.earlier | length }} earlier day(s): {{ L.earlier | join(', ') }}.{% else %}No list of an earlier day in the repository, so none of these counts as reported before.{% endif %}</p>
+  <div class="totals">
+    <div><strong>{{ S.ticket }}</strong><span>in the attachment</span></div>
+    <div><strong>{{ S.new }}</strong><span>new</span></div>
+    <div class="{{ 'warn' if S.repeat else '' }}"><strong>{{ S.repeat }}</strong><span>reported before</span></div>
+    <div class="{{ 'bad' if S.links.bad else '' }}"><strong>{{ S.links.ok }} / {{ S.links.checked }}</strong><span>picture links open</span></div>
+    <div><strong>{{ S.resubmitted }}</strong><span>resubmitted before</span></div>
+  </div>
+  <p class="hint">"In the attachment" = products with an OPC, a main picture and every link opening. "Reported before" = the SKU is on a list of an earlier day. "Resubmitted before" = sent again from this page, whatever happened to the page since.</p>
+
+  <h3>Needs a look <span class="hint" style="display:inline">(left out of the attachment)</span></h3>
+  {% set problems = S.not_on_sheet or S.no_opc or S.no_links or S.dead or S.duplicates %}
+  {% if not problems %}<p class="ok-text">Nothing: every SKU you gave is in the attachment.</p>{% endif %}
+  {% if S.not_on_sheet %}<p><strong>{{ S.not_on_sheet | length }}</strong> not on the sheet (nothing to send; if OnBuy has the listing, it is in the reference file): {% for s in S.not_on_sheet[:40] %}<code>{{ s }}</code> {% endfor %}{% if S.not_on_sheet | length > 40 %}...{% endif %}</p>{% endif %}
+  {% if S.no_opc %}<p><strong>{{ S.no_opc | length }}</strong> with no OPC - not on the sheet and OnBuy has no record: {% for s in S.no_opc[:40] %}<code>{{ s }}</code> {% endfor %}{% if S.no_opc | length > 40 %}...{% endif %}</p>{% endif %}
+  {% if S.no_links %}<p><strong>{{ S.no_links | length }}</strong> with an OPC but no main picture link on the sheet: {% for s in S.no_links[:40] %}<code>{{ s }}</code> {% endfor %}{% if S.no_links | length > 40 %}...{% endif %}</p>{% endif %}
+  {% if S.dead %}<p><strong>{{ S.dead | length }}</strong> with a picture link that does not open:</p>
+    <table class="compact"><tr><th>SKU</th><th>Link</th><th>Answer</th></tr>
+      {% for d in S.dead[:40] %}{% for l in d.links %}<tr><td><code>{{ d.sku }}</code></td><td>{{ l.kind }}: <a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.url[:70] }}</a></td><td>{{ l.status or 'no answer' }} {{ l.info }}</td></tr>{% endfor %}{% endfor %}
+    </table>{% endif %}
+  {% if S.duplicates %}<p><strong>{{ S.duplicates | length }}</strong> on the sheet more than once (the first row is used): {% for s in S.duplicates[:40] %}<code>{{ s }}</code> {% endfor %}</p>{% endif %}
+
+  <h3>The files</h3>
+  <table class="compact">
+    <tr><td><a href="/api/store/{{ store.id }}/pictures/file/{{ L.job_id }}/attachment"><strong>{{ L.files.attachment }}</strong></a></td><td class="meaning">Attach this to the ticket: OPC, SKU, main picture link, additional picture links - the layout of the earlier files.</td></tr>
+    <tr><td><a href="/api/store/{{ store.id }}/pictures/file/{{ L.job_id }}/reference">{{ L.files.reference }}</a></td><td class="meaning">For us only, do not send: where each SKU sits on the sheet, where its OPC came from, what is wrong with it.</td></tr>
+    <tr><td><a href="/api/store/{{ store.id }}/pictures/file/{{ L.job_id }}/reply">{{ L.files.reply }}</a></td><td class="meaning">The reply draft below as a text file.</td></tr>
+  </table>
+
+  <h3>Reply draft</h3>
+  <textarea id="picReply" rows="16" readonly>{{ L.reply }}</textarea>
+  <div class="runctl"><button type="button" class="ghost" onclick="return Dash.picCopy()">Copy the reply</button> <span id="picCopied" class="muted"></span></div>
+  <p class="hint">Written in the voice of the earlier replies. Read it, change what needs changing, then paste it into the open OnBuy ticket yourself - this page never contacts OnBuy support.</p>
+
+  <details class="how"><summary>Every SKU ({{ L.rows_total }}{% if L.rows_total > L.rows | length %}, the first {{ L.rows | length }} shown{% endif %})</summary>
+    <table class="compact"><tr><th>SKU</th><th>OPC</th><th>Tab / row</th><th>Sync status</th><th>Created</th><th>Before</th><th>Resubmitted</th><th>Problem</th></tr>
+      {% for r in L.rows %}<tr><td><code>{{ r.sku }}</code></td><td>{{ r.opc or '-' }}{% if r.opc and r.source != 'sheet' %} <span class="pill quiet" title="the sheet had none: OnBuy's own record gave it">OnBuy</span>{% endif %}</td>
+        <td>{{ r.tab }}{% if r.row %} / {{ r.row }}{% endif %}</td><td class="meaning">{{ r.status }}</td><td>{{ r.created }}</td><td>{{ 'yes' if r.repeat else '' }}</td>
+        <td>{% if r.resubmitted %}<span class="pill {{ 'ok' if r.resubmitted.ok else 'failed' }}">{{ r.resubmitted.at[:10] }}</span>{% endif %}</td>
+        <td>{% if not r.opc %}no OPC{% elif not r.tab %}not on the sheet{% elif not r.main %}no main picture link{% elif r.dead %}{{ r.dead }} link(s) not opening{% endif %}</td></tr>{% endfor %}
+    </table>
+  </details>
+</section>
+{% endif %}
+
+<section class="card" id="picResub">
+  <h2>2. Resubmit the products <small class="muted">OnBuy's workaround for pictures that never processed</small></h2>
+  <p class="muted">The same products are sent to OnBuy again with their title, description, category and picture links from the sheet, so its image workers try again. Only the SKUs of the last ticket, only products that are live on OnBuy, and the listing's price and stock stay as they are.
+    Rows whose category or main picture is missing on the sheet are skipped. One sheet tab per run.</p>
+  {% if not data.latest %}<p class="muted">Build a ticket first: the resubmission works on the SKUs of the last ticket build.</p>
+  {% elif not data.groups %}<p class="muted">None of the SKUs of the last ticket is on the sheet, so there is nothing to resubmit.</p>
+  {% elif T.repair %}
+  <table class="compact"><tr><th>Sheet tab</th><th>Products</th><th>Resubmitted OK</th><th>Failed last time</th><th>Still to do</th><th>Run</th></tr>
+    {% for g in data.groups %}<tr><td><strong>{{ g.tab }}</strong></td><td>{{ g.total }}</td><td>{{ g.done }}</td><td>{% if g.failed %}<span class="bad-text">{{ g.failed }}</span>{% else %}0{% endif %}</td><td><strong>{{ g.left }}</strong></td>
+      <td>{% if g.left %}<button type="button" class="ghost" onclick="return Dash.picResub('{{ g.tab }}', 'preview')">Preview (dry run)</button>
+        <button type="button" class="ghost" onclick="return Dash.picResub('{{ g.tab }}', 'canary')">Canary: first {{ data.canary }}</button>
+        <button type="button" onclick="return Dash.picResub('{{ g.tab }}', 'rest')">Resubmit the rest</button>{% else %}<span class="ok-text">all done</span>{% endif %}</td></tr>{% endfor %}
+  </table>
+  <p class="hint"><strong>Preview</strong> changes nothing: it lists which of these products would be resubmitted and what OnBuy shows for them today.
+    <strong>Canary</strong> resubmits the first {{ data.canary }} for real - wait a few minutes and look at those product pages on OnBuy before going on.
+    <strong>Resubmit the rest</strong> sends every product of the tab that was not resubmitted OK yet; if OnBuy's rate limit stops the run, press it again and it continues with what is left.
+    Each run reads all of the store's listings from OnBuy, which OnBuy limits to about {{ data.sweeps }} an hour.</p>
+  <div class="runctl" style="margin-top:8px"><label class="confirm"><input type="checkbox" id="picConfirm"> I understand this sends these products to OnBuy again (Canary and Resubmit the rest)</label></div>
+  <div class="result" id="picResubResult" hidden></div>
+  {% endif %}
+
+  {% if data.started %}<h3>Started from here</h3>
+  <table class="compact"><tr><th>When</th><th>What</th><th>Result</th><th>Run</th></tr>
+    {% for d in data.started %}<tr><td>{{ d.at | when }}</td>
+      <td>{% if d.workflow == 'repair_shifted_content.yml' %}resubmission, tab {{ d.inputs.tab }}: {{ 'preview (dry run)' if d.inputs.dry_run != 'no' else ('canary, the first ' ~ d.inputs.repair_limit if d.inputs.repair_limit not in ('', '0') else 'for real') }}
+        {% elif d.workflow == 'image_links_export.yml' %}sheet read for a ticket{% else %}OnBuy lookup for a ticket{% endif %}</td>
+      <td><span class="pill {{ 'ok' if d.status == 'success' else ('failed' if d.status == 'failure' else 'quiet') }}">{{ d.status }}</span></td>
+      <td>{% if d.run_url %}<a href="{{ d.run_url }}" target="_blank" rel="noopener">{{ d.run_id }}</a>{% endif %}</td></tr>{% endfor %}
+  </table>{% endif %}
+</section>
+
+<section class="card">
+  <h2>Earlier builds and lists <small class="muted">the last ten builds' files stay downloadable</small></h2>
+  {% if data.builds | length > 1 %}
+  <table class="compact"><tr><th>Built</th><th>SKUs asked</th><th>In the attachment</th><th>Files</th></tr>
+    {% for b in data.builds %}{% if not loop.first %}
+    <tr><td>{{ b.built_at | age if b.built_at else b.day }}</td><td>{{ b.asked }}</td><td>{{ b.ticket }}</td>
+      <td><a href="/api/store/{{ store.id }}/pictures/file/{{ b.job_id }}/attachment">{{ b.files.attachment or 'attachment' }}</a>
+        · <a href="/api/store/{{ store.id }}/pictures/file/{{ b.job_id }}/reference">reference</a>
+        · <a href="/api/store/{{ store.id }}/pictures/file/{{ b.job_id }}/reply">reply</a></td></tr>
+    {% endif %}{% endfor %}
+  </table>
+  <p class="hint">The newest build is shown in full above; these are the ones before it. A build replaced the same day keeps its files here until ten newer builds push it out.</p>
+  {% endif %}
+  {% if data.earlier %}
+  <p class="muted">{{ data.earlier | length }} list file(s) in the repository: a product on one of these (of an earlier day) shows as "reported before" in the next ticket.</p>
+  <p>{% for e in data.earlier %}<a href="https://github.com/{{ store.repo }}/blob/main/{{ e.path }}" target="_blank" rel="noopener"><code>{{ e.date }}</code></a> {% endfor %}</p>
+  {% else %}<p class="muted">No list in the repository yet: the first build saves the first one.</p>{% endif %}
+</section>
+
+<section class="card">
+  <h2>How it fits together</h2>
+  <details class="how"><summary>Why pictures get stuck and what each step does</summary>
+    <p><strong>The problem.</strong> OnBuy fetches a product's pictures from the links we send. Its image workers sometimes time out; then the pictures are never applied and the product page stays "loading" or answers 404. The links are fine - OnBuy confirmed it is a fault on their side and has no date for a fix.</p>
+    <p><strong>The ticket</strong> gives their support what they ask for: the OPC (OnBuy's product code) of each affected product with its picture links, so they can process the images by hand. We check every link first so they cannot answer "your link is dead".</p>
+    <p><strong>The resubmission</strong> is the workaround OnBuy's agent gave: send the product again through the products endpoint; the image workers then get a new job. It is not a cure - new products are still affected - which is why the ticket stays open.</p>
+    <p class="muted">Each resubmission run and each OnBuy lookup reads all the store's listings, and OnBuy answers "too many requests" after the 4th or 5th within an hour: the page refuses to start one while {{ data.sweeps }} have started in the last hour and says how long to wait.</p>
+  </details>
+</section>
+</div>
+{% endif %}
+{% endblock %}

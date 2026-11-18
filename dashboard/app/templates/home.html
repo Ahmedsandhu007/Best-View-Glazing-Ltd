@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}OnBuy dashboard - stores{% endblock %}
+{% block content %}
+<h1>{{ stores | length }} stores at a glance</h1>
+<details class="brief"><summary>What this page shows</summary><p>One card per store with the latest result of each automatic job and how long ago it ran. Green = it worked, red = it failed,
+  orange <em>stale</em> = it has not run as often as it should, grey <em>never</em> = no run found. The card also says what is running or waiting in the store's queue.
+  <strong>Nothing on this page changes anything</strong> - click a store's name for its buttons, or use the menu above for the cards (Pricing, Fees, Sale, Buy Box, Catalogue, Delete).</p></details>
+<details class="how"><summary>What each job does</summary>
+  {% for label, note in tile_notes.items() %}<p><strong>{{ label }}</strong> - {{ note }}</p>{% endfor %}
+  <p class="muted">A store runs one OnBuy job at a time (the "slot"): <em>running</em> is the job in progress, <em>waiting</em> is the next in line, <em>stuck</em> is an old queued run GitHub forgot (cancel it on GitHub).</p>
+</details>
+
+<section class="card band" id="todoBand">
+  <div class="bandhead"><h2>Needs you today</h2><a href="/todo" class="bandlink">Open the To do list</a><span class="muted" id="todoBandAt"></span></div>
+  <div id="todoBandBody"><span class="muted">Checking the stores ...</span></div>
+  <p class="hint">The same findings as the To do page, one line per store: <span class="bad-text">act now</span> / <span class="warn-text">look today</span> / for your information. A store with nothing to do says all clear.</p>
+</section>
+<div class="grid">
+{% for st in statuses %}
+  <section class="card">
+    <h2><a href="/store/{{ st.store.id }}">{{ st.store.name }}</a> <small class="muted">{{ st.store.repo }}</small>{% if not st.store.amazon %} <span class="pill quiet" title="This store runs no Amazon lane: its Amazon sync is off on purpose, so the dashboard never expects one from it.">eBay only</span>{% endif %}</h2>
+    {% if st.error %}<p class="error">{{ st.error }}</p>{% else %}
+    <p class="queue">
+      {% if st.queue.in_progress %}<span class="pill running">running: {{ st.queue.in_progress | map(attribute='name') | join(', ') }}</span>{% endif %}
+      {% if st.queue.pending %}<span class="pill stale">waiting: {{ st.queue.pending | map(attribute='name') | join(', ') }}</span>{% endif %}
+      {% if st.queue.stuck %}<span class="pill quiet">stuck since {{ st.queue.stuck[0].created_at | when }}: {{ st.queue.stuck | map(attribute='name') | join(', ') }}</span>{% endif %}
+      {% if not st.queue.in_progress and not st.queue.pending %}<span class="pill quiet">queue empty</span>{% endif %}
+      {% if st.sale and st.sale.active %}<a href="/sale?store={{ st.store.id }}" class="pill sale" title="{{ st.sale.summary }}">sale until {{ st.sale.ends }}</a>{% endif %}
+    </p>
+    <table class="tiles">
+      {% for t in st.tiles %}
+      <tr>
+        <td title="{{ tile_notes.get(t.label, '') }}">{{ t.label }}</td>
+        <td>{% if t.run %}<span class="pill {{ t.state }}">{{ t.run.conclusion or t.run.status }}</span>{% else %}<span class="pill quiet">never</span>{% endif %}</td>
+        <td class="muted">{% if t.run %}<a href="{{ t.run.url }}" target="_blank" rel="noopener">{{ t.run.created_at | age }}</a>{% if t.stale %} <span class="pill stale">stale</span>{% endif %}{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </section>
+{% endfor %}
+</div>
+{% endblock %}

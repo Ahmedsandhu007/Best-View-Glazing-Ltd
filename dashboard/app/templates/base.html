@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Best View Glazing dashboard{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap">
+<link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/style.css?v={{ asset_v }}">
+<script>try { if (localStorage.getItem('dashGuide') === '1') document.documentElement.classList.add('explain'); } catch (e) {}</script>
+</head>
+<body{% if login_required and user %} class="role-{{ user.r }}"{% endif %}>
+<header class="top">
+  <a class="brand" href="/"><img src="/static/logo.svg" alt="Best View Glazing Ltd" class="logo"><span>OnBuy dashboard</span></a>
+  {% set q = ('?store=' ~ store.id) if store else '' %}
+  {% set g_pricing = ('pricing', 'fees', 'sale', 'buybox') %}
+  {% set g_listings = ('catalogue', 'delivery', 'pictures', 'amazon', 'ebay', 'delete') %}
+  {% set g_more = ('tools', 'settings', 'help') %}
+  <nav>
+    <a href="/" class="{{ 'on' if active == 'home' else '' }}">Home</a>
+    <a href="/todo" class="{{ 'on' if active == 'todo' else '' }}">To do</a>
+    <a href="/daily" class="{{ 'on' if active == 'daily' else '' }}">Daily check</a>
+    <a href="/orders" class="{{ 'on' if active == 'orders' else '' }}">Orders</a>
+    <div class="navgroup">
+      <button type="button" class="navtop {{ 'on' if active in g_pricing else '' }}">Pricing</button>
+      <div class="menu"><div class="menuin">
+        <a href="/pricing{{ q }}" class="{{ 'on' if active == 'pricing' else '' }}">Pricing</a>
+        <a href="/fees{{ q }}" class="{{ 'on' if active == 'fees' else '' }}">Fees</a>
+        <a href="/sale{{ q }}" class="{{ 'on' if active == 'sale' else '' }}">Sale</a>
+        <a href="/buybox{{ q }}" class="{{ 'on' if active == 'buybox' else '' }}">Buy Box</a>
+      </div></div>
+    </div>
+    <div class="navgroup">
+      <button type="button" class="navtop {{ 'on' if active in g_listings else '' }}">Listings</button>
+      <div class="menu"><div class="menuin">
+        <a href="/catalogue{{ q }}" class="{{ 'on' if active == 'catalogue' else '' }}">Catalogue</a>
+        <a href="/delivery{{ q }}" class="{{ 'on' if active == 'delivery' else '' }}">Delivery</a>
+        <a href="/pictures{{ q }}" class="{{ 'on' if active == 'pictures' else '' }}">Pictures</a>
+        <a href="/amazon{{ q }}" class="{{ 'on' if active == 'amazon' else '' }}">Amazon</a>
+        <a href="/ebay{{ q }}" class="{{ 'on' if active == 'ebay' else '' }}">eBay</a>
+        <a href="/delete{{ q }}" class="{{ 'on' if active == 'delete' else '' }}">Delete</a>
+      </div></div>
+    </div>
+    <div class="navgroup">
+      <button type="button" class="navtop {{ 'on' if active in g_more else '' }}">More</button>
+      <div class="menu"><div class="menuin">
+        <a href="/tools{{ q }}" class="{{ 'on' if active == 'tools' else '' }}">Tools</a>
+        <a href="/settings" class="{{ 'on' if active == 'settings' else '' }}">Settings</a>
+        <a href="/help" class="{{ 'on' if active == 'help' else '' }}">Help</a>
+      </div></div>
+    </div>
+  </nav>
+  <div class="stores">
+    {% for s in stores %}<a href="/store/{{ s.id }}" class="chip {{ 'on' if store and store.id == s.id else '' }}">{{ s.name }}</a>{% endfor %}
+    <a href="#" class="chip quiet" id="helpToggle" title="Show or hide the explanation text on every page">Guide</a>
+    {% if login_required %}{% if user %}<span class="chip quiet" title="view looks, operate presses the run and apply buttons, admin also changes settings and accounts">{{ user.u }} · {{ user.r }}</span>{% endif %}<a href="/logout" class="chip quiet">Sign out</a>{% endif %}
+  </div>
+</header>
+{% if login_required and user and user.r == 'view' %}<p class="rolenote">You are signed in to look around - every page is readable, and the run and apply buttons answer "view only" for your code.</p>{% endif %}
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer>Rendered {{ now.strftime('%d %b %Y %H:%M') }}Z · <a href="/help">Help</a><span class="hint">Every action runs as a GitHub Actions workflow of the store's repository; this page never talks to OnBuy itself.</span></footer>
+<script src="/static/app.js?v={{ asset_v }}"></script>
+</body>
+</html>

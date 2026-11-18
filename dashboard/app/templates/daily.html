@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Daily check - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>Daily check <small class="muted">runs since {{ since | when }} ({{ hours }} h)</small></h1>
+<details class="brief"><summary>What this page does</summary><p>The "check the logs and give todos" in one page: which jobs ran, which failed or were cancelled, which schedules are late, what the nightly found,
+  the eBay and Keepa budgets, and the orders that must be dispatched. Read it each morning: the red and orange numbers at the top are the ones to act on. <strong>It only reads.</strong></p></details>
+<p class="muted">Window: <a href="/daily?hours=12">12 h</a> · <a href="/daily?hours=24">24 h</a> · <a href="/daily?hours=48">48 h</a> · <a href="/daily?hours=168">7 days</a>. Orders come from each store's latest orders lookup (refresh them on the Orders page).</p>
+
+<section class="card totals">
+  <div><strong>{{ totals.runs }}</strong><span>runs</span></div>
+  <div class="{{ 'bad' if totals.failures else '' }}"><strong>{{ totals.failures }}</strong><span>failures</span></div>
+  <div><strong>{{ totals.cancels }}</strong><span>cancels</span></div>
+  <div class="{{ 'warn' if totals.stale else '' }}"><strong>{{ totals.stale }}</strong><span>stale crons</span></div>
+  <div><strong>{{ totals.orders }}</strong><span>orders open</span></div>
+  <div class="{{ 'warn' if totals.due_today else '' }}"><strong>{{ totals.due_today }}</strong><span>due today</span></div>
+  <div class="{{ 'bad' if totals.overdue else '' }}"><strong>{{ totals.overdue }}</strong><span>overdue</span></div>
+</section>
+
+<section class="card" id="problemsCard">
+  <h2>Rows that keep failing</h2>
+  <p class="hint">The nightly fixes prices, re-zeroes oversold listings and deletes dead rows one by one, and OnBuy refuses a few every night.
+    One refusal means little - the same SKU refused night after night is a dead row that will not heal on its own. Read from the last {{ problem_nights }} nightly logs.</p>
+  <div id="problemsBody"><p class="muted">Reading the last {{ problem_nights }} nightly logs per store - the first look after a restart downloads the ones not yet on disk, which can take a minute.</p></div>
+</section>
+
+{% for it in items %}
+<section class="card">
+  <h2><a href="/store/{{ it.store.id }}">{{ it.store.name }}</a></h2>
+  {% if it.error %}<p class="error">{{ it.error }}</p>{% endif %}
+  {% if it.summary %}
+  <div class="cols">
+    <div>
+      <h3>Runs ({{ it.summary.count }})</h3>
+      <p class="hint">How often each job ran in the window, split by result.</p>
+      <table class="compact">
+        {% for wf, counts in it.summary.by_workflow.items() %}<tr><td>{{ wf }}</td><td class="muted">{{ counts }}</td></tr>{% endfor %}
+      </table>
+      {% if it.summary.not_ok %}
+      <h3>Not green</h3>
+      <p class="hint">Runs that failed or were cancelled. A cancelled sync is usually a queued run replaced by a newer one - harmless; a failure needs a look.</p>
+      <ul class="plain">
+        {% for r in it.summary.not_ok %}<li><a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.created_at | when }}</a> {{ r.name }} <span class="pill {{ 'running' if r.status != 'completed' else ('cancelled' if r.conclusion == 'cancelled' else 'failed') }}">{{ r.conclusion or r.status }}</span> <span class="muted">{{ r.event }}</span></li>{% endfor %}
+      </ul>
+      {% else %}<p class="ok-text">Every run green.</p>{% endif %}
+      {% if it.summary.stale %}
+      <h3>Stale schedules</h3>
+      <p class="hint">A scheduled job that has not run for longer than it normally takes (GitHub delays daily jobs by a few hours).</p>
+      <ul class="plain">{% for s in it.summary.stale %}<li>{{ s.name }}: last run {{ s.hours }} h ago (expected within {{ s.limit }} h)</li>{% endfor %}</ul>
+      {% endif %}
+    </div>
+    <div>
+      <h3>Nightly</h3>
+      <p class="hint">What the daily check found: listings showing another product, the ones it zeroed or deleted, listings priced below the sheet and how many it corrected, and the sale guard.</p>
+      {% if it.nightly %}
+        <p class="muted"><a href="{{ it.nightly.run.url }}" target="_blank" rel="noopener">{{ it.nightly.run.name }}</a>, {{ it.nightly.run.created_at | age }}</p>
+        <table class="compact facts">
+          {% for k, v in it.nightly.facts.items() if k not in ('borderlines', 'zeroed_skus') %}<tr><td>{{ k.replace('_', ' ') }}</td><td><strong>{{ v }}</strong></td></tr>{% endfor %}
+        </table>
+        {% if it.nightly.facts.zeroed_skus %}<p>Zeroed: {% for z in it.nightly.facts.zeroed_skus %}<code>{{ z.sku }}</code> ({{ z.kind }}, row {{ z.row }}) {% endfor %}</p>{% endif %}
+        {% if it.nightly.facts.borderlines %}<p>Borderlines left frozen for your decision: {% for b in it.nightly.facts.borderlines %}<code>{{ b.sku }}</code> (overlap {{ b.overlap }}) {% endfor %}</p>{% endif %}
+        <details><summary>Key log lines</summary><pre>{{ it.nightly.lines | join('\n') }}</pre></details>
+      {% else %}<p class="muted">No nightly in this window.</p>{% endif %}
+      <h3>Budgets</h3>
+      <p class="hint">eBay calls left for the day (the eBay sync stops when they run out) and the Keepa tokens left for the Amazon sync.</p>
+      <p>
+        {% if it.budget.remaining is defined %}eBay calls left <strong>{{ it.budget.remaining }}</strong> of {{ it.budget.limit }} <span class="muted">({{ it.budget.run.created_at | age }})</span>{% else %}<span class="muted">no eBay probe in window</span>{% endif %}<br>
+        {% if it.keepa.tokens_left is defined %}Keepa tokens left after the last Amazon sync <strong>{{ it.keepa.tokens_left }}</strong> <span class="muted">({{ it.keepa.run.created_at | age }})</span>{% else %}<span class="muted">no Amazon sync in window</span>{% endif %}
+      </p>
+      <h3>Orders awaiting dispatch</h3>
+      <p class="hint">From the store's latest orders lookup: orange = due today, red = overdue. Refresh them on the Orders page.</p>
+      {% if it.orders %}
+        <p><strong>{{ it.orders.count }}</strong> open{% if it.orders.due_today %}, <span class="warn-text">{{ it.orders.due_today }} due today</span>{% endif %}{% if it.orders.overdue %}, <span class="bad-text">{{ it.orders.overdue }} overdue</span>{% endif %} <span class="muted">(lookup {{ it.orders.run.created_at | age }})</span></p>
+        <ul class="plain">{% for o in it.orders.orders[:8] %}<li><code>{{ o.order_id }}</code> {{ o.skus | join(', ') }} · due {{ o.due or '?' }}{% if o.due_today %} <span class="pill stale">today</span>{% endif %}{% if o.overdue %} <span class="pill failed">overdue</span>{% endif %}</li>{% endfor %}</ul>
+      {% else %}<p class="muted">No fresh orders lookup (older than {{ 36 }} h or none). <a href="/orders">Refresh on the Orders page.</a></p>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endfor %}
+{% endblock %}

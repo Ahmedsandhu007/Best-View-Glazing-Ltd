@@ -1,0 +1,8 @@
+[
+  {"id": "gtv", "name": "GTV", "repo": "gtvgermanalpha-automate/GTV-automate", "sheet": "OnBuy_Feed_Master", "product_tab": "Sheet1", "amazon_tab": "Amazon"},
+  {"id": "yra", "name": "YRA", "repo": "yraglobalalpha-automate/yra-full-automate", "sheet": "YRA_Full_Feed_Master", "product_tab": "Sheet1", "amazon_tab": "Amazon"},
+  {"id": "arden", "name": "Arden", "repo": "arden-auto/arden-full-automate", "sheet": "Arden_Full_Feed_Master", "product_tab": "Sheet1", "amazon_tab": "Amazon"},
+  {"id": "makstore", "name": "Makstore", "repo": "makstore-auto/makstore-automate", "sheet": "Makstore_Full_Feed_Master", "product_tab": "Sheet1", "amazon_tab": "Amazon"},
+  {"id": "openmaal", "name": "OpenMaal", "repo": "csopmaal-auto/openmaal-full-automate", "sheet": "OpenMaal_Full_Feed_Master", "product_tab": "Sheet1", "amazon_tab": "Amazon", "amazon": false},
+  {"id": "kidoomi", "name": "Kidoomi", "repo": "kidoomi-ltd/Kidoomi-auto", "sheet": "Kidoomi_Full_Feed_Master", "product_tab": "eBay", "amazon_tab": "Amazon", "sheet_url": "https://docs.google.com/spreadsheets/d/1MS50snuIJH4D53bRXrdI0jQUo_iaO4EV1NL6LaJBmzw"}
+]

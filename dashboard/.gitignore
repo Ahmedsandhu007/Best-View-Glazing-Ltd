@@ -1,0 +1,9 @@
+# secrets and local state never leave this machine
+.env
+*.json.key
+google-credentials*.json
+*service-account*.json
+data/
+__pycache__/
+*.pyc
+.pytest_cache/

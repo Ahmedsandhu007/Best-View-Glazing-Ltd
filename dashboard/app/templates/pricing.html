@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Pricing - {{ store.name }} - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>Pricing <small class="muted">the profit schedule of {{ store.name }}</small></h1>
+<details class="brief"><summary>What this page does</summary><p>Every selling price on the sheet is cost + shipping + a profit % that depends on the cost (the <em>schedule</em>), worked out after OnBuy's commission. Here you see the schedule in force, try a price in the
+  calculator, and change it. <strong>Preview</strong> only reports how many rows would move; <strong>Apply</strong> re-prices the sheet (old values are copied to a backup tab) and saves the schedule; <strong>Push</strong> writes the sheet's prices onto the live OnBuy listings.
+  Only Apply and Push change anything, each behind its own confirmation box.</p></details>
+<p class="stores">{% for s in stores %}<a href="/pricing?store={{ s.id }}" class="chip {{ 'on' if s.id == store.id else '' }}">{{ s.name }}</a>{% endfor %}</p>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+
+<div class="grid two" id="pricing" data-store="{{ store.id }}" data-schedule='{{ schedule_json }}'>
+  <section class="card">
+    <h2>Schedule in force
+      {% if schedule %}<span class="pill {{ 'ok' if schedule.source == 'setting' else 'quiet' }}">{{ 'dashboard setting' if schedule.source == 'setting' else 'code constants' }}</span>{% endif %}
+    </h2>
+    {% if schedule %}
+    <table class="compact">
+      <tr><th>Cost + shipping</th><th>Profit %</th></tr>
+      {% for text, profit in described %}<tr><td>{{ text }}</td><td><strong>{{ profit | num }}</strong></td></tr>{% endfor %}
+    </table>
+    {% if schedule.overrides %}
+    <p>Profit % by price range: {% for lo, hi, pct in schedule.overrides %}a product whose normal price is <strong>£{{ lo | num }} to £{{ hi | num }}</strong> sells at <strong>{{ pct | num }}%</strong>{% if not loop.last %}; {% endif %}{% endfor %}.</p>
+    {% elif schedule.overrides is not none %}<p class="muted">No price range has its own profit % at the moment: every product follows its cost band.</p>{% endif %}
+    <p class="muted">
+      Profit is on cost + shipping, after OnBuy's deduction (the category commission plus 20% VAT on it{% if code and code.platform_fee %}, {{ code.platform_fee }}% flat where a row has no category tier{% endif %}).
+      {% if knob %}Top-band knob variable set to {{ knob }}% (applies to the code schedule only).{% endif %}
+      {{ schedule.superseded | length }} earlier schedule(s) are remembered so their prices still follow the formula.
+    </p>
+    {% else %}<p class="muted">The schedule could not be read.</p>{% endif %}
+
+    <h2>Calculator</h2>
+    <p class="hint">Type a cost + shipping and the commission of its category: it shows the band that cost falls in and the selling price the schedule gives. Nothing is saved or sent.</p>
+    <div class="runctl">
+      <label>cost + shipping £ <input type="number" step="0.01" min="0" id="calcCost" value="12.50" style="width:110px"></label>
+      <label>category commission % <input type="number" step="0.5" min="0" id="calcFee" value="15" style="width:90px"></label>
+      <button type="button" class="ghost" onclick="return Dash.calc()">Price it</button>
+    </div>
+    <p id="calcOut" class="muted">The schedule's band and the selling price it gives, with the commission plus 20% VAT deducted.</p>
+  </section>
+
+  <section class="card">
+    <h2>Change the schedule</h2>
+    {% if not has_even_margins %}<p class="error">This store has no even-margins workflow yet, so a change cannot be previewed or applied from here.</p>{% endif %}
+    <p class="muted">Edit the bands (upper bound of cost + shipping, profit %). The last band has no upper bound. Preview runs the even-margins dry run with the proposed schedule and shows how many rows go up or down; Apply saves it as the store's setting, re-prices the sheet (old values backed up to a tab), and then Push sends the new prices to OnBuy.</p>
+    <table class="compact" id="bands">
+      <tr><th>Up to £ (blank = no bound)</th><th>Profit %</th><th></th></tr>
+      {% if schedule %}{% for bound, profit in schedule.bands %}
+      <tr><td><input type="number" step="0.01" min="0.01" class="bound" value="{{ '' if bound is none else bound | num }}"></td>
+          <td><input type="number" step="0.5" min="0" max="1000" class="profit" value="{{ profit | num }}"></td>
+          <td><button type="button" class="ghost" onclick="return Dash.removeBand(this)">remove</button></td></tr>
+      {% endfor %}{% endif %}
+    </table>
+    <p><button type="button" class="ghost" onclick="return Dash.addBand()">Add a band</button></p>
+    {% if schedule and schedule.overrides is not none %}
+    <h3>Profit % by price range</h3>
+    <p class="muted">Give a price range its own profit %. A product whose normal price lies inside a range (its cost and shipping plus the cost band's profit and OnBuy's fee, judged on the fee model of 26 September so a fee change never moves a product between ranges) gets that range's profit instead of its band's. Both ends are included and the first range that holds a price decides. Delete a row to go back to the bands. To discount a price range for a few days instead, use the <a href="/sale?store={{ store.id }}">Sale page</a>.</p>
+    <table class="compact" id="windows">
+      <tr><th>Normal price from £</th><th>to £</th><th>Profit %</th><th></th></tr>
+      {% for lo, hi, pct in schedule.overrides %}
+      <tr><td><input type="number" step="0.01" min="0" class="lo" value="{{ lo | num }}"></td><td><input type="number" step="0.01" min="0" class="hi" value="{{ hi | num }}"></td>
+          <td><input type="number" step="0.5" min="0" max="1000" class="pct" value="{{ pct | num }}"></td><td><button type="button" class="ghost" onclick="return Dash.removeBand(this)">remove</button></td></tr>
+      {% endfor %}
+    </table>
+    <p><button type="button" class="ghost" onclick="return Dash.addWindow()">Add a price range</button> <span class="muted">a product inside a range ignores its cost band</span></p>
+    {% endif %}
+    <div class="runctl">
+      <button type="button" onclick="return Dash.pricingPreview()" {% if not has_even_margins %}disabled{% endif %}>Preview (dry run)</button>
+    </div>
+    <p class="hint"><strong>Preview</strong> changes nothing: it runs the even-margins dry run with the schedule above and reports how many sheet rows would go up or down (takes a few minutes).</p>
+    <div class="result" id="previewResult" hidden></div>
+    <div class="runctl" style="margin-top:14px">
+      <label class="confirm"><input type="checkbox" id="applyConfirm"> I understand this re-prices every row off the new schedule on the sheet</label>
+      <button type="button" onclick="return Dash.pricingApply()" {% if not has_even_margins %}disabled{% endif %}>Apply to the sheet</button>
+    </div>
+    <p class="hint"><strong>Apply</strong> saves this schedule as the store's setting and re-prices every row on the sheet (old values go to a backup tab). Customers see nothing yet: OnBuy keeps its old prices until you Push.</p>
+    <div class="result" id="applyResult" hidden></div>
+    <div class="runctl" style="margin-top:14px">
+      <label class="confirm"><input type="checkbox" id="pushConfirm"> I understand this writes the sheet's prices onto the live OnBuy listings</label>
+      <button type="button" onclick="return Dash.pricingPush()" {% if not has_audit %}disabled{% endif %}>Push to OnBuy (audit fix)</button>
+    </div>
+    <p class="hint"><strong>Push</strong> writes the sheet's prices onto the live OnBuy listings (the price-drift fix). Customers see the new prices.</p>
+    <div class="result" id="pushResult" hidden></div>
+  </section>
+</div>
+{% endblock %}

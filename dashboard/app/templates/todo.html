@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}To do - OnBuy dashboard{% endblock %}
+{% block content %}
+<h1>To do <small class="muted">what needs you today</small></h1>
+<details class="brief"><summary>What this page does</summary><p>The "check the logs and give todos" as a list. For every store it reads the orders waiting to be dispatched, the syncs and the schedules, the Amazon sync's price falls, what the nightly check found, a running sale and the commission tables - and lists only what needs a person, most urgent first, each with the page that deals with it. <strong>It only reads.</strong> An empty list means every source it checks is quiet; the cards below it (Daily check, Orders, Amazon, Catalogue ...) hold the detail.</p></details>
+
+<section class="card totals">
+  <div class="{{ 'bad' if counts.act else '' }}"><strong>{{ counts.act }}</strong><span>act now</span></div>
+  <div class="{{ 'warn' if counts.look else '' }}"><strong>{{ counts.look }}</strong><span>look today</span></div>
+  <div><strong>{{ counts.fyi }}</strong><span>for your information</span></div>
+  <div><strong>{{ clear | length }}</strong><span>stores with nothing to do</span></div>
+</section>
+<p class="muted">Checked {{ at | age }}. The page keeps its answer for {{ (fresh_seconds / 60) | round | int }} minutes so that opening it again is quick; <a href="/todo?refresh=1" title="Reads every store again: the runs, the orders list, the last Amazon syncs, the nightly - about half a minute">Refresh now</a> reads everything again.</p>
+
+{% for e in errors %}<p class="error">The dashboard could not read {{ e.store.name }}: {{ e.error }}</p>{% endfor %}
+
+{% for key, heading, rows in groups %}
+<section class="card todo-group todo-{{ key }}">
+  <h2>{{ heading }} <small class="muted">{{ rows | length }}</small></h2>
+  <ul class="todo">
+    {% for i in rows %}
+    <li class="todo-item">
+      <span class="chip {{ 'on' if key == 'act' else '' }}">{{ i.store_name }}</span> <strong>{{ i.title }}</strong>
+      {% if i.detail %}<div class="muted">{{ i.detail }}</div>{% endif %}
+      <div class="todo-links">{% if i.link %}<a href="{{ i.link }}">Open the page</a>{% endif %}{% if i.url %}{{ ' · ' if i.link }}<a href="{{ i.url }}" target="_blank" rel="noopener">the GitHub run</a>{% endif %}{% if i.since %}{{ ' · ' if (i.link or i.url) }}<span class="muted">{{ i.since | age }}</span>{% endif %}</div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+
+{% if not groups and not errors %}<section class="card"><p class="ok-text"><strong>Nothing needs you.</strong> No order is late, no sync has failed, no schedule is late, and nothing is waiting for a decision.</p></section>{% endif %}
+{% if clear %}<p class="muted">Nothing to do for: {% for s in clear %}<a href="/store/{{ s.id }}">{{ s.name }}</a>{{ ', ' if not loop.last }}{% endfor %}.</p>{% endif %}
+
+<section class="card">
+  <h2>What it checks <small class="muted">and what each severity means</small></h2>
+  <details class="how">
+    <summary>The sources, store by store</summary>
+    <p><strong>Act now</strong> = wrong or late right now: an order past its dispatch date or due today, an eBay / Amazon / backfill / nightly run that failed (a scheduled run; one you started by hand is only a look), an Amazon sync that ran out of Keepa tokens.</p>
+    <p><strong>Look today</strong> = worth a minute: orders due within two days, a list of orders that is old or missing, a schedule that is late, a run queued for days (a GitHub ghost), failing automated tests, updates to OnBuy switched off, Amazon prices that fell by a quarter or more in one sync, a sale that ends within two days, commission tables that changed.</p>
+    <p><strong>For your information</strong> = what last night's check did (listings zeroed for showing another product, rows deleted, prices corrected) and the listings it froze in the last week. Routine: no action unless one of them should be selling.</p>
+    <p class="muted">Orders come from each store's latest orders lookup, so press Refresh on the Orders page to bring them up to date. Everything else is read from the runs and their logs.</p>
+  </details>
+</section>
+{% endblock %}
