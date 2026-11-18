@@ -18,11 +18,11 @@ The same steps, with a live checklist, are on the dashboard's **Help** page.
 1. **Python.** Install Python 3.11 or newer from python.org; on the first installer screen tick *Add python.exe to PATH*. Check in PowerShell: `python --version`.
 2. **GitHub CLI.** Install it from cli.github.com, then sign in once with `gh auth login` (GitHub.com, HTTPS, "Login with a web browser", the account that owns the store
    repositories). Check: `gh auth status` says "Logged in". The dashboard uses this login, so there is no password to type in. (Or put a token in `.env`, step 7.)
-3. **The folder.** On this PC it is `E:\Academics\Dev-Projects\best-view-glazing-dashboard`. On another PC: `git clone https://github.com/bestviewglazing/BVG-Site` (the dashboard is its `dashboard` folder)``.
+3. **The folder.** On this PC it is `E:\Academics\Dev-Projects\BVG-Site\dashboard`. On another PC: `git clone https://github.com/bestviewglazing/BVG-Site` (the dashboard is its `dashboard` folder)``.
 4. **Start it.** Double-click **`start-dashboard.bat`** in the folder: the first time it installs what it needs (about a minute), starts the dashboard and opens your browser.
    By hand, in PowerShell:
 
-       cd E:\Academics\Dev-Projects\best-view-glazing-dashboard
+       cd E:\Academics\Dev-Projects\BVG-Site\dashboard
        pip install -r requirements.txt        (first time only)
        python run.py
 
