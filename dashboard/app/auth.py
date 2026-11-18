@@ -1,6 +1,7 @@
 """Who may open the dashboard and who may press what. Off entirely while DASHBOARD_PASSWORD is empty (local use on this PC).
 
-One signed cookie carries the name and the role. DASHBOARD_PASSWORD is the owner's and signs in as admin; employees sign in
+One signed cookie carries the name and the role. DASHBOARD_PASSWORD is the owner's and signs in as admin; DASHBOARD_USERS gives named
+people (the client first) a username and password of their own with one of the roles below; employees sign in
 with their own code (set up on Settings, stored only as a salted hash) and get one of three roles:
   * view    - sees every page, presses nothing (any button that starts a run or changes anything is refused);
   * operate - may press the run and apply buttons, with the same confirmation boxes as always;
@@ -77,16 +78,27 @@ def role_needed(method, path):
 
 
 class SessionAuth:
-    def __init__(self, password, secret=None):
+    def __init__(self, password, secret=None, users=None):
         self.password = password or ""
+        self.users = list(users or [])
         self.serializer = URLSafeTimedSerializer(secret or secrets.token_hex(32), salt="onbuy-dashboard")
 
     @property
     def enabled(self):
-        return bool(self.password)
+        return bool(self.password) or bool(self.users)
 
     def check_password(self, given):
         return self.enabled and hmac.compare_digest(given or "", self.password)
+
+    def check_user(self, name, given):
+        """The role of the named user when the password matches, else None. Every user is compared whatever the name, so a wrong name
+        costs the same time as a wrong password."""
+        wanted = (name or "").strip().lower()
+        found = None
+        for u in self.users:
+            if hmac.compare_digest(u["password"], given or "") and u["name"] == wanted:
+                found = u["role"]
+        return found if (wanted and given) else None
 
     def cookie_value(self, name="owner", role="admin"):
         return self.serializer.dumps({"u": str(name)[:40], "r": role if role in ROLES else "view"})

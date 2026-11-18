@@ -57,7 +57,7 @@ def test_the_backup_zip_holds_the_database_and_the_small_files_but_never_the_log
     Path(settings.stores_file).write_text("[]", encoding="utf-8")
     r = web.get("/api/backup")
     assert r.status_code == 200 and r.headers["content-type"] == "application/zip"
-    assert "onbuy-dashboard-backup-" in r.headers["content-disposition"]
+    assert "best-view-glazing-dashboard-backup-" in r.headers["content-disposition"]
     z = zipfile.ZipFile(io.BytesIO(r.content))
     names = z.namelist()
     assert "data/dashboard.db" in names and "data/pictures/gtv/latest.txt" in names and "README.txt" in names and "stores.json" in names

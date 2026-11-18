@@ -58,7 +58,7 @@ def create_app(settings=None, client=None, database=None, jobs=None, link_fetch=
     if not secret:
         secret = secrets.token_hex(32)
         database.set("session_secret", secret)
-    auth = SessionAuth(settings.dashboard_password, secret=secret)
+    auth = SessionAuth(settings.dashboard_password, secret=secret, users=settings.dashboard_users)
     throttle = auth_module.Throttle()
 
     app = FastAPI(title="Best View Glazing dashboard", docs_url=None, redoc_url=None)
@@ -1408,19 +1408,23 @@ def create_app(settings=None, client=None, database=None, jobs=None, link_fetch=
         return None
 
     @app.post("/login")
-    def login(request: Request, password: str = Form(""), next: str = Form("/")):
+    def login(request: Request, password: str = Form(""), next: str = Form("/"), username: str = Form("")):
         wait = throttle.wait_seconds()
         if wait:
             return page(request, "login.html", active="", next=next,
                         error=f"Too many wrong tries in a row: sign-in is paused for another {max(1, math.ceil(wait / 60))} minute(s). It unlocks by itself.")
-        if auth.check_password(password):
+        user_role = auth.check_user(username, password) if username.strip() else None
+        if user_role:
+            name, role = username.strip().lower(), user_role
+        elif not username.strip() and auth.check_password(password):
             name, role = "owner", "admin"
         else:
-            emp = employee_for(password)
+            emp = employee_for(password) if not username.strip() else None
             if not emp:
                 throttle.record_failure()
                 database.audit("anonymous", "-", "login_failed", "")
-                return page(request, "login.html", active="", next=next, error="That is not the password or an employee code.")
+                return page(request, "login.html", active="", next=next,
+                            error=("That username and password do not match." if username.strip() else "That is not the password or an employee code."))
             name, role = emp["name"], emp["role"]
         resp = RedirectResponse(next if next.startswith("/") else "/", status_code=303)
         resp.set_cookie(COOKIE, auth.cookie_value(name, role), httponly=True, samesite="lax", max_age=12 * 3600)

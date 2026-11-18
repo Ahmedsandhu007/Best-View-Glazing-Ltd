@@ -12,7 +12,8 @@ anyone who finds the address could start your stores' jobs.
 | Setting | What | Where it comes from |
 |---|---|---|
 | `GITHUB_TOKEN` | Lets it read and start the five repositories' GitHub Actions jobs, read and write their files and variables | GitHub -> your profile picture -> Settings -> Developer settings -> Personal access tokens -> *Tokens (classic)* -> Generate new token -> tick **repo** (and **workflow**) -> copy it. One token covers all five repositories because it belongs to your account. (A fine-grained token cannot: it is limited to one owner.) |
-| `DASHBOARD_PASSWORD` | The password of the page | You choose a long one |
+| `DASHBOARD_PASSWORD` | The owner password (signs in as admin with an empty username) | You choose a long one |
+| `DASHBOARD_USERS` | Named sign-ins: `name:role:password` entries separated by commas; role = view, operate or admin | e.g. `bestview:admin:ChangeMe-2026` |
 | `DASHBOARD_SECRET` | Optional: keeps you signed in across restarts when the host forgets files | Any long random text |
 | `PORT` or `DASHBOARD_PORT` | The port to listen on | The host usually sets `PORT` itself |
 
@@ -36,6 +37,7 @@ Roughly 4 to 6 pounds a month at any of the usual providers (Hetzner, DigitalOce
 
        GITHUB_TOKEN=ghp_your_classic_token
        DASHBOARD_PASSWORD=a-long-password-only-you-know
+       DASHBOARD_USERS=bestview:admin:the-clients-own-password
        DASHBOARD_HOST=127.0.0.1
        DASHBOARD_PORT=8787
 

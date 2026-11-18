@@ -36,6 +36,7 @@ class Settings:
     google_credentials_file: str = ""
     dashboard_password: str = ""
     dashboard_secret: str = ""
+    dashboard_users: list = field(default_factory=list)      # [{name, role, password}] from DASHBOARD_USERS
     host: str = "127.0.0.1"
     port: int = 8787
     stores_file: Path = ROOT / "config" / "stores.json"
@@ -44,7 +45,7 @@ class Settings:
 
     @property
     def login_required(self):
-        return bool(self.dashboard_password)
+        return bool(self.dashboard_password) or bool(self.dashboard_users)
 
     def store(self, store_id):
         for s in self.stores:
@@ -103,6 +104,25 @@ def load_stores(path):
     return stores
 
 
+USER_ROLES = ("view", "operate", "admin")
+
+
+def parse_users(text):
+    """DASHBOARD_USERS -> [{name, role, password}]. Entries are separated by commas; each is name:role:password, so the password may hold
+    colons but not commas. Anything that is not three non-empty parts with a known role is dropped silently - a half-typed entry must
+    never become a sign-in - and names are kept lower-case so sign-in is not case-sensitive on the name."""
+    users = []
+    for entry in (text or "").split(","):
+        parts = entry.strip().split(":", 2)
+        if len(parts) != 3:
+            continue
+        name, role, password = parts[0].strip().lower(), parts[1].strip().lower(), parts[2].strip()
+        if not name or not password or role not in USER_ROLES or any(u["name"] == name for u in users):
+            continue
+        users.append({"name": name[:40], "role": role, "password": password})
+    return users
+
+
 def load_settings(env=None):
     env = env if env is not None else os.environ
     stores_file = Path(env.get("STORES_FILE") or (ROOT / "config" / "stores.json"))
@@ -119,6 +139,7 @@ def load_settings(env=None):
         google_credentials_file=(env.get("GOOGLE_CREDENTIALS_FILE") or "").strip(),
         dashboard_password=(env.get("DASHBOARD_PASSWORD") or "").strip(),
         dashboard_secret=(env.get("DASHBOARD_SECRET") or "").strip(),
+        dashboard_users=parse_users(env.get("DASHBOARD_USERS")),
         host=(env.get("DASHBOARD_HOST") or "127.0.0.1").strip(),
         port=int(env.get("DASHBOARD_PORT") or env.get("PORT") or "8787"),          # PORT: the name most hosts (Cloud Run, Render, Heroku) give the port to listen on
         stores_file=stores_file,

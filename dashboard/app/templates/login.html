@@ -5,9 +5,10 @@
 <main>
   <form class="card narrow" method="post" action="/login">
     <img src="/static/logo-dark.svg" alt="Best View Glazing Ltd" class="loginlogo"><h1>OnBuy dashboard</h1>
-    <p class="muted">Controls the five OnBuy stores. Enter the owner password (<code>DASHBOARD_PASSWORD</code> on the machine that runs it) or your own employee code.</p>
+    <p class="muted">Sign in with your username and password. Leave the username empty to use the owner password or an employee code.</p>
     {% if error %}<p class="error">{{ error }}</p>{% endif %}
-    <label>Password or employee code <input type="password" name="password" autofocus autocomplete="current-password"></label>
+    <label>Username <input type="text" name="username" autofocus autocomplete="username" autocapitalize="off" spellcheck="false"></label>
+    <label>Password <input type="password" name="password" autocomplete="current-password"></label>
     <input type="hidden" name="next" value="{{ next }}">
     <button type="submit">Sign in</button>
   </form>

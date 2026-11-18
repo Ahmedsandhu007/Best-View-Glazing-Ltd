@@ -5,7 +5,8 @@ Best View Glazing Ltd has its own copy of the OnBuy dashboard: the same pages an
 GitHub Actions have done, starts the workflows a person would otherwise start on GitHub, follows the run and reads its
 result out of the log, and edits the repositories' variables. It never talks to OnBuy itself and holds no OnBuy key.
 
-Built for one person first (this PC; the login stays off while `DASHBOARD_PASSWORD` is empty). Employees are on Settings: each gets their
+Built for one person first (this PC; the login stays off while `DASHBOARD_PASSWORD` and `DASHBOARD_USERS` are empty). The client signs in with
+a username and password from `DASHBOARD_USERS` (`name:role:password`, comma-separated). Employees are on Settings: each gets their
 own code (shown once, stored as a salted hash) and a role - **view** sees every page and presses nothing, **operate** presses the run and
 apply buttons, **admin** also changes settings (repository variables, fee mode, the per-card settings) and the accounts. The owner password
 signs in as admin. The VPS deployment comes once the
