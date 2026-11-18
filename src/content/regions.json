@@ -1,0 +1,177 @@
+[
+  {
+    "region": "Central London",
+    "slug": "central-london",
+    "intro": "Period townhouses, mansion blocks, offices and retail frontages where sash windows, timber doors and heavy commercial glazing all need regular attention.",
+    "areas": [
+      {
+        "name": "Westminster",
+        "slug": "westminster"
+      },
+      {
+        "name": "Soho",
+        "slug": "soho"
+      },
+      {
+        "name": "Mayfair",
+        "slug": "mayfair"
+      },
+      {
+        "name": "Marylebone",
+        "slug": "marylebone"
+      },
+      {
+        "name": "Covent Garden",
+        "slug": "covent-garden"
+      },
+      {
+        "name": "Fitzrovia",
+        "slug": "fitzrovia"
+      }
+    ]
+  },
+  {
+    "region": "North London",
+    "slug": "north-london",
+    "intro": "Victorian and Edwardian terraces, 1930s semis and newer apartment developments with a wide mix of timber, uPVC and aluminium windows.",
+    "areas": [
+      {
+        "name": "Islington",
+        "slug": "islington"
+      },
+      {
+        "name": "Camden",
+        "slug": "camden"
+      },
+      {
+        "name": "Finchley",
+        "slug": "finchley"
+      },
+      {
+        "name": "Barnet",
+        "slug": "barnet"
+      },
+      {
+        "name": "Enfield",
+        "slug": "enfield"
+      },
+      {
+        "name": "Tottenham",
+        "slug": "tottenham"
+      }
+    ]
+  },
+  {
+    "region": "East London",
+    "slug": "east-london",
+    "intro": "Converted warehouses, high-rise flats, new-build estates and busy commercial units from Hackney through to the Essex border.",
+    "areas": [
+      {
+        "name": "Stratford",
+        "slug": "stratford"
+      },
+      {
+        "name": "Hackney",
+        "slug": "hackney"
+      },
+      {
+        "name": "Bow",
+        "slug": "bow"
+      },
+      {
+        "name": "Canary Wharf",
+        "slug": "canary-wharf"
+      },
+      {
+        "name": "Poplar",
+        "slug": "poplar"
+      },
+      {
+        "name": "Ilford",
+        "slug": "ilford"
+      },
+      {
+        "name": "Barking",
+        "slug": "barking"
+      },
+      {
+        "name": "Romford",
+        "slug": "romford"
+      }
+    ]
+  },
+  {
+    "region": "South London",
+    "slug": "south-london",
+    "intro": "Suburban family homes, mansion flats and high-street premises, with a large stock of uPVC and double-glazed units now reaching the age where hardware fails.",
+    "areas": [
+      {
+        "name": "Greenwich",
+        "slug": "greenwich"
+      },
+      {
+        "name": "Lewisham",
+        "slug": "lewisham"
+      },
+      {
+        "name": "Croydon",
+        "slug": "croydon"
+      },
+      {
+        "name": "Bromley",
+        "slug": "bromley"
+      },
+      {
+        "name": "Wimbledon",
+        "slug": "wimbledon"
+      },
+      {
+        "name": "Sutton",
+        "slug": "sutton"
+      },
+      {
+        "name": "Streatham",
+        "slug": "streatham"
+      }
+    ]
+  },
+  {
+    "region": "West London",
+    "slug": "west-london",
+    "intro": "Riverside terraces, Metroland semis, purpose-built blocks and office parks, where aluminium and tilt-and-turn systems are as common as traditional timber.",
+    "areas": [
+      {
+        "name": "Hammersmith",
+        "slug": "hammersmith"
+      },
+      {
+        "name": "Ealing",
+        "slug": "ealing"
+      },
+      {
+        "name": "Acton",
+        "slug": "acton"
+      },
+      {
+        "name": "Chiswick",
+        "slug": "chiswick"
+      },
+      {
+        "name": "Richmond",
+        "slug": "richmond"
+      },
+      {
+        "name": "Hounslow",
+        "slug": "hounslow"
+      },
+      {
+        "name": "Wembley",
+        "slug": "wembley"
+      },
+      {
+        "name": "Harrow",
+        "slug": "harrow"
+      }
+    ]
+  }
+]

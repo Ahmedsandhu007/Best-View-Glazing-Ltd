@@ -1,0 +1,29 @@
+{
+  "propertyTypeOptions": [
+    "Residential House",
+    "Flat / Apartment",
+    "Commercial Property",
+    "Office",
+    "Retail Property",
+    "Other"
+  ],
+  "serviceOptions": [
+    "uPVC Window Repair",
+    "Aluminium Window Repair",
+    "Wooden Window Repair",
+    "Sash Window Repair",
+    "Double Glazing Repair",
+    "Window Lock / Handle Repair",
+    "Window Hinge Repair",
+    "Broken Glass Repair",
+    "Door Repair",
+    "Commercial Repair",
+    "Other"
+  ],
+  "contactTimeOptions": [
+    "Morning",
+    "Afternoon",
+    "Evening",
+    "Any time"
+  ]
+}

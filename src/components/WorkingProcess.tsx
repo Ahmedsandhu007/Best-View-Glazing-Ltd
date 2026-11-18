@@ -1,18 +1,15 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { processSteps } from "@/content/site";
+import { processSteps, sections } from "@/content/site";
 
 export function WorkingProcess({ tone = "ivory" }: { tone?: "ivory" | "white" }) {
+  const copy = sections.process;
   return (
     <section className={`section ${tone === "ivory" ? "bg-ivory" : "bg-white"}`}>
       <div className="container-site">
-        <SectionHeading
-          eyebrow="How it works"
-          title="From enquiry to finished repair in four clear steps"
-          intro="Every request follows the same straightforward process, whether it is a single stiff handle in a flat or a programme of repairs across a managed block."
-        />
+        <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.description} />
         <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {processSteps.map((step, i) => (
-            <li key={step.title} className={`flex flex-col rounded-[4px] border border-line p-6 ${tone === "ivory" ? "bg-white" : "bg-ivory"}`}>
+            <li key={step.slug} className={`flex flex-col rounded-[4px] border border-line p-6 ${tone === "ivory" ? "bg-white" : "bg-ivory"}`}>
               <span className="font-heading text-3xl font-bold tabular-nums text-teal" aria-hidden="true">
                 {String(i + 1).padStart(2, "0")}
               </span>

@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "residential-and-commercial",
+    "title": "Residential & Commercial",
+    "text": "Homes, flats, rented property, offices and retail premises across London.",
+    "icon": "building"
+  },
+  {
+    "slug": "experienced-repair-specialists",
+    "title": "Experienced Repair Specialists",
+    "text": "Mechanical, glazing and frame faults diagnosed and repaired rather than replaced where practical.",
+    "icon": "wrench"
+  },
+  {
+    "slug": "transparent-quotations",
+    "title": "Transparent Quotations",
+    "text": "A written quotation that sets out the work and the parts required before anything is agreed.",
+    "icon": "file"
+  },
+  {
+    "slug": "greater-london-coverage",
+    "title": "Greater London Coverage",
+    "text": "Central, North, East, South and West London served from one team.",
+    "icon": "map"
+  }
+]

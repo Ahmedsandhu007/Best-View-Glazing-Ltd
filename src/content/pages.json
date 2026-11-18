@@ -1,0 +1,58 @@
+{
+  "services": {
+    "eyebrow": "Our services",
+    "title": "Window & Door Repair Services in London",
+    "description": "Fourteen core services covering the mechanical, glazing and frame faults that affect windows and doors in London homes and commercial buildings. Choose a service to read what the repair involves, or go straight to the enquiry form."
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "A repair business, not a replacement sales team",
+    "description": "Best View Glazing Ltd exists to keep the windows and doors London already has working properly, securely and for longer.",
+    "bodyTitle": "Who we are and how we work",
+    "paragraphs": [
+      "We are a specialist window and door repair company operating across Greater London. Our work is focused on the faults that stop windows and doors doing their job: failed hinges, handles and locks, misted or broken sealed units, dropped sashes, perished seals and damaged frames.",
+      "Because we repair rather than sell new windows, our advice starts from the assumption that what you already have can be put right. Most of the time it can. When it cannot, or when a repair would not be good value, we say so and explain why.",
+      "We work for private homeowners and tenants, for landlords and letting agencies managing multiple properties, for property management companies responsible for blocks and estates, and for commercial occupiers including offices and retail businesses. Each type of customer has different needs around access, timing and paperwork, and we plan the work accordingly.",
+      "Every enquiry comes through the website form, is reviewed by someone who understands window and door hardware, and is answered with a clear written quotation. It is a simple process and we keep it that way."
+    ],
+    "captionOne": "Hardware, joinery and glazing repairs",
+    "captionTwo": "Residential and commercial premises",
+    "facts": [
+      { "title": "Who we help", "text": "Homeowners, tenants, landlords, letting agencies, property management companies, offices and retail businesses." },
+      { "title": "What we repair", "text": "uPVC, aluminium, timber and sash windows, tilt and turn units, double glazing, and the locks, hinges and mechanisms on doors." },
+      { "title": "Where we work", "text": "Throughout Greater London, from Westminster and Camden to Croydon, Romford, Harrow and Richmond." }
+    ]
+  },
+  "areas": {
+    "eyebrow": "Areas we cover",
+    "title": "Window & Door Repairs Throughout London",
+    "description": "We serve residential and commercial customers across Greater London. Every enquiry is handled by the same central team and the repair is carried out at your property, so the service is consistent whichever part of the capital you are in.",
+    "bodyTitle": "London-wide, not a single borough",
+    "paragraphs": [
+      "London’s housing and commercial stock varies enormously from one district to the next: Georgian and Victorian sash windows in the centre and inner suburbs, inter-war timber and steel casements further out, decades of uPVC replacements, and aluminium and tilt and turn systems in flats and offices. We repair all of them.",
+      "The districts listed below are those we are asked to attend most often. They are not an exhaustive list and we do not operate branch offices in them. If your property is anywhere within Greater London, please send an enquiry and we will confirm that we can help."
+    ]
+  },
+  "faqs": {
+    "eyebrow": "FAQs",
+    "title": "Frequently Asked Questions",
+    "description": "Straight answers to the questions customers ask most about window and door repairs in London. If yours is not here, include it in your enquiry and we will answer it with your quotation.",
+    "ctaTitle": "Still have a question?",
+    "ctaDescription": "Send it with your enquiry and we will answer it alongside the repair information and quotation."
+  },
+  "contact": {
+    "eyebrow": "Contact us",
+    "title": "Request a Free Quote",
+    "description": "The enquiry form below is the way to reach us. It takes a couple of minutes, lets you attach photographs of the problem, and makes sure your request goes straight to the people who will assess it."
+  },
+  "privacy": {
+    "eyebrow": "Legal",
+    "title": "Privacy Policy",
+    "description": "How we collect, use and protect the personal information you provide through this website."
+  },
+  "terms": {
+    "eyebrow": "Legal",
+    "title": "Terms & Conditions",
+    "description": "The terms that apply to your use of this website and to the quotations and repair services it describes."
+  }
+}

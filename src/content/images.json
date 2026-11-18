@@ -1,0 +1,26 @@
+{
+  "hero": {
+    "src": "https://images.unsplash.com/photo-1504615755583-2916b52192a3?auto=format&fit=crop&w=1200&h=1400&q=80",
+    "alt": "Terrace of period London houses with painted timber sash windows and a black front door"
+  },
+  "intro": {
+    "src": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&h=900&q=80",
+    "alt": "Repair specialist in a hard hat and gloves working on a fixture with a screwdriver"
+  },
+  "about": {
+    "src": "https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=1200&h=900&q=80",
+    "alt": "Bay window in a traditional London living room"
+  },
+  "workshop": {
+    "src": "https://images.unsplash.com/photo-1426927308491-6380b6a9936f?auto=format&fit=crop&w=1200&h=900&q=80",
+    "alt": "Wall of hand tools in a joinery workshop"
+  },
+  "commercialExterior": {
+    "src": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=900&q=80",
+    "alt": "Glass office buildings seen from street level"
+  },
+  "areas": {
+    "src": "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1200&h=900&q=80",
+    "alt": "Brick apartment block with modern windows against a blue sky"
+  }
+}

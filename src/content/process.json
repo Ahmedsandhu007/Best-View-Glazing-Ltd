@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "submit-your-enquiry",
+    "title": "Submit Your Enquiry",
+    "text": "Complete the website enquiry form and tell us about the window or door problem. Photographs are welcome and help us assess the fault."
+  },
+  {
+    "slug": "review-and-assessment",
+    "title": "Review & Assessment",
+    "text": "Our team reviews the information you have provided and assesses the likely cause, the parts involved and the access required."
+  },
+  {
+    "slug": "quotation",
+    "title": "Quotation",
+    "text": "You receive a response setting out the relevant repair information together with a clear quotation for the work."
+  },
+  {
+    "slug": "arrange-the-repair",
+    "title": "Arrange the Repair",
+    "text": "Once the quotation is agreed, the repair visit is arranged at a time that suits the property and the people in it."
+  }
+]

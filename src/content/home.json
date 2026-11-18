@@ -1,0 +1,60 @@
+{
+  "hero": {
+    "eyebrow": "Greater London · Windows & Doors",
+    "title": "Professional Window & Door Repairs Across London",
+    "subtitle": "Reliable repair solutions for residential and commercial properties. From faulty window mechanisms and damaged locks to glazing problems and worn-out frames, our services are focused on restoring security, functionality and peace of mind.",
+    "primaryCta": {
+      "label": "Request a Free Quote",
+      "href": "#quote-form"
+    },
+    "secondaryCta": {
+      "label": "View Our Services",
+      "href": "/services"
+    },
+    "reassurance": [
+      "Residential and commercial properties",
+      "Written quotation before any work is agreed",
+      "Repair first, replacement only when it is the right answer"
+    ],
+    "imageCaption": "Timber sash, uPVC, aluminium and composite units repaired across the capital."
+  },
+  "intro": {
+    "eyebrow": "Who we are",
+    "title": "Window & Door Repair Specialists in London",
+    "paragraphs": [
+      "Windows and doors do a great deal of quiet work. They keep a property secure, warm, dry and ventilated, and most people only notice them when a handle snaps, a sash drops or condensation appears between the panes. Left alone, a small mechanical fault tends to become a larger and more expensive one.",
+      "Best View Glazing Ltd repairs the common mechanical and glazing problems that affect uPVC, aluminium, timber and sash windows, together with the locks, hinges and mechanisms on external and internal doors. We replace failed hinges, handles, locks and gaskets, re-glaze misted or broken sealed units, free jammed sashes and repair damaged frames, keeping the original window wherever that is the sensible option.",
+      "We work for homeowners, tenants and landlords, for letting agencies and property management companies, and for offices, shops and other commercial premises. Whatever the property, the approach is the same: understand the fault, propose a practical repair and quote for it clearly. We cover the whole of Greater London."
+    ],
+    "quickLinks": [
+      {
+        "label": "uPVC window repairs",
+        "href": "/services/upvc-window-repairs"
+      },
+      {
+        "label": "Aluminium window repairs",
+        "href": "/services/aluminium-window-repairs"
+      },
+      {
+        "label": "Sash window repairs",
+        "href": "/services/sash-window-repairs"
+      },
+      {
+        "label": "Double glazing repairs",
+        "href": "/services/double-glazing-repairs"
+      },
+      {
+        "label": "Window lock and handle repairs",
+        "href": "/services/window-lock-and-handle-repairs"
+      },
+      {
+        "label": "Door lock and mechanism repairs",
+        "href": "/services/door-lock-and-handle-repairs"
+      }
+    ],
+    "cta": {
+      "label": "More about how we work",
+      "href": "/about"
+    }
+  }
+}

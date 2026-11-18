@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { Faq } from "@/content/faqs";
-import { site } from "@/content/site";
+import { sections, site } from "@/content/site";
 
 export function FaqAccordion({ items }: { items: Faq[] }) {
   const prefix = useId();
@@ -41,7 +41,7 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
         const qid = `${prefix}-q-${i}`;
         const aid = `${prefix}-a-${i}`;
         return (
-          <div key={faq.question}>
+          <div key={faq.slug ?? faq.question}>
             <h3 className="m-0">
               <button
                 ref={(el) => {
@@ -83,20 +83,17 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
 type Props = { items: Faq[]; ctaHref?: string; showHeading?: boolean };
 
 export function FAQ({ items, ctaHref = `#${site.enquiryFormId}`, showHeading = true }: Props) {
+  const copy = sections.faq;
   return (
     <section id="faqs" className="section bg-white">
       <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
         {showHeading && (
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-28">
-              <SectionHeading
-                eyebrow="Frequently asked questions"
-                title="Answers to the questions we hear most"
-                intro="If your question is not covered here, include it in your enquiry and we will answer it alongside your quotation."
-              />
+              <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.description} />
               <div className="mt-8">
                 <Button href={ctaHref} variant="secondary">
-                  Ask a question with your enquiry
+                  {copy.buttonLabel}
                 </Button>
               </div>
             </div>

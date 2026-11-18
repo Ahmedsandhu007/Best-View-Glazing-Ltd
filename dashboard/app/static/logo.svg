@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 236 64" width="236" height="64" role="img" aria-label="Best View Glazing Ltd">
-  <rect x="5" y="5" width="54" height="54" fill="none" stroke="#FFFFFF" stroke-width="4"/>
-  <path d="M32 5v54M5 32h54" fill="none" stroke="#FFFFFF" stroke-width="3"/>
-  <rect x="37" y="37" width="17" height="17" fill="#C5A477"/>
-  <text x="76" y="31" font-family="Manrope, Inter, system-ui, sans-serif" font-size="27" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Best View</text>
-  <text x="77" y="52" font-family="Manrope, Inter, system-ui, sans-serif" font-size="12.5" font-weight="600" fill="#FFFFFF" fill-opacity="0.72" letter-spacing="3.2">GLAZING LTD</text>
-</svg>

@@ -1,13 +1,14 @@
-# Best View Glazing Ltd – website
+# Best View Glazing Ltd – website and CMS
 
-Lead-generation website for a fictional London window and door repair company.
+Lead-generation website for a London window and door repair company, with a built-in content
+management system (CMS) at `/admin` so the company can edit every page's text and pictures.
 Built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 and Lucide icons.
 
 ## Run it
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
+npm run dev        # http://localhost:3000  (CMS at /admin)
 ```
 
 ```bash
@@ -15,62 +16,61 @@ npm run build && npm start   # production build
 npm run lint                 # ESLint
 ```
 
-## Connect the enquiry form (required before launch)
+## The CMS (/admin)
 
-The form posts to `/api/enquiry` (`src/app/api/enquiry/route.ts`). The route validates the
-submission server-side, checks image signatures, then hands it to `src/lib/enquiry/deliver.ts`,
-which picks a backend from environment variables. Copy `.env.example` to `.env.local` and set ONE:
+Editors sign in at `/admin` with the password set in `ADMIN_PASSWORD`. Every piece of text and every
+picture on the site is a field in one of the CMS sections; each section shows a small picture of where
+its content appears on the page.
 
-| Backend | Variables |
+- **Site sections**: Site settings, Home page, Section headings, Page banners & copy, Photographs,
+  Enquiry form, SEO titles & descriptions, Footer, Legal pages.
+- **Lists** (add, edit, delete, reorder): Services, Areas we cover, FAQs, Testimonials, Trust strip,
+  Why choose us, How it works, Quotation factors.
+
+How it saves:
+
+- **Live site (GitHub mode)**, when `GITHUB_TOKEN` and `GITHUB_REPO` are set: each Save commits to the
+  `cms-draft` branch (not built, see `vercel.json`). The **Publish** bar merges the draft into `main`,
+  which Vercel rebuilds; **Discard** throws the drafts away. Uploaded pictures go to `public/uploads/`.
+- **Local mode**, with no GitHub variables: Save writes straight to the JSON files in `src/content/`.
+  Handy when editing on a PC; commit the result as usual.
+
+The code: `src/lib/cms/registry.ts` (the sections and their fields), `validate.ts` and `limits.ts`
+(the rules), `store.ts` + `src/lib/github.ts` (where content is read and written), `src/lib/adminAuth.ts`
+and `src/proxy.ts` (sign-in and the gate on `/admin`), `src/app/api/admin/*` (the API),
+`src/app/admin/*` and `src/components/admin/*` (the screens).
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` locally; on Vercel add them under Project → Settings → Environment Variables.
+
+| Variable | Needed for |
 | --- | --- |
-| Webhook (Make, Zapier, n8n, CRM, own server) | `ENQUIRY_WEBHOOK_URL`, optional `ENQUIRY_WEBHOOK_SECRET` |
-| Email via Resend | `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URLs, Open Graph, sitemap, robots |
+| `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` | CMS sign-in (both required) |
+| `GITHUB_TOKEN`, `GITHUB_REPO` (+ optional `GITHUB_BRANCH`, `GITHUB_DRAFT_BRANCH`) | CMS publishing on the live site |
+| `ENQUIRY_WEBHOOK_URL` (+ optional `ENQUIRY_WEBHOOK_SECRET`) | Enquiry form delivery, option A |
+| `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` | Enquiry form delivery, option B |
 
-Until one is configured the API answers `503` and the form shows an honest "not connected" message.
-A success screen is only shown when the backend accepted the enquiry. To add another provider,
-implement the `Provider` shape in `deliver.ts`.
-
-Also set `NEXT_PUBLIC_SITE_URL` to the live domain (canonical URLs, Open Graph, sitemap, robots).
+Until a form backend is set the enquiry form shows an honest "not connected" message and never fakes success.
 
 ## Where things live
 
 ```
-src/content/      business facts, navigation, services, areas, FAQs, testimonials, image register
+src/content/      JSON content the CMS edits, plus small loader modules the components import
 src/components/   page sections (Header, Hero, TrustStrip, Introduction, Services, WhyChooseUs,
                   WorkingProcess, AreasWeCover, Testimonials, Pricing, FAQ, QuoteForm, Footer …)
-src/components/ui Button, SectionHeading, PageHeader
-src/lib/enquiry/  shared validation (client + server) and delivery providers
+src/components/admin  the CMS screens
+src/lib/enquiry/  enquiry form validation (client + server) and delivery providers
 src/lib/seo.ts    structured-data builders (business, services, FAQ, breadcrumbs)
-src/app/          routes: /, /services, /services/[slug], /about, /areas, /areas/[slug],
-                  /faqs, /contact, /privacy-policy, /terms, sitemap, robots, icon, OG image
+src/app/(site)/   public routes: /, /services, /services/[slug], /about, /areas, /areas/[slug],
+                  /faqs, /contact, /privacy-policy, /terms
+src/app/admin/    the CMS;  src/app/api/  the enquiry and CMS APIs
 ```
-
-No copy or company facts are hard-coded in components; edit `src/content/*`.
 
 ## Before going live
 
-- **Testimonials** – `src/content/testimonials.ts` holds clearly labelled placeholder quotes.
-  Replace them with genuine, permissioned feedback and set `placeholder: false`. While any entry is
-  a placeholder the section shows a "sample content" label and no star ratings.
-- **Photography** – `src/content/images.ts` points at Unsplash photographs (free licence) chosen to
-  match each subject. Swap any entry for the company's own photos by placing files in `/public` and
-  updating `src`. Alt text lives alongside each image.
-- **Legal pages** – the privacy policy and terms are sensible defaults for a form-only enquiry site
-  and should be checked by the business before launch. No registration numbers, addresses, phone
-  numbers, accreditations or opening hours are published anywhere, by design.
-- **Structured data** – `HomeAndConstructionBusiness`, `Service`, `FAQPage` and `BreadcrumbList`
-  schemas are emitted without address, telephone or coordinates. Add them in `src/lib/seo.ts`
-  only once the business is happy to publish them.
-
-## Form behaviour
-
-- Required: name, email, postcode, property type, service, description, preferred contact time, consent.
-- Optional: phone, full address, up to three images (JPG/PNG/WebP/HEIC, 5 MB each) with previews.
-- UK postcode format validated; a non-blocking notice appears when the postcode looks outside Greater London.
-- Client-side validation on blur and on submit, with an error summary, `aria-invalid` and focus management.
-- Server-side re-validation, file signature sniffing, honeypot field and a light per-IP rate limit.
-
-## Operations dashboard
-
-The `dashboard/` folder holds the company's operations dashboard (a Python / FastAPI app, separate from the website).
-It is not part of the Vercel build; see `dashboard/README.md` to run it and `dashboard/HOSTING.md` to host it.
+- **Testimonials** are sample content: edit them in the CMS and untick "Sample content" once genuine.
+- **Photography** is Unsplash stock chosen to match each subject; replace through the CMS (upload or paste an image address).
+- **Legal pages** are sensible defaults for a form-only enquiry site; the business should check them.
+- No addresses, phone numbers, accreditations or opening hours are published anywhere, by design.

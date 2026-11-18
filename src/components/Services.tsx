@@ -3,18 +3,17 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { images } from "@/content/images";
 import { services, type Service } from "@/content/services";
+import { sections, site } from "@/content/site";
 
 export function ServiceCard({ service, headingLevel = "h3" }: { service: Service; headingLevel?: "h2" | "h3" }) {
-  const img = images[service.image];
   const Heading = headingLevel;
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-[4px] border border-line bg-white transition-colors hover:border-teal/50 focus-within:border-teal">
       <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-ivory">
         <Image
-          src={img.src}
-          alt={img.alt}
+          src={service.image}
+          alt={service.imageAlt}
           fill
           loading="lazy"
           sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
@@ -46,18 +45,15 @@ type Props = {
 
 export function Services({ compact = false, headingLevel = "h3", exclude }: Props) {
   const list = exclude ? services.filter((s) => s.slug !== exclude) : services;
+  const copy = sections.services;
   return (
-    <section id="services" className={compact ? "section bg-ivory" : "section bg-ivory"}>
+    <section id="services" className="section bg-ivory">
       <div className="container-site">
         {!compact && (
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <SectionHeading
-              eyebrow="Our repair services"
-              title="Window and door repairs for every type of property"
-              intro="Fourteen core services covering the mechanical, glazing and frame faults we are asked about most. Each one is a repair first, with replacement recommended only when it is genuinely the better outcome."
-            />
-            <Button href="/contact" variant="secondary" className="shrink-0">
-              Request a quote
+            <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.description} />
+            <Button href={site.enquiryPath} variant="secondary" className="shrink-0">
+              {copy.buttonLabel}
             </Button>
           </div>
         )}

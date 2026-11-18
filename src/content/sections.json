@@ -1,0 +1,60 @@
+{
+  "services": {
+    "eyebrow": "Our repair services",
+    "title": "Window and door repairs for every type of property",
+    "description": "Fourteen core services covering the mechanical, glazing and frame faults we are asked about most. Each one is a repair first, with replacement recommended only when it is genuinely the better outcome.",
+    "buttonLabel": "Request a quote"
+  },
+  "whyUs": {
+    "eyebrow": "Why choose us",
+    "title": "A repair service built around the property and the people in it",
+    "description": "We are a specialist repair business rather than a window sales company, so the advice you receive is about fixing what you have.",
+    "buttonLabel": "Request a Free Quote"
+  },
+  "process": {
+    "eyebrow": "How it works",
+    "title": "From enquiry to finished repair in four clear steps",
+    "description": "Every request follows the same straightforward process, whether it is a single stiff handle in a flat or a programme of repairs across a managed block."
+  },
+  "areas": {
+    "eyebrow": "Areas we cover",
+    "title": "Window & Door Repairs Throughout London",
+    "description": "We serve residential and commercial customers across Greater London, from the centre out to the boroughs on every side. The districts below are the ones we are asked to attend most often; if your property is elsewhere within Greater London, please still get in touch.",
+    "note": "One team, London-wide. We do not operate branch offices; every enquiry is handled centrally and the repair is carried out at your property.",
+    "buttonLabel": "Request a Free Quote"
+  },
+  "testimonials": {
+    "eyebrow": "Customer feedback",
+    "title": "What customers say about the work",
+    "description": "Feedback from the homeowners, landlords and businesses we have carried out repairs for across London.",
+    "placeholderNotice": "Sample content: these example quotes will be replaced with genuine customer feedback before launch."
+  },
+  "pricing": {
+    "eyebrow": "Quotations",
+    "title": "Clear Quotations. Practical Repair Solutions.",
+    "description": "We do not publish a price list because no two repairs are quite the same. Instead, every enquiry receives a written quotation that explains what the work involves and what it will cost before anything is agreed.",
+    "factorsHeading": "What affects the cost of a repair",
+    "primaryLabel": "Request a Free Quote",
+    "secondaryLabel": "Read the FAQs"
+  },
+  "faq": {
+    "eyebrow": "Frequently asked questions",
+    "title": "Answers to the questions we hear most",
+    "description": "If your question is not covered here, include it in your enquiry and we will answer it alongside your quotation.",
+    "buttonLabel": "Ask a question with your enquiry"
+  },
+  "quote": {
+    "eyebrow": "Request a quote",
+    "title": "Request a Window or Door Repair Quote",
+    "description": "Tell us a little about the repair you need and our team will review your enquiry.",
+    "stepsHeading": "What happens next",
+    "note": "This form is our only enquiry channel. Keeping every request in one place means nothing is lost and each enquiry is reviewed by someone who understands window and door hardware.",
+    "submitLabel": "Send my enquiry",
+    "privacyLine": "Your details are used only to respond to this enquiry."
+  },
+  "cta": {
+    "title": "Ready to arrange a repair?",
+    "description": "Tell us about the window or door problem and we will review it and come back to you with a clear quotation.",
+    "buttonLabel": "Request a Free Quote"
+  }
+}
