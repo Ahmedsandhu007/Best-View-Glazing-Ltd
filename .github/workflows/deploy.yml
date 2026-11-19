@@ -23,6 +23,9 @@ jobs:
   trigger:
     name: Trigger the Vercel deploy hook
     runs-on: ubuntu-latest
+    # Commits made by the site owner's own GitHub account are built by Vercel's git
+    # integration already, so the hook only runs for other authors, or on demand.
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.author.username != 'bestviewglazing'
     steps:
       - name: Call the hook
         env:

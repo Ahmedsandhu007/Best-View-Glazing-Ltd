@@ -58,10 +58,11 @@ Copy `.env.example` to `.env.local` locally; on Vercel add them under Project �
 
 Until a form backend is set the enquiry form shows an honest "not connected" message and never fakes success.
 
-**Deploying**: Vercel only builds a git push when the commit author is a member of the Vercel account that owns
-the project. The GitHub Action in `.github/workflows/deploy.yml` sidesteps that: on every push to `main` (including
-the CMS Publish merge) it calls the Vercel Deploy Hook stored in the repository secret `VERCEL_DEPLOY_HOOK_URL`.
-If the live site stops updating, check that secret first (Settings → Secrets and variables → Actions).
+**Deploying**: Vercel only builds a git push when the commit author is the Vercel account that owns the project,
+so commits to this repo are made as the `bestviewglazing` GitHub account (the clone's git config sets it), and
+`GITHUB_TOKEN` for the CMS must be a token created by that account so its Publish merges build too. As a safety
+net, the GitHub Action in `.github/workflows/deploy.yml` calls the Vercel Deploy Hook (repository secret
+`VERCEL_DEPLOY_HOOK_URL`) for pushes by any other author, and can be run by hand from the Actions tab.
 
 ## Where things live
 
