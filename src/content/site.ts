@@ -25,7 +25,9 @@ export const site = {
 };
 
 export type NavLink = { label: string; href: string };
-export type NavItem = NavLink & { children?: NavLink[] };
+export type MenuPanel = "services" | "blog";
+/** `children` feed the mobile drawer; `panel` picks the picture panel the desktop dropdown shows. */
+export type NavItem = NavLink & { children?: NavLink[]; panel?: MenuPanel };
 
 /** Header navigation. An item with children is a dropdown; its own href is the page its label opens. */
 export const navigation: NavItem[] = [
@@ -33,6 +35,7 @@ export const navigation: NavItem[] = [
   {
     label: "Services",
     href: "/services",
+    panel: "services",
     children: [
       { label: "Our Services", href: "/services" },
       { label: "Areas We Cover", href: "/areas" },
@@ -42,6 +45,7 @@ export const navigation: NavItem[] = [
   {
     label: "Blog",
     href: "/blog",
+    panel: "blog",
     children: [
       { label: "Articles", href: "/blog" },
       { label: "Case Studies", href: "/case-studies" },

@@ -7,6 +7,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
 import { navigation, site, type NavItem } from "@/content/site";
+import { MenuPanelContent } from "@/components/MegaMenus";
 
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -58,11 +59,11 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white">
-      <div className="container-site flex h-[72px] items-center justify-between gap-6">
+      <div className="container-site relative flex h-[72px] items-center justify-between gap-6">
         <Logo />
 
-        <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-6 xl:gap-8">
+        <nav aria-label="Primary" className="hidden self-stretch lg:block">
+          <ul className="flex h-full items-center gap-6 xl:gap-8">
             {navigation.map((item) => {
               const active = groupActive(pathname, item);
               if (!item.children) {
@@ -74,14 +75,25 @@ export function Header() {
                   </li>
                 );
               }
-              // A dropdown: the label opens its own page; hovering or focusing shows the children.
+              // A dropdown: the label opens its own page; hovering or focusing shows a panel.
+              // The li spans the full header height so the pointer never leaves it on the way down.
+              // With a picture panel the menu is as wide as the header content; otherwise a plain list.
+              const dropdownClass =
+                "invisible z-50 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100";
               return (
-                <li key={item.href} className="group relative">
+                <li key={item.href} className={`group flex h-full items-center ${item.panel ? "" : "relative"}`}>
                   <Link href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} className={topLink(active)}>
                     {item.label}
                     <ChevronDown className="h-4 w-4 text-muted transition-transform group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true" />
                   </Link>
-                  <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-5 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  {item.panel ? (
+                    <div className={`absolute inset-x-0 top-full ${dropdownClass}`} aria-label={`${item.label} pages`}>
+                      <div className="max-h-[calc(100vh-72px)] overflow-y-auto rounded-b-[4px] border border-t-0 border-line bg-white shadow-raised">
+                        <MenuPanelContent panel={item.panel} />
+                      </div>
+                    </div>
+                  ) : (
+                  <div className={`absolute left-1/2 top-full -translate-x-1/2 ${dropdownClass}`}>
                     <ul className="min-w-[13rem] rounded-[4px] border border-line bg-white p-1.5 shadow-raised" aria-label={`${item.label} pages`}>
                       {item.children.map((child) => {
                         const childActive = isActive(pathname, child.href);
@@ -101,6 +113,7 @@ export function Header() {
                       })}
                     </ul>
                   </div>
+                  )}
                 </li>
               );
             })}
