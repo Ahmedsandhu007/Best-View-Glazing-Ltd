@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Best View Glazing CMS: SEO team guide</title>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("montserrat-latin.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Inter"; src: url("inter-latin.woff2") format("woff2"); font-weight: 100 900; }
+  @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+  :root { --navy: #111144; --navy-700: #1d1d5e; --habanero: #f98513; --habanero-50: #fff4e8; --aster: #9bacd8; --aster-700: #3f5489;
+          --luster: #dad1c8; --luster-50: #f5f1ec; --ink: #15153f; --muted: #5a5a78; --border: #e7e1d8; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Inter", Arial, sans-serif; font-size: 10.5pt; line-height: 1.55; color: var(--ink); }
+  h1, h2, h3 { font-family: "Montserrat", "Inter", Arial, sans-serif; color: var(--navy); letter-spacing: -0.01em; }
+  h2 { font-size: 17pt; font-weight: 800; margin: 0 0 8pt; padding-bottom: 6pt; border-bottom: 2px solid var(--habanero); break-after: avoid; }
+  h3 { font-size: 12pt; font-weight: 700; margin: 14pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 7pt; }
+  ul, ol { margin: 0 0 8pt; padding-left: 18pt; }
+  li { margin: 0 0 3pt; }
+  li ul { margin-top: 3pt; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; background: var(--luster-50); border: 1px solid var(--border); border-radius: 3px; padding: 0 3px; color: var(--navy-700); }
+  strong { color: var(--navy); }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 6pt 0 10pt; }
+  th { text-align: left; background: var(--navy); color: #fff; font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 9pt; padding: 6pt 7pt; }
+  td { padding: 5pt 7pt; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--luster-50); }
+  tr { break-inside: avoid; }
+  .section { break-before: page; }
+  .section.first { break-before: auto; }
+  .lead { font-size: 11.5pt; color: var(--navy-700); margin-bottom: 10pt; }
+  .callout { background: var(--habanero-50); border-left: 4px solid var(--habanero); padding: 7pt 10pt; margin: 8pt 0 10pt; border-radius: 0 4px 4px 0; }
+  .check li { list-style: none; position: relative; padding-left: 20pt; }
+  .check li::before { content: ""; position: absolute; left: 0; top: 2pt; width: 11pt; height: 11pt; border: 1.5px solid var(--navy); border-radius: 2px; }
+  .brandline { display: flex; justify-content: space-between; font-family: "Montserrat", sans-serif; font-size: 8.5pt; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 4pt; margin-bottom: 12pt; }
+  .brandline span:last-child { color: var(--habanero); font-weight: 700; }
+  figure { margin: 10pt 0 12pt; }
+  figcaption { font-size: 9pt; color: var(--muted); margin-top: 4pt; }
+  /* cover */
+  .cover { height: 257mm; display: flex; flex-direction: column; justify-content: space-between; break-after: page; }
+  .cover .logo { width: 70mm; }
+  .cover .band { background: var(--navy); color: #fff; padding: 22mm 18mm; border-radius: 6px; }
+  .cover .band .kicker { font-family: "Montserrat", sans-serif; color: var(--habanero); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 9.5pt; }
+  .cover .band h1 { color: #fff; font-size: 30pt; font-weight: 800; margin: 10pt 0 8pt; line-height: 1.1; }
+  .cover .band p { color: rgba(255,255,255,0.8); font-size: 12pt; max-width: 120mm; margin: 0; }
+  .cover .meta { display: flex; gap: 24mm; font-size: 10pt; color: var(--muted); }
+  .cover .meta b { display: block; font-family: "Montserrat", sans-serif; color: var(--navy); font-size: 9pt; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2pt; }
+  .toc { background: var(--luster-50); border: 1px solid var(--border); border-radius: 6px; padding: 10pt 14pt; margin: 0 0 12pt; }
+  .toc ol { margin: 0; padding-left: 18pt; columns: 2; column-gap: 24pt; }
+  .toc li { font-family: "Montserrat", sans-serif; font-weight: 600; color: var(--navy); font-size: 10pt; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <img class="logo" src="alpha-logo.png" alt="Alpha Digital Solutions">
+  <div class="band">
+    <div class="kicker">Website CMS</div>
+    <h1>Best View Glazing CMS<br>SEO team guide</h1>
+    <p>How to sign in, what each section controls, the SEO fields that matter, publishing an article, and how a change reaches the live site.</p>
+  </div>
+  <div class="meta">
+    <div><b>Prepared for</b>Best View Glazing Ltd, SEO team</div>
+    <div><b>Prepared by</b>Alpha Digital Solutions</div>
+    <div><b>Date</b>19 November 2026</div>
+    <div><b>Version</b>1.0</div>
+  </div>
+</section>
+
+<section class="section first">
+<div class="brandline"><span>Alpha Digital Solutions · Best View Glazing CMS: SEO team guide · November 2026</span><span>alpha.</span></div>
+  <div class="toc">
+    <ol>
+      <li>What the CMS is and where to find it</li>
+      <li>How a change reaches the live site</li>
+      <li>The sections and where each one shows</li>
+      <li>SEO fields, and what the site does on its own</li>
+      <li>Publishing a blog article, step by step</li>
+      <li>Case studies, services, areas, testimonials, contact details</li>
+      <li>Pictures</li>
+      <li>Before you press Publish</li>
+      <li>When something looks wrong</li>
+    </ol>
+  </div>
+
+  <h2>1. What the CMS is and where to find it</h2>
+  <p class="lead">The CMS is the editing screen built into the website itself, at the site's address followed by <code>/admin</code>. Every piece of text and every picture on the site is a field in one of its sections, so nothing needs a developer.</p>
+  <ul>
+    <li><strong>Address:</strong> <code>https://&lt;the live domain&gt;/admin</code> (it works on the Vercel address too).</li>
+    <li><strong>Sign-in:</strong> one shared password, set by the site owner in Vercel as <code>ADMIN_PASSWORD</code>. Ask the owner for it; it is not written anywhere in the CMS or the code.</li>
+    <li>A session lasts 12 hours, then you sign in again.</li>
+    <li>Each section opens with a small picture of the page showing where its fields appear, with numbered notes. Read it the first time you open a section.</li>
+    <li>Every text field shows a character counter such as <code>48/120</code>. Over the limit, Save is refused with a message naming the field.</li>
+    <li><code>View site</code> in the top bar opens the live site in a new tab. <code>Sign out</code> ends the session.</li>
+  </ul>
+
+  <h2 style="margin-top:16pt">2. How a change reaches the live site</h2>
+  <p class="lead">Saving never changes the live site. Only Publish does, and the site then rebuilds for a minute or two.</p>
+  <figure>
+    <svg viewBox="0 0 760 236" width="100%" role="img" aria-label="A change is live only after Publish and a short build" font-family="Inter, Arial, sans-serif" font-size="13">
+      <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#3f5489"/></marker></defs>
+      <text x="24" y="34" font-family="Montserrat, Inter, sans-serif" font-size="15" font-weight="700" fill="#111144">A change is live only after Publish and a short build</text>
+      <g fill="none" stroke="#3f5489" stroke-width="1.25">
+        <path d="M152 110H170" marker-end="url(#arrow)"/><path d="M298 110H316" marker-end="url(#arrow)"/><path d="M444 110H462" marker-end="url(#arrow)"/><path d="M590 110H608" marker-end="url(#arrow)"/>
+        <path d="M234 138V196H88V138" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+      </g>
+      <g><rect x="24" y="82" width="128" height="56" rx="8" fill="none" stroke="#3f5489" stroke-width="1.25"/><text x="88" y="106" text-anchor="middle" font-weight="600" fill="#111144">Edit a section</text><text x="88" y="124" text-anchor="middle" font-size="11.5" fill="#5a5a78">any CMS section</text></g>
+      <g><rect x="170" y="82" width="128" height="56" rx="8" fill="none" stroke="#3f5489" stroke-width="1.25"/><text x="234" y="106" text-anchor="middle" font-weight="600" fill="#111144">Save</text><text x="234" y="124" text-anchor="middle" font-size="11.5" fill="#5a5a78">nothing live yet</text></g>
+      <g><rect x="316" y="82" width="128" height="56" rx="8" fill="none" stroke="#3f5489" stroke-width="1.25"/><text x="380" y="106" text-anchor="middle" font-weight="600" fill="#111144">Publish</text><text x="380" y="124" text-anchor="middle" font-size="11.5" fill="#5a5a78">sends every draft</text></g>
+      <g><rect x="462" y="82" width="128" height="56" rx="8" fill="none" stroke="#3f5489" stroke-width="1.25"/><text x="526" y="106" text-anchor="middle" font-weight="600" fill="#111144">Vercel builds</text><text x="526" y="124" text-anchor="middle" font-size="11.5" fill="#5a5a78">1 to 2 minutes</text></g>
+      <g><rect x="608" y="82" width="128" height="56" rx="8" fill="#f98513" fill-opacity="0.14" stroke="#f98513" stroke-width="2"/><text x="672" y="106" text-anchor="middle" font-weight="700" fill="#111144">Live site</text><text x="672" y="124" text-anchor="middle" font-size="11.5" fill="#5a5a78">updated pages</text></g>
+      <text x="161" y="188" text-anchor="middle" font-size="11.5" fill="#5a5a78">Discard: draft dropped</text>
+    </svg>
+    <figcaption>Save stores a draft; Publish sends every saved draft at once; Discard throws all drafts away.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>Save</strong> (top right and bottom of every section): stores the section as a draft. The live site does not change. Save as often as you like.</li>
+    <li><strong>Unpublished changes bar</strong> (bottom of the screen): appears once anything is saved. It counts the drafts and names the sections they are in.</li>
+    <li><strong>Publish:</strong> sends every saved draft to the live site in one go. You cannot publish one section and hold another back, so finish all open edits first. Allow one to two minutes for the rebuild, then refresh the page.</li>
+    <li><strong>Discard:</strong> throws away every unpublished draft and returns the CMS to what is live. It asks for confirmation. There is no undo.</li>
+    <li>Drafts are shared. Two people editing at once see each other's saved drafts, and whoever presses Publish sends both. Agree who publishes.</li>
+  </ul>
+</section>
+
+<section class="section">
+<div class="brandline"><span>Alpha Digital Solutions · Best View Glazing CMS: SEO team guide · November 2026</span><span>alpha.</span></div>
+  <h2>3. The sections and where each one shows</h2>
+  <p class="lead">The left menu has two groups. Site sections are one form each; Lists hold entries you can add, edit, reorder and delete.</p>
+  <table>
+    <tr><th style="width:26%">Section</th><th>What it holds</th><th style="width:30%">Where it shows</th></tr>
+    <tr><td>Site settings</td><td>Company name, short name, tagline, site description, live address, copyright line</td><td>Page titles, social previews, footer</td></tr>
+    <tr><td>Home page</td><td>Hero label, headline, text, two buttons, ticked lines, photo caption; introduction block</td><td>Home page, first two screens</td></tr>
+    <tr><td>Section headings</td><td>Label, title, intro line and button text for every block of the home page, plus the enquiry-form section and the teal call-to-action band</td><td>Home page and the band on inner pages</td></tr>
+    <tr><td>Page banners &amp; copy</td><td>Dark banner (label, title, intro) of each inner page; About and Areas body text; FAQ, Blog and Case Studies closing banners</td><td>Top of Services, About, Areas, Case Studies, Blog, FAQs, Contact, legal pages</td></tr>
+    <tr><td>Photographs</td><td>Home hero and intro photos, About photos, Areas photo, each with alt text</td><td>Those pages</td></tr>
+    <tr><td>Contact details</td><td>Phone, WhatsApp number and message, email, address, opening hours, map, floating WhatsApp button</td><td>Contact page, footer, every page (floating button)</td></tr>
+    <tr><td>Enquiry form</td><td>The dropdown choices: property type, service required, contact time</td><td>The enquiry form</td></tr>
+    <tr><td>SEO titles &amp; descriptions</td><td>Title and meta description per page; site keywords</td><td>Search results and browser tabs</td></tr>
+    <tr><td>Footer</td><td>Paragraph under the logo, column headings, bottom line</td><td>Every page</td></tr>
+    <tr><td>Legal pages</td><td>Privacy Policy and Terms text, dated sections</td><td>/privacy-policy, /terms</td></tr>
+    <tr><td>Services (list)</td><td>14 services: title, summary, photo, paragraphs, common faults, form label, SEO title</td><td>Home grid, /services, one page per service</td></tr>
+    <tr><td>Areas we cover (list)</td><td>5 regions with their districts</td><td>Home, /areas, one page per district</td></tr>
+    <tr><td>Blog articles (list)</td><td>Title, category, date, reading time, summary, picture, article, SEO fields</td><td>/blog, one page per article, three newest on the home page</td></tr>
+    <tr><td>Case studies (list)</td><td>Title, category, location, summary, description, picture, tags, results, write-up, sample flag</td><td>/case-studies, one page each, first three on the home page</td></tr>
+    <tr><td>FAQs (list)</td><td>Question and answer</td><td>Home page and /faqs</td></tr>
+    <tr><td>Testimonials (list)</td><td>Name, location, quote, stars, sample flag</td><td>Home page and /case-studies</td></tr>
+    <tr><td>Trust strip, Why choose us, How it works, Quotation factors (lists)</td><td>Short titled points in order</td><td>Home page blocks of the same name</td></tr>
+  </table>
+  <p>List order is site order: the Move up and Move down arrows on a list change what visitors see.</p>
+</section>
+
+<section class="section">
+<div class="brandline"><span>Alpha Digital Solutions · Best View Glazing CMS: SEO team guide · November 2026</span><span>alpha.</span></div>
+  <h2>4. SEO fields, and what the site does on its own</h2>
+  <p class="lead">Titles, descriptions, slugs, headings and alt text are the fields to care about. Sitemap, canonicals, structured data and the admin's noindex are handled by the site and need no attention.</p>
+  <h3>Page titles and meta descriptions</h3>
+  <p>They live in <code>SEO titles &amp; descriptions</code>, one pair per page. Service pages take their SEO title from each entry in <code>Services</code>; blog articles have their own SEO title and meta description at the bottom of each entry (empty = the article title and summary are used).</p>
+  <ul>
+    <li>The site adds <code> | Best View Glazing Ltd</code> after every title except the home page's, so write titles without the company name. Aim for 50 to 60 characters before the suffix.</li>
+    <li>Meta descriptions: 140 to 160 characters, a plain sentence with the service and the area in it.</li>
+    <li><code>Site keywords</code> in the same section feed the keywords meta tag only. They do not change rankings; keep the list short and honest.</li>
+  </ul>
+  <h3>Slugs are URLs</h3>
+  <div class="callout">Every list entry has a <code>slug</code> set when it is created. It becomes the page address (<code>/blog/&lt;slug&gt;</code>, <code>/services/&lt;slug&gt;</code>, <code>/areas/&lt;slug&gt;</code>, <code>/case-studies/&lt;slug&gt;</code>). Changing a slug moves the page to a new address with no redirect from the old one, so never change the slug of a page that is live and indexed. Get it right when you create the entry: the title you type becomes the slug.</div>
+  <h3>Headings</h3>
+  <p>The banner title at the top of each page is the H1. Section titles and the <code>## </code> lines inside an article are H2s. Do not type "H1" or "H2" into the text; the site sets them.</p>
+  <h3>Alt text</h3>
+  <p>Every picture field has a description field beside it. Describe what the photo shows in one plain phrase, for example <code>Timber sash windows on a Victorian terrace in Islington</code>. No keyword lists.</p>
+  <h3>Internal links</h3>
+  <p>In articles and write-ups, link with <code>[words](/services/sash-window-repairs)</code> style paths. Same-site paths start with <code>/</code>; outside links start with <code>https://</code> and open in a new tab.</p>
+  <h3>Automatic, nothing to do</h3>
+  <p><code>sitemap.xml</code> and <code>robots.txt</code>, canonical URLs, Open Graph and Twitter preview tags, structured data (business, each service, FAQs, breadcrumbs, each blog post as BlogPosting), and <code>noindex</code> on <code>/admin</code>.</p>
+</section>
+
+<section class="section">
+<div class="brandline"><span>Alpha Digital Solutions · Best View Glazing CMS: SEO team guide · November 2026</span><span>alpha.</span></div>
+  <h2>5. Publishing a blog article, step by step</h2>
+  <p class="lead">An article takes about ten minutes in the CMS once the text exists in Google Docs or Word.</p>
+  <ol>
+    <li>Open <code>Blog articles</code> in the left menu and press <code>New</code>. Type the final title when asked: it becomes the slug (the URL), so get it right here.</li>
+    <li>Fill the fields: <code>Category</code> (short and consistent, for example <code>Double glazing</code>, <code>Sash windows</code>, <code>Landlords</code>), <code>Date</code> written out (<code>19 November 2026</code>), <code>Reading time</code> (<code>5 min read</code>), <code>Summary</code> (one or two sentences; shown on the card and under the banner).</li>
+    <li>Add the picture: <code>Upload a picture</code> or paste an <code>https://</code> image address, then write its description.</li>
+    <li>Paste the article into the <code>Article</code> box straight from Google Docs or Word. Headings, bullet points, bold, italics and links are kept. Each line becomes one paragraph.
+      <ul>
+        <li>By hand: <code>## </code> starts a heading, <code>- </code> a bullet, <code>**bold**</code>, <code>*italic*</code>, <code>[words](link)</code>.</li>
+        <li>Pictures inside the article: put the cursor where it goes and press <code>Insert image</code>; it asks for a description.</li>
+        <li>Keep paragraphs under 1,500 characters; the box counts words and blocks under it and flags any paragraph over the limit.</li>
+      </ul>
+    </li>
+    <li>Fill <code>SEO title</code> and <code>Meta description</code> at the bottom if the title or summary are not what search results should show.</li>
+    <li>Press <code>Save</code>. Open <code>View site</code> and check <code>/blog/&lt;slug&gt;</code> reads well on a phone.</li>
+    <li>Press <code>Publish</code> in the bar at the bottom. Wait one to two minutes, then check the live address.</li>
+  </ol>
+  <p>The home page shows the first three entries in the list, so keep the newest article at the top: use <code>Move up</code> on the list page. To unpublish an article, delete it from the list and press Publish.</p>
+
+  <h2 style="margin-top:18pt">6. Case studies, services, areas, testimonials, contact details</h2>
+  <p class="lead">These lists work like the blog, with a few fields of their own.</p>
+  <p><strong>Case studies.</strong> <code>Category</code> is a fixed choice (Sash windows, uPVC, Aluminium, Double glazing, Doors, Commercial) and doubles as the filter button on <code>/case-studies</code>. <code>Summary</code> goes on the card, <code>Description</code> at the top of the page, the optional <code>Full write-up</code> below it in the same format as an article. <code>Results</code> are up to three number-and-label pairs. The six shipped entries are samples: the <code>Sample content</code> tick keeps a notice on the page until it is unticked, so replace them with real jobs and untick. Only state figures the company can stand behind.</p>
+  <p><strong>Services.</strong> Each entry is a card on the home page and its own page. <code>Summary</code> is the card text and the page banner line; <code>Service page paragraphs</code> is the body; <code>Common faults</code> is the ticked list. <code>Form label</code> must match one of the <code>Service required</code> choices in <code>Enquiry form</code> exactly, or the quote form on that page will not pre-select the service. Do not change the slugs of the 14 live service pages.</p>
+  <p><strong>Areas we cover.</strong> Five regions, each with its districts. Adding a district adds a page at <code>/areas/&lt;district slug&gt;</code> the next time you publish; removing one removes the page. Region intros show on <code>/areas</code>.</p>
+  <p><strong>Testimonials.</strong> Name, general location (<code>Islington, North London</code>), quote, stars out of 5. Tick <code>Sample content</code> on anything that is not a real review; the site then hides stars and shows a sample notice. Untick once real.</p>
+  <p><strong>Contact details.</strong> Phone, WhatsApp number (digits with country code, for example <code>447700900123</code>), the WhatsApp opening message, email, address lines, opening hours, the map (an address, or a pasted Google Maps embed link) and the floating WhatsApp button. Anything left empty is simply not shown; an empty WhatsApp number removes every WhatsApp button. The shipped phone, WhatsApp, email and map are placeholders and must be replaced before launch.</p>
+  <p><strong>Enquiry form.</strong> The three dropdown lists. Keep <code>Service required</code> in step with the services' form labels.</p>
+</section>
+
+<section class="section">
+<div class="brandline"><span>Alpha Digital Solutions · Best View Glazing CMS: SEO team guide · November 2026</span><span>alpha.</span></div>
+  <h2>7. Pictures</h2>
+  <p class="lead">Upload the company's own photographs wherever one is asked for; the shipped pictures are stock placeholders.</p>
+  <ul>
+    <li><code>Upload a picture</code> takes JPG, PNG, WebP, AVIF or SVG up to 4 MB. Large photos are shrunk to 2,000 pixels on the long side and converted to WebP in the browser before upload, so a phone photo is fine as it is.</li>
+    <li>Or paste an <code>https://</code> image address into the field. Only use addresses the company controls or has rights to.</li>
+    <li>Service cards are shown 16:10, case studies 4:3, blog cards 16:10 and article headers 16:9. Landscape photos with the subject in the middle crop best.</li>
+    <li>Fill the description beside every picture; it is the alt text search engines and screen readers use.</li>
+    <li>An uploaded picture appears on the live site only after Save and Publish. The small preview in the CMS shows it at once.</li>
+    <li>Uploads are stored in the site's <code>public/uploads</code> folder and kept forever; there is no media library to tidy, so name files sensibly before uploading (<code>sash-window-islington.jpg</code>, not <code>IMG_4021.jpg</code>).</li>
+  </ul>
+
+  <h2 style="margin-top:18pt">8. Before you press Publish</h2>
+  <p class="lead">Publish sends every saved draft at once, so run through this first.</p>
+  <ul class="check">
+    <li>Every section you touched is saved (no red error under a field, counters within their limits).</li>
+    <li>No slug of a live page was changed.</li>
+    <li>New articles and case studies have a picture, a description for it, a summary and a category.</li>
+    <li>SEO title and meta description are set for any new page, within 60 and 160 characters.</li>
+    <li>Links inside the text point at real pages (<code>/services/...</code>, <code>/areas/...</code>) and open correctly in the preview.</li>
+    <li>Nothing in the text promises what the company has not agreed to: no guarantees, response times, prices, accreditations or review scores.</li>
+    <li>Sample content is unticked only on entries that are genuinely real.</li>
+    <li>You checked the page on <code>View site</code> on a phone-sized window.</li>
+    <li>Nobody else has unpublished drafts they are not ready to send (the bar names the sections).</li>
+  </ul>
+  <div class="callout"><strong>What not to do:</strong> do not edit the <code>slug</code> field on existing entries; do not delete the only entry in a list the home page relies on (trust strip, how it works, quotation factors); do not paste whole web pages as an article; do not put the company name in page titles (the site adds it).</div>
+</section>
+
+<section class="section">
+<div class="brandline"><span>Alpha Digital Solutions · Best View Glazing CMS: SEO team guide · November 2026</span><span>alpha.</span></div>
+  <h2>9. When something looks wrong</h2>
+  <table>
+    <tr><th style="width:30%">What you see</th><th style="width:32%">What it means</th><th>What to do</th></tr>
+    <tr><td>Red banner: "GitHub connection problem"</td><td>The CMS cannot reach the site's code store; saves and publishes will not work</td><td>Tell the site owner; it is a setting on the host, not something to fix in the CMS</td></tr>
+    <tr><td>"Content changed since you loaded it. Reload and try again."</td><td>Someone else saved the same section after you opened it</td><td>Reload the page, make your edit again, save</td></tr>
+    <tr><td>A field error such as "title is too long (max 120)"</td><td>A limit was passed; nothing was saved</td><td>Shorten the field and save again</td></tr>
+    <tr><td>"Sign in" page appears while working</td><td>The 12-hour session ended</td><td>Sign in again; unsaved typing in the open form is lost, saved drafts are not</td></tr>
+    <tr><td>Published, but the live page is unchanged</td><td>The rebuild takes one to two minutes; browsers also cache pages</td><td>Wait two minutes, then reload with Ctrl+F5 (Cmd+Shift+R on a Mac)</td></tr>
+    <tr><td>Published, and five minutes later still unchanged</td><td>The build failed or did not start</td><td>Tell the site owner; the Vercel dashboard and the repo's Actions tab show the build</td></tr>
+    <tr><td>Picture upload refused</td><td>File over 4 MB, not an image, or an SVG with scripts</td><td>Export a smaller JPG or PNG and try again</td></tr>
+    <tr><td>A new district or article is missing from the site</td><td>Saved but not published, or the slug has a capital letter or space</td><td>Check the unpublished-changes bar; slugs are lower-case words joined by hyphens</td></tr>
+  </table>
+  <p>The CMS writes to a draft copy of the site's content, so a mistake can always be fixed by editing again and publishing, or by pressing Discard before publishing. Site owner for anything outside the CMS: Ahmed, Alpha Digital Solutions.</p>
+</section>
+</body>
+</html>
