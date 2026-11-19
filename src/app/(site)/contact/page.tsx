@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { ContactDetails } from "@/components/ContactDetails";
 import { QuoteSection } from "@/components/QuoteSection";
 import { JsonLd } from "@/components/JsonLd";
 import { pages, seo, site } from "@/content/site";
@@ -17,6 +18,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader eyebrow={copy.eyebrow} title={copy.title} intro={copy.description} crumbs={[{ label: "Contact" }]} />
+      <ContactDetails />
       <QuoteSection tone="white" />
       <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
     </>

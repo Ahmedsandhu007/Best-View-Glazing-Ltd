@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { footer, legalLinks, navigation, site } from "@/content/site";
+import { contact, footer, legalLinks, navigation, site } from "@/content/site";
+import { WhatsAppIcon, whatsappHref } from "@/components/WhatsAppButton";
 import { services } from "@/content/services";
 import { areaGroups } from "@/content/areas";
 
@@ -21,6 +22,31 @@ export function Footer() {
             >
               {footer.quoteLinkLabel}
             </Link>
+            {(contact.phone || contact.email || whatsappHref()) && (
+              <ul className="mt-6 space-y-2 text-[0.9375rem] text-white/75">
+                {contact.phone ? (
+                  <li>
+                    <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="hover:text-white">
+                      {contact.phone}
+                    </a>
+                  </li>
+                ) : null}
+                {whatsappHref() ? (
+                  <li>
+                    <a href={whatsappHref() as string} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-white">
+                      <WhatsAppIcon className="h-4 w-4" /> {contact.whatsappLabel || "WhatsApp"}
+                    </a>
+                  </li>
+                ) : null}
+                {contact.email ? (
+                  <li>
+                    <a href={`mailto:${contact.email}`} className="break-all hover:text-white">
+                      {contact.email}
+                    </a>
+                  </li>
+                ) : null}
+              </ul>
+            )}
           </div>
 
           <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">

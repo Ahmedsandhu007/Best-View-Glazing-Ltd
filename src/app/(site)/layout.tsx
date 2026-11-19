@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
+import { FloatingWhatsApp } from "@/components/WhatsAppButton";
 import { JsonLd } from "@/components/JsonLd";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
@@ -18,6 +19,7 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
         {children}
       </main>
       <Footer />
+      <FloatingWhatsApp />
       <BackToTop />
       <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
     </>

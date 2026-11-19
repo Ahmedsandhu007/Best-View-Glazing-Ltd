@@ -1,0 +1,18 @@
+{
+  "detailsTitle": "Get in touch",
+  "detailsIntro": "Message us on WhatsApp, call during opening hours, or send the enquiry form below with photographs of the window or door.",
+  "addressTitle": "Office",
+  "address": ["Best View Glazing Ltd", "London"],
+  "phone": "+44 7000 000000",
+  "whatsappNumber": "447000000000",
+  "whatsappLabel": "Message us on WhatsApp",
+  "whatsappMessage": "Hello Best View Glazing, I would like a quote for a window or door repair.",
+  "email": "hello@bestviewglazing.co.uk",
+  "hoursTitle": "Opening hours",
+  "hours": ["Monday to Friday: 8am to 6pm", "Saturday: 9am to 1pm", "Sunday: closed"],
+  "mapTitle": "Where we are",
+  "mapQuery": "London, United Kingdom",
+  "mapEmbedUrl": "",
+  "showFloatingButton": true,
+  "floatingLabel": "WhatsApp us"
+}

@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+import { contact, site } from "@/content/site";
 import { services, type Service } from "@/content/services";
 import { areaGroups } from "@/content/areas";
 import type { Faq } from "@/content/faqs";
@@ -23,6 +23,10 @@ export function organizationJsonLd() {
     description: site.description,
     image: absoluteUrl("/opengraph-image"),
     logo: absoluteUrl("/icon.svg"),
+    // Contact details appear only when the business has entered them in the CMS.
+    ...(contact.phone ? { telephone: contact.phone } : {}),
+    ...(contact.email ? { email: contact.email } : {}),
+    ...(contact.address?.filter(Boolean).length ? { address: { "@type": "PostalAddress", streetAddress: contact.address.filter(Boolean).join(", ") } } : {}),
     areaServed: [{ "@type": "AdministrativeArea", name: "Greater London" }, ...areaGroups.map((g) => ({ "@type": "Place", name: g.region }))],
     knowsAbout: services.map((s) => s.title),
     hasOfferCatalog: {

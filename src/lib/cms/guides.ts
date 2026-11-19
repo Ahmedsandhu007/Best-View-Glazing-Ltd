@@ -55,6 +55,16 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Upload a picture or paste an https image address. The description is read by screen readers and search engines.",
     ],
   },
+  contact: {
+    diagram: "contact",
+    title: "Contact page: details, WhatsApp button and map",
+    steps: [
+      "Heading and intro line, then the WhatsApp button (number, button text and the message it starts with).",
+      "Phone, email, address and opening hours, one line each. Empty lines are not shown.",
+      "The map, from an address or a pasted Google Maps embed address.",
+      "The floating WhatsApp button that sits in the corner of every page.",
+    ],
+  },
   form: {
     diagram: "form",
     title: "Enquiry form: the dropdown choices",

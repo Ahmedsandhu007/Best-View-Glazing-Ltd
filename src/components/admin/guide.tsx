@@ -437,6 +437,30 @@ const DIAGRAMS: Record<string, React.ReactNode> = {
       <Marker x={208} y={150} n={4} />
     </>
   ),
+  // Contact page: details left, map right, floating button
+  contact: (
+    <>
+      <Chrome />
+      <Line x={20} y={34} w={110} h={8} hot />
+      <Line x={20} y={50} w={120} h={4} />
+      <rect x={20} y={62} width={84} height={14} rx="2" fill={HOT} />
+      {[0, 1, 2, 3].map((i) => (
+        <g key={i}>
+          <circle cx={26} cy={92 + i * 14} r="3" fill={HOT} />
+          <Line x={36} y={90 + i * 14} w={30} h={4} />
+          <Line x={74} y={90 + i * 14} w={56} h={4} />
+        </g>
+      ))}
+      <Box x={150} y={30} w={150} h={112} hot fill={BLOCK} />
+      <path d="M225 70 l-8 14 h16 z" fill={HOT} />
+      <circle cx={225} cy={70} r="4" fill="#fff" />
+      <rect x={20} y={152} width={54} height={14} rx="2" fill={HOT} />
+      <Marker x={112} y={69} n={1} />
+      <Marker x={138} y={112} n={2} />
+      <Marker x={300} y={140} n={3} />
+      <Marker x={86} y={159} n={4} />
+    </>
+  ),
   // Site settings
   settings: (
     <>

@@ -13,6 +13,7 @@ import trustData from "./trust-points.json";
 import whyData from "./why-us.json";
 import processData from "./process.json";
 import factorsData from "./quote-factors.json";
+import contactData from "./contact.json";
 
 export const site = {
   ...settingsData,
@@ -59,5 +60,8 @@ export const pages = pagesData;
 export const footer = footerData;
 export const seo = seoData;
 export const legal = legalData;
+
+/** Phone, WhatsApp, email, address, opening hours and the map, edited under "Contact details" in the CMS. Empty values hide their lines. */
+export const contact = contactData;
 
 export type LegalDoc = { updated: string; sections: { title: string; body: string[] }[] };

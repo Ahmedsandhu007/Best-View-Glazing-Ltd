@@ -23,7 +23,8 @@ picture on the site is a field in one of the CMS sections; each section shows a 
 its content appears on the page.
 
 - **Site sections**: Site settings, Home page, Section headings, Page banners & copy, Photographs,
-  Enquiry form, SEO titles & descriptions, Footer, Legal pages.
+  Contact details (phone, WhatsApp, email, address, hours, map, floating WhatsApp button), Enquiry form,
+  SEO titles & descriptions, Footer, Legal pages.
 - **Lists** (add, edit, delete, reorder): Services, Areas we cover, Blog articles, Case studies, FAQs,
   Testimonials, Trust strip, Why choose us, How it works, Quotation factors.
 - **Blog articles and case-study write-ups** use one big text box: paste from Google Docs or Word and

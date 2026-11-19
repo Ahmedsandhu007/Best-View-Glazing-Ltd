@@ -67,6 +67,15 @@ export const TEXT_LIMITS: Record<string, number> = {
   tags: 40,
   value: 24,
   seoDescription: 220,
+  phone: 30,
+  email: 120,
+  whatsappNumber: 20,
+  whatsappLabel: 40,
+  whatsappMessage: 200,
+  mapQuery: 160,
+  mapEmbedUrl: 400,
+  hours: 80,
+  address: 80,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;
