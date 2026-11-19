@@ -24,16 +24,43 @@ export const site = {
   enquiryFormId: "quote-form",
 };
 
-export const navigation = [
+export type NavLink = { label: string; href: string };
+export type NavItem = NavLink & { children?: NavLink[] };
+
+/** Header navigation. An item with children is a dropdown; its own href is the page its label opens. */
+export const navigation: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      { label: "Our Services", href: "/services" },
+      { label: "Areas We Cover", href: "/areas" },
+    ],
+  },
   { label: "About", href: "/about" },
-  { label: "Areas", href: "/areas" },
-  { label: "Case Studies", href: "/case-studies" },
+  {
+    label: "Blog",
+    href: "/blog",
+    children: [
+      { label: "Articles", href: "/blog" },
+      { label: "Case Studies", href: "/case-studies" },
+    ],
+  },
+  { label: "Contact", href: "/contact" },
+];
+
+/** Footer navigation: every page, flat. */
+export const footerNavigation: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "Our Services", href: "/services" },
+  { label: "Areas We Cover", href: "/areas" },
+  { label: "About Us", href: "/about" },
   { label: "Blog", href: "/blog" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "FAQs", href: "/faqs" },
   { label: "Contact", href: "/contact" },
-] as const;
+];
 
 export const legalLinks = [
   { label: "Privacy Policy", href: "/privacy-policy" },

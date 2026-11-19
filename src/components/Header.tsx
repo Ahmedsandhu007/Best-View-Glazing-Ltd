@@ -3,15 +3,24 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
-import { navigation, site } from "@/content/site";
+import { navigation, site, type NavItem } from "@/content/site";
 
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+function groupActive(pathname: string, item: NavItem) {
+  return isActive(pathname, item.href) || (item.children ?? []).some((c) => isActive(pathname, c.href));
+}
+
+const topLink = (active: boolean) =>
+  `relative inline-flex items-center gap-1 whitespace-nowrap py-2 text-[0.9375rem] font-medium transition-colors hover:text-teal ${
+    active ? "text-teal" : "text-ink"
+  } after:absolute after:inset-x-0 after:-bottom-[25px] after:h-[2px] after:bg-teal after:transition-opacity ${active ? "after:opacity-100" : "after:opacity-0"}`;
 
 export function Header() {
   const pathname = usePathname();
@@ -53,22 +62,45 @@ export function Header() {
         <Logo />
 
         <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-5 xl:gap-7">
+          <ul className="flex items-center gap-6 xl:gap-8">
             {navigation.map((item) => {
-              const active = isActive(pathname, item.href);
+              const active = groupActive(pathname, item);
+              if (!item.children) {
+                return (
+                  <li key={item.href}>
+                    <Link href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} className={topLink(active)}>
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              }
+              // A dropdown: the label opens its own page; hovering or focusing shows the children.
               return (
-                <li key={item.href} className={item.href === "/" ? "hidden xl:block" : ""}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`relative whitespace-nowrap py-2 text-[0.9375rem] font-medium transition-colors hover:text-teal ${
-                      active ? "text-teal" : "text-ink"
-                    } after:absolute after:inset-x-0 after:-bottom-[25px] after:h-[2px] after:bg-teal after:transition-opacity ${
-                      active ? "after:opacity-100" : "after:opacity-0"
-                    }`}
-                  >
+                <li key={item.href} className="group relative">
+                  <Link href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} className={topLink(active)}>
                     {item.label}
+                    <ChevronDown className="h-4 w-4 text-muted transition-transform group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true" />
                   </Link>
+                  <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-5 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <ul className="min-w-[13rem] rounded-[4px] border border-line bg-white p-1.5 shadow-raised" aria-label={`${item.label} pages`}>
+                      {item.children.map((child) => {
+                        const childActive = isActive(pathname, child.href);
+                        return (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              aria-current={childActive ? "page" : undefined}
+                              className={`block rounded-[3px] px-3.5 py-2.5 text-[0.9375rem] font-medium transition-colors hover:bg-teal-tint hover:text-teal-dark ${
+                                childActive ? "bg-teal-tint text-teal-dark" : "text-ink"
+                              }`}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 </li>
               );
             })}
@@ -93,7 +125,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile navigation drawer */}
+      {/* Mobile navigation drawer: a group shows its own page, then its children indented. */}
       <div
         id={panelId}
         hidden={!open}
@@ -113,6 +145,25 @@ export function Header() {
                   >
                     {item.label}
                   </Link>
+                  {item.children && (
+                    <ul className="mb-2 border-l-2 border-line pl-4">
+                      {item.children.map((child) => {
+                        const childActive = isActive(pathname, child.href);
+                        return (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              aria-current={childActive ? "page" : undefined}
+                              className={`block py-2.5 text-[0.9375rem] ${childActive ? "font-medium text-teal" : "text-muted"}`}
+                              onClick={() => setOpen(false)}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
                 </li>
               );
             })}

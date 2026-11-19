@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { contact, footer, legalLinks, navigation, site } from "@/content/site";
+import { contact, footer, footerNavigation as navigation, legalLinks, site } from "@/content/site";
 import { WhatsAppIcon, whatsappHref } from "@/components/WhatsAppButton";
 import { services } from "@/content/services";
 import { areaGroups } from "@/content/areas";
