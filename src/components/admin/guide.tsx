@@ -383,6 +383,60 @@ const DIAGRAMS: Record<string, React.ReactNode> = {
       <Marker x={304} y={56} n={3} />
     </>
   ),
+  // Blog card + article
+  blogCard: (
+    <>
+      <Chrome />
+      <Box x={18} y={30} w={120} h={136} hot />
+      <rect x={19} y={31} width={118} height={54} fill={BLOCK} />
+      <Line x={26} y={96} w={40} h={4} hot />
+      <Line x={26} y={108} w={100} h={7} hot />
+      <Line x={26} y={124} w={104} h={4} />
+      <Line x={26} y={133} w={84} h={4} />
+      <Line x={26} y={150} w={60} h={3} />
+      <Box x={170} y={30} w={132} h={136} />
+      <Line x={180} y={42} w={80} h={7} />
+      <Line x={180} y={58} w={112} />
+      <Line x={180} y={68} w={104} />
+      <Line x={180} y={84} w={64} h={6} />
+      {[0, 1, 2].map((i) => (
+        <g key={i}>
+          <circle cx={184} cy={102 + i * 11} r="2" fill={HOT} />
+          <Line x={192} y={100 + i * 11} w={80} h={4} />
+        </g>
+      ))}
+      <Line x={180} y={140} w={100} />
+      <Marker x={78} y={58} n={1} />
+      <Marker x={100} y={98} n={2} />
+      <Marker x={150} y={112} n={3} />
+      <Marker x={290} y={150} n={4} />
+    </>
+  ),
+  // Case study card
+  caseStudy: (
+    <>
+      <Chrome />
+      <Box x={18} y={30} w={88} h={136} />
+      <Box x={116} y={30} w={88} h={136} hot />
+      <Box x={214} y={30} w={88} h={136} />
+      <rect x={117} y={31} width={86} height={56} fill={BLOCK} />
+      <rect x={122} y={36} width={30} height={9} rx="2" fill={DARK} />
+      <Line x={124} y={98} w={66} h={6} hot />
+      <Line x={124} y={110} w={50} h={3} />
+      <Line x={124} y={120} w={70} h={4} />
+      <Line x={124} y={128} w={60} h={4} />
+      {[0, 1, 2].map((i) => (
+        <g key={i}>
+          <Line x={124 + i * 26} y={146} w={18} h={6} hot />
+          <Line x={124 + i * 26} y={155} w={20} h={3} />
+        </g>
+      ))}
+      <Marker x={160} y={64} n={1} />
+      <Marker x={112} y={101} n={2} />
+      <Marker x={112} y={123} n={3} />
+      <Marker x={208} y={150} n={4} />
+    </>
+  ),
   // Site settings
   settings: (
     <>

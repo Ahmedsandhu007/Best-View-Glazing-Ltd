@@ -5,8 +5,10 @@ import { Services } from "@/components/Services";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { WorkingProcess } from "@/components/WorkingProcess";
 import { AreasWeCover } from "@/components/AreasWeCover";
+import { CaseStudiesSection } from "@/components/CaseStudiesSection";
 import { Testimonials } from "@/components/Testimonials";
 import { Pricing } from "@/components/Pricing";
+import { BlogTeasers } from "@/components/BlogTeasers";
 import { FAQ } from "@/components/FAQ";
 import { QuoteSection } from "@/components/QuoteSection";
 import { JsonLd } from "@/components/JsonLd";
@@ -23,8 +25,10 @@ export default function HomePage() {
       <WhyChooseUs />
       <WorkingProcess />
       <AreasWeCover />
+      <CaseStudiesSection />
       <Testimonials />
       <Pricing />
+      <BlogTeasers />
       <FAQ items={faqs} />
       <QuoteSection />
       <JsonLd data={faqJsonLd(faqs)} />

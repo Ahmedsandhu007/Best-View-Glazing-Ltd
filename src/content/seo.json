@@ -41,5 +41,13 @@
     "window lock repairs London",
     "door repairs London",
     "commercial window repairs London"
-  ]
+  ],
+  "caseStudies": {
+    "title": "Case Studies – Window & Door Repairs London",
+    "description": "Examples of sash, uPVC, aluminium, double glazing, door and commercial window repairs carried out across Greater London by Best View Glazing Ltd."
+  },
+  "blog": {
+    "title": "Window & Door Repair Advice and Guides",
+    "description": "Guides on misted double glazing, dropped uPVC windows, sash window repairs, locks and hinges, and landlord checks, from a London repair specialist."
+  }
 }

@@ -56,5 +56,18 @@
     "title": "Ready to arrange a repair?",
     "description": "Tell us about the window or door problem and we will review it and come back to you with a clear quotation.",
     "buttonLabel": "Request a Free Quote"
+  },
+  "caseStudies": {
+    "eyebrow": "Case studies",
+    "title": "Recent repairs across London",
+    "description": "A few examples of the problems we are asked to solve and how they were put right, from single windows to whole managed blocks.",
+    "buttonLabel": "View all case studies",
+    "placeholderNotice": "Sample content: these example case studies will be replaced with the company’s own projects before launch."
+  },
+  "blog": {
+    "eyebrow": "Advice and guides",
+    "title": "Window and door advice from the workshop",
+    "description": "Plain-English guides on the faults we see every week: what causes them, what a repair involves and when replacement is the better call.",
+    "buttonLabel": "Read all articles"
   }
 }

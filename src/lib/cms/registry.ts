@@ -38,6 +38,19 @@ const bannerFields: FieldSpec[] = [
   { key: "description", label: "Banner intro line", type: "text", required: true, max: 400 },
 ];
 
+const bannerWithCtaFields: FieldSpec[] = [
+  ...bannerFields,
+  { key: "ctaTitle", label: "Closing banner title", type: "string", required: true, max: 120 },
+  { key: "ctaDescription", label: "Closing banner text", type: "text", required: true, max: 300 },
+];
+
+const seoOverrideFields: FieldSpec[] = [
+  { key: "seoTitle", label: "SEO title (optional: empty uses the article title)", type: "string", max: 90 },
+  { key: "seoDescription", label: "Meta description (optional: empty uses the summary)", type: "text", max: 220 },
+];
+
+const CASE_STUDY_CATEGORIES = ["Sash windows", "uPVC", "Aluminium", "Double glazing", "Doors", "Commercial"] as const;
+
 const seoFields: FieldSpec[] = [
   { key: "title", label: "SEO title (aim for 50-60 characters)", type: "string", required: true, max: 90 },
   { key: "description", label: "Meta description (aim for 140-160 characters)", type: "text", required: true, max: 220 },
@@ -188,6 +201,18 @@ const defs: Omit<Collection, "validate">[] = [
           { key: "buttonLabel", type: "string", required: true, max: 60 },
         ],
       },
+      {
+        key: "caseStudies",
+        label: "Case studies (home)",
+        type: "object",
+        required: true,
+        fields: [
+          ...headingFields,
+          { key: "buttonLabel", type: "string", required: true, max: 60 },
+          { key: "placeholderNotice", label: "Notice shown while any case study is sample content", type: "string", required: true, max: 200 },
+        ],
+      },
+      { key: "blog", label: "Blog teasers (home)", type: "object", required: true, fields: [...headingFields, { key: "buttonLabel", type: "string", required: true, max: 60 }] },
     ],
   },
   {
@@ -243,6 +268,8 @@ const defs: Omit<Collection, "validate">[] = [
           { key: "ctaDescription", label: "Closing banner text", type: "text", required: true, max: 300 },
         ],
       },
+      { key: "caseStudies", label: "Case Studies page", type: "object", required: true, fields: bannerWithCtaFields },
+      { key: "blog", label: "Blog page", type: "object", required: true, fields: bannerWithCtaFields },
       { key: "contact", label: "Contact page", type: "object", required: true, fields: bannerFields },
       { key: "privacy", label: "Privacy Policy page", type: "object", required: true, fields: bannerFields },
       { key: "terms", label: "Terms & Conditions page", type: "object", required: true, fields: bannerFields },
@@ -290,6 +317,8 @@ const defs: Omit<Collection, "validate">[] = [
       { key: "contact", label: "Contact page", type: "object", required: true, fields: seoFields },
       { key: "privacy", label: "Privacy Policy page", type: "object", required: true, fields: seoFields },
       { key: "terms", label: "Terms & Conditions page", type: "object", required: true, fields: seoFields },
+      { key: "caseStudies", label: "Case Studies page", type: "object", required: true, fields: seoFields },
+      { key: "blog", label: "Blog page (articles have their own SEO fields)", type: "object", required: true, fields: seoFields },
       { key: "keywords", label: "Site keywords", type: "string[]", max: 60 },
     ],
   },
@@ -364,6 +393,57 @@ const defs: Omit<Collection, "validate">[] = [
           { key: "slug", label: "Page address (a-z, 0-9, hyphens)", type: "string", format: "slug", required: true },
         ],
       },
+    ],
+  },
+  {
+    id: "posts",
+    label: "Blog articles",
+    description: "Advice articles. The first three show on the home page, so keep the newest at the top.",
+    file: "src/content/posts.json",
+    mode: "list",
+    titleField: "title",
+    fields: [
+      { key: "slug", type: "string", format: "slug", required: true },
+      { key: "title", type: "string", required: true, max: 120 },
+      { key: "category", label: "Category (e.g. Double glazing, Sash windows, Landlords)", type: "string", required: true, max: 40 },
+      { key: "date", label: "Date (e.g. 12 November 2026)", type: "string", max: 40 },
+      { key: "readingTime", label: "Reading time (e.g. 5 min read)", type: "string", max: 24 },
+      { key: "excerpt", label: "Summary (card and banner)", type: "text", required: true, max: 280 },
+      { key: "image", label: "Picture", type: "string", format: "image", required: true },
+      { key: "imageAlt", label: "Picture description (alt text)", type: "string", required: true, max: 200 },
+      { key: "body", label: "Article", type: "string[]", longText: true, required: true, max: 1500 },
+      ...seoOverrideFields,
+    ],
+  },
+  {
+    id: "case-studies",
+    label: "Case studies",
+    description: "Examples of past work. The first three show on the home page. Tick Sample content on any entry that is not a real project yet.",
+    file: "src/content/case-studies.json",
+    mode: "list",
+    titleField: "title",
+    fields: [
+      { key: "slug", type: "string", format: "slug", required: true },
+      { key: "title", type: "string", required: true, max: 120 },
+      { key: "category", type: "string", enum: CASE_STUDY_CATEGORIES, required: true },
+      { key: "location", label: "Location (e.g. Islington, North London)", type: "string", required: true, max: 80 },
+      { key: "excerpt", label: "One-line summary (card)", type: "text", required: true, max: 280 },
+      { key: "description", label: "Description (top of the case-study page)", type: "text", required: true, max: 1200 },
+      { key: "image", label: "Picture", type: "string", format: "image", required: true },
+      { key: "imageAlt", label: "Picture description (alt text)", type: "string", required: true, max: 200 },
+      { key: "tags", label: "Work carried out (short tags)", type: "string[]", max: 40 },
+      {
+        key: "results",
+        label: "Results (up to three numbers)",
+        type: "object[]",
+        itemLabel: "Result",
+        fields: [
+          { key: "label", type: "string", required: true, max: 40 },
+          { key: "value", type: "string", required: true, max: 24 },
+        ],
+      },
+      { key: "body", label: "Full write-up (optional)", type: "string[]", longText: true, max: 1500 },
+      { key: "placeholder", label: "Sample content (not a real project yet)", type: "boolean" },
     ],
   },
   {

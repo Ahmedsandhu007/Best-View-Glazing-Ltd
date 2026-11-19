@@ -110,6 +110,26 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Districts: each gets its own page at /areas/<slug>.",
     ],
   },
+  posts: {
+    diagram: "blogCard",
+    title: "Blog articles: the cards on the Blog page and home page, and each article",
+    steps: [
+      "Picture: on the card and at the top of the article.",
+      "Category, date and reading time.",
+      "Title and summary.",
+      "Article: one text box for the whole piece. Paste it from Google Docs; headings, bullets, bold and links are kept. Use Insert image for pictures.",
+    ],
+  },
+  "case-studies": {
+    diagram: "caseStudy",
+    title: "Case studies: the project cards and each case-study page",
+    steps: [
+      "Picture, with the category badge on it. The category is also a filter button on the Case Studies page.",
+      "Title and location.",
+      "Summary on the card; the description and write-up on the page.",
+      "Results: the three numbers shown on the card and the page.",
+    ],
+  },
   faqs: {
     diagram: "faq",
     title: "FAQs: the question list on the home page and the FAQs page",

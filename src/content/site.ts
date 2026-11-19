@@ -25,9 +25,11 @@ export const site = {
 
 export const navigation = [
   { label: "Home", href: "/" },
-  { label: "Our Services", href: "/services" },
-  { label: "About Us", href: "/about" },
-  { label: "Areas We Cover", href: "/areas" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Areas", href: "/areas" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Blog", href: "/blog" },
   { label: "FAQs", href: "/faqs" },
   { label: "Contact", href: "/contact" },
 ] as const;

@@ -18,9 +18,18 @@
     "captionOne": "Hardware, joinery and glazing repairs",
     "captionTwo": "Residential and commercial premises",
     "facts": [
-      { "title": "Who we help", "text": "Homeowners, tenants, landlords, letting agencies, property management companies, offices and retail businesses." },
-      { "title": "What we repair", "text": "uPVC, aluminium, timber and sash windows, tilt and turn units, double glazing, and the locks, hinges and mechanisms on doors." },
-      { "title": "Where we work", "text": "Throughout Greater London, from Westminster and Camden to Croydon, Romford, Harrow and Richmond." }
+      {
+        "title": "Who we help",
+        "text": "Homeowners, tenants, landlords, letting agencies, property management companies, offices and retail businesses."
+      },
+      {
+        "title": "What we repair",
+        "text": "uPVC, aluminium, timber and sash windows, tilt and turn units, double glazing, and the locks, hinges and mechanisms on doors."
+      },
+      {
+        "title": "Where we work",
+        "text": "Throughout Greater London, from Westminster and Camden to Croydon, Romford, Harrow and Richmond."
+      }
     ]
   },
   "areas": {
@@ -54,5 +63,19 @@
     "eyebrow": "Legal",
     "title": "Terms & Conditions",
     "description": "The terms that apply to your use of this website and to the quotations and repair services it describes."
+  },
+  "caseStudies": {
+    "eyebrow": "Case studies",
+    "title": "Repairs we have carried out across London",
+    "description": "Examples of the windows and doors we are asked to put right, the faults behind them and what the repair involved. Every one kept the original frames.",
+    "ctaTitle": "Have a similar problem?",
+    "ctaDescription": "Tell us about the window or door and we will come back with the repair options and a clear quotation."
+  },
+  "blog": {
+    "eyebrow": "Advice and guides",
+    "title": "Window and door advice",
+    "description": "Straightforward guides on misted glazing, dropped sashes, sash window care, locks, hinges and what to check in a rented property. Written by the people who do the repairs.",
+    "ctaTitle": "Need a hand with yours?",
+    "ctaDescription": "Send a photograph with your enquiry and we will tell you what the window or door needs."
   }
 }

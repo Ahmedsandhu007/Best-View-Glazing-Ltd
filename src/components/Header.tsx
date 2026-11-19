@@ -53,11 +53,11 @@ export function Header() {
         <Logo />
 
         <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-6 xl:gap-8">
+          <ul className="flex items-center gap-5 xl:gap-7">
             {navigation.map((item) => {
               const active = isActive(pathname, item.href);
               return (
-                <li key={item.href}>
+                <li key={item.href} className={item.href === "/" ? "hidden xl:block" : ""}>
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}

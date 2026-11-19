@@ -24,8 +24,11 @@ its content appears on the page.
 
 - **Site sections**: Site settings, Home page, Section headings, Page banners & copy, Photographs,
   Enquiry form, SEO titles & descriptions, Footer, Legal pages.
-- **Lists** (add, edit, delete, reorder): Services, Areas we cover, FAQs, Testimonials, Trust strip,
-  Why choose us, How it works, Quotation factors.
+- **Lists** (add, edit, delete, reorder): Services, Areas we cover, Blog articles, Case studies, FAQs,
+  Testimonials, Trust strip, Why choose us, How it works, Quotation factors.
+- **Blog articles and case-study write-ups** use one big text box: paste from Google Docs or Word and
+  headings, bullets, bold, italics and links are kept; "Insert image" uploads a picture into the text.
+  By hand: `## ` heading, `- ` bullet, `**bold**`, `*italic*`, `[text](link)`.
 
 How it saves:
 
@@ -64,7 +67,8 @@ src/components/admin  the CMS screens
 src/lib/enquiry/  enquiry form validation (client + server) and delivery providers
 src/lib/seo.ts    structured-data builders (business, services, FAQ, breadcrumbs)
 src/app/(site)/   public routes: /, /services, /services/[slug], /about, /areas, /areas/[slug],
-                  /faqs, /contact, /privacy-policy, /terms
+                  /case-studies, /case-studies/[slug], /blog, /blog/[slug], /faqs, /contact,
+                  /privacy-policy, /terms
 src/app/admin/    the CMS;  src/app/api/  the enquiry and CMS APIs
 ```
 

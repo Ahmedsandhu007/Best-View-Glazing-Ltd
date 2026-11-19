@@ -2,6 +2,7 @@ import { site } from "@/content/site";
 import { services, type Service } from "@/content/services";
 import { areaGroups } from "@/content/areas";
 import type { Faq } from "@/content/faqs";
+import type { Post } from "@/content/posts";
 
 export function absoluteUrl(path = "/") {
   return new URL(path, site.url).toString();
@@ -22,10 +23,7 @@ export function organizationJsonLd() {
     description: site.description,
     image: absoluteUrl("/opengraph-image"),
     logo: absoluteUrl("/icon.svg"),
-    areaServed: [
-      { "@type": "AdministrativeArea", name: "Greater London" },
-      ...areaGroups.map((g) => ({ "@type": "Place", name: g.region })),
-    ],
+    areaServed: [{ "@type": "AdministrativeArea", name: "Greater London" }, ...areaGroups.map((g) => ({ "@type": "Place", name: g.region }))],
     knowsAbout: services.map((s) => s.title),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -75,6 +73,21 @@ export function faqJsonLd(faqs: Faq[]) {
       name: f.question,
       acceptedAnswer: { "@type": "Answer", text: f.answer },
     })),
+  };
+}
+
+export function blogPostingJsonLd(post: Post) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image,
+    url: absoluteUrl(`/blog/${post.slug}`),
+    ...(post.date ? { datePublished: post.date } : {}),
+    author: { "@type": "Organization", name: site.name, "@id": absoluteUrl("/#organisation") },
+    publisher: { "@id": absoluteUrl("/#organisation") },
+    mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
   };
 }
 

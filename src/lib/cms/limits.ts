@@ -60,6 +60,13 @@ export const TEXT_LIMITS: Record<string, number> = {
   captionTwo: 120,
   ctaTitle: 120,
   ctaDescription: 300,
+  category: 40,
+  date: 40,
+  readingTime: 24,
+  excerpt: 280,
+  tags: 40,
+  value: 24,
+  seoDescription: 220,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;
