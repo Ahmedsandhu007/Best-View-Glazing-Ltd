@@ -1,0 +1,36 @@
+# Deploys the live site through a Vercel Deploy Hook.
+#
+# Why: the Vercel project belongs to the client's account, and Vercel only builds
+# a git push when the commit author is a member of that account. A Deploy Hook
+# has no such check, so every push to main (including the CMS's "Publish" merge)
+# asks Vercel to build main through the hook instead.
+#
+# The hook URL lives in the repository secret VERCEL_DEPLOY_HOOK_URL
+# (Settings > Secrets and variables > Actions). Anyone holding it can start a
+# build, so it is never written into the code.
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-deploy
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    name: Trigger the Vercel deploy hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::The VERCEL_DEPLOY_HOOK_URL secret is not set on this repository."
+            exit 1
+          fi
+          response=$(curl -fsS -X POST "$HOOK") || { echo "::error::Vercel did not accept the hook call."; exit 1; }
+          echo "Vercel accepted the hook: $response"
