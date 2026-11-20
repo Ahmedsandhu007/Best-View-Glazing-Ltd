@@ -14,6 +14,7 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Name: used in page titles, the sign-in page and the copyright line.",
       "Description: the default text search engines and social previews show.",
       "Site address: the live web address; change it only if the domain changes.",
+      "Tracking: paste the GA4 Measurement ID and the Search Console and Bing verification codes here, then publish. Empty fields add nothing to the site.",
     ],
   },
   home: {

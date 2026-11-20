@@ -6,8 +6,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
-import { navigation, site, type NavItem } from "@/content/site";
 import { MenuPanelContent } from "@/components/MegaMenus";
+import { navigation, site, type NavItem } from "@/content/site";
 
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -25,21 +25,24 @@ const topLink = (active: boolean) =>
 
 export function Header() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // mobile drawer
+  const [openMenu, setOpenMenu] = useState<string | null>(null); // desktop dropdown, keyed by the item href
   const panelId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   // On the home page the form is on the page itself; elsewhere go to the contact page.
   const quoteHref = pathname === "/" ? `#${site.enquiryFormId}` : site.enquiryPath;
 
-  // Close the drawer whenever the route changes (state adjusted during render, per React guidance).
+  // Close the drawer and any dropdown whenever the route changes (state adjusted during render, per React guidance).
   const [lastPathname, setLastPathname] = useState(pathname);
   if (lastPathname !== pathname) {
     setLastPathname(pathname);
     setOpen(false);
+    setOpenMenu(null);
   }
 
-  // Escape closes; lock scroll while open.
+  // Drawer: Escape closes; lock scroll while open.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -57,12 +60,36 @@ export function Header() {
     };
   }, [open]);
 
+  // Dropdown: Escape closes (focus returns to the menu label); a click or tap outside the nav closes.
+  useEffect(() => {
+    if (!openMenu) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      const nav = navRef.current;
+      if (nav && nav.contains(document.activeElement)) {
+        nav.querySelector<HTMLAnchorElement>(`a[href="${openMenu}"]`)?.focus();
+      }
+      setOpenMenu(null);
+    };
+    const onPointerDown = (e: PointerEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMenu(null);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [openMenu]);
+
+  const closeMenu = () => setOpenMenu(null);
+
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white">
       <div className="container-site relative flex h-[72px] items-center justify-between gap-6">
         <Logo />
 
-        <nav aria-label="Primary" className="hidden self-stretch lg:block">
+        <nav ref={navRef} aria-label="Primary" className="hidden self-stretch lg:block">
           <ul className="flex h-full items-center gap-6 xl:gap-8">
             {navigation.map((item) => {
               const active = groupActive(pathname, item);
@@ -76,15 +103,33 @@ export function Header() {
                 );
               }
               // A dropdown: the label opens its own page; hovering or focusing shows a panel.
+              // It is state-driven so it closes on link click, route change, Escape, mouse-leave and clicks outside.
               // The li spans the full header height so the pointer never leaves it on the way down.
               // With a picture panel the menu is as wide as the header content; otherwise a plain list.
-              const dropdownClass =
-                "invisible z-50 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100";
+              const isOpen = openMenu === item.href;
+              const dropdownClass = `z-50 transition-opacity ${isOpen ? "visible opacity-100" : "invisible opacity-0"}`;
               return (
-                <li key={item.href} className={`group flex h-full items-center ${item.panel ? "" : "relative"}`}>
-                  <Link href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} className={topLink(active)}>
+                <li
+                  key={item.href}
+                  className={`flex h-full items-center ${item.panel ? "" : "relative"}`}
+                  onMouseEnter={() => setOpenMenu(item.href)}
+                  onMouseLeave={closeMenu}
+                  onFocus={() => setOpenMenu(item.href)}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) closeMenu();
+                  }}
+                  onClick={(e) => {
+                    if ((e.target as Element).closest("a")) closeMenu();
+                  }}
+                >
+                  <Link
+                    href={item.href}
+                    aria-current={isActive(pathname, item.href) ? "page" : undefined}
+                    aria-expanded={isOpen}
+                    className={topLink(active)}
+                  >
                     {item.label}
-                    <ChevronDown className="h-4 w-4 text-muted transition-transform group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true" />
+                    <ChevronDown className={`h-4 w-4 text-muted transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden="true" />
                   </Link>
                   {item.panel ? (
                     <div className={`absolute inset-x-0 top-full ${dropdownClass}`} aria-label={`${item.label} pages`}>
@@ -93,26 +138,26 @@ export function Header() {
                       </div>
                     </div>
                   ) : (
-                  <div className={`absolute left-1/2 top-full -translate-x-1/2 ${dropdownClass}`}>
-                    <ul className="min-w-[13rem] rounded-[4px] border border-line bg-white p-1.5 shadow-raised" aria-label={`${item.label} pages`}>
-                      {item.children.map((child) => {
-                        const childActive = isActive(pathname, child.href);
-                        return (
-                          <li key={child.href}>
-                            <Link
-                              href={child.href}
-                              aria-current={childActive ? "page" : undefined}
-                              className={`block rounded-[3px] px-3.5 py-2.5 text-[0.9375rem] font-medium transition-colors hover:bg-teal-tint hover:text-teal-dark ${
-                                childActive ? "bg-teal-tint text-teal-dark" : "text-ink"
-                              }`}
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+                    <div className={`absolute left-1/2 top-full -translate-x-1/2 ${dropdownClass}`}>
+                      <ul className="min-w-[13rem] rounded-[4px] border border-line bg-white p-1.5 shadow-raised" aria-label={`${item.label} pages`}>
+                        {item.children.map((child) => {
+                          const childActive = isActive(pathname, child.href);
+                          return (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                aria-current={childActive ? "page" : undefined}
+                                className={`block rounded-[3px] px-3.5 py-2.5 text-[0.9375rem] font-medium transition-colors hover:bg-teal-tint hover:text-teal-dark ${
+                                  childActive ? "bg-teal-tint text-teal-dark" : "text-ink"
+                                }`}
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   )}
                 </li>
               );
@@ -138,7 +183,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile navigation drawer: a group shows its own page, then its children indented. */}
+      {/* Mobile navigation drawer: a group shows its own page, then its children indented. Every link closes it. */}
       <div
         id={panelId}
         hidden={!open}

@@ -2,14 +2,63 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { ADMIN_COOKIE, verifySessionToken } from "@/lib/adminAuth";
+import settings from "@/content/settings.json";
 
-/** Gate every /admin page and /api/admin route behind a valid CMS session. */
+/**
+ * Runs on every request except Next's static assets:
+ * 1. URL hygiene: one address per page. A *.vercel.app host, an upper-case path or a
+ *    trailing slash is sent to the canonical https://www host, lower-case, in ONE 308.
+ * 2. CMS gate: every /admin page and /api/admin route needs a valid session.
+ */
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon\\.ico).*)"],
 };
 
+/** Host of the live site: NEXT_PUBLIC_SITE_URL wins over the CMS "Live site address". */
+function canonicalHost() {
+  try {
+    return new URL(process.env.NEXT_PUBLIC_SITE_URL ?? settings.url).host.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+/** Paths that keep their case and slash: uploads, Next internals, the API and files with an extension. */
+function keepsCase(pathname: string) {
+  return (
+    pathname.startsWith("/uploads/") || pathname.startsWith("/_next/") || pathname.startsWith("/api/") || /\.[a-z0-9]+$/i.test(pathname)
+  );
+}
+
 export async function proxy(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  const url = req.nextUrl;
+  const { pathname } = url;
+
+  // --- 1. URL hygiene -------------------------------------------------------------------
+  const host = (req.headers.get("host") ?? url.host).toLowerCase();
+  const canonical = canonicalHost();
+  const wantHost = host.endsWith(".vercel.app") && canonical && !canonical.endsWith(".vercel.app") ? canonical : host;
+
+  let wantPath = pathname;
+  if (!keepsCase(pathname)) {
+    wantPath = pathname.toLowerCase();
+    if (wantPath.length > 1 && wantPath.endsWith("/")) wantPath = wantPath.slice(0, -1);
+  }
+
+  if (wantHost !== host || wantPath !== pathname) {
+    const target = new URL(url.toString());
+    target.pathname = wantPath;
+    if (wantHost !== host) {
+      const want = new URL(`https://${wantHost}`);
+      target.protocol = "https:";
+      target.hostname = want.hostname;
+      target.port = want.port;
+    }
+    return NextResponse.redirect(target, 308);
+  }
+
+  // --- 2. CMS gate ----------------------------------------------------------------------
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/api/admin")) return NextResponse.next();
 
   // Always let the sign-in page and the auth endpoints through.
   if (pathname === "/admin/login" || pathname === "/api/admin/login" || pathname === "/api/admin/logout") {

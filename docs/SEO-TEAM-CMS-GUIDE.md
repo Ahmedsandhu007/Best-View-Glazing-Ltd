@@ -29,7 +29,7 @@ Edit a section → Save (draft, nothing live) → Publish (sends every draft) �
 
 | Section | What it holds | Where it shows |
 | --- | --- | --- |
-| Site settings | Company name, short name, tagline, site description, live address, copyright line | Page titles, social previews, footer |
+| Site settings | Company name, short name, tagline, site description, live address, copyright line, GA4 Measurement ID, Search Console and Bing verification codes | Page titles, social previews, footer, tracking tags |
 | Home page | Hero label, headline, text, two buttons, ticked lines, photo caption; introduction block | Home page, first two screens |
 | Section headings | Label, title, intro line and button text for every block of the home page, the enquiry-form section and the teal call-to-action band | Home page and the band on inner pages |
 | Page banners & copy | Dark banner of each inner page; About and Areas body text; FAQ, Blog and Case Studies closing banners | Top of the inner pages |
@@ -65,7 +65,9 @@ List order is site order: the Move up and Move down arrows change what visitors 
 
 **Internal links.** In articles and write-ups, link with `[words](/services/sash-window-repairs)`. Same-site paths start with `/`; outside links start with `https://` and open in a new tab.
 
-**Automatic, nothing to do:** sitemap and robots, canonical URLs, Open Graph and Twitter tags, structured data (business, services, FAQs, breadcrumbs, BlogPosting), and `noindex` on `/admin`.
+**Automatic, nothing to do:** sitemap and robots, canonical URLs, Open Graph and Twitter tags, structured data (business, services, FAQs, breadcrumbs, BlogPosting), `noindex` on `/admin`, and one address per page (upper-case paths, trailing slashes and the vercel.app address all redirect to the www address in one hop).
+
+**Tracking.** Paste the GA4 Measurement ID and the Search Console and Bing verification codes into `Site settings` and publish. GA4 then records page views, `phone_click`, `whatsapp_click`, `email_click` and `generate_lead` (quote form sent). Mark `generate_lead` as a key event in GA4.
 
 ## Publishing a blog article, step by step
 

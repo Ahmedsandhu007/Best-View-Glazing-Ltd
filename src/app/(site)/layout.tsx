@@ -3,6 +3,8 @@ import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { FloatingWhatsApp } from "@/components/WhatsAppButton";
 import { JsonLd } from "@/components/JsonLd";
+import { Analytics } from "@/components/Analytics";
+import { site } from "@/content/site";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export default function SiteLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -22,6 +24,7 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
       <FloatingWhatsApp />
       <BackToTop />
       <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+      <Analytics measurementId={site.ga4MeasurementId} />
     </>
   );
 }

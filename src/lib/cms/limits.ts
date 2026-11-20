@@ -76,6 +76,9 @@ export const TEXT_LIMITS: Record<string, number> = {
   mapEmbedUrl: 400,
   hours: 80,
   address: 80,
+  ga4MeasurementId: 20,
+  googleSiteVerification: 120,
+  bingSiteVerification: 120,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;

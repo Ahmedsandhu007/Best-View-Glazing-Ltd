@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   icons: { icon: "/icon.svg" },
+  // Search Console and Bing verification tags, set under Site settings in the CMS (empty = no tag).
+  verification: {
+    ...(site.googleSiteVerification ? { google: site.googleSiteVerification } : {}),
+    ...(site.bingSiteVerification ? { other: { "msvalidate.01": site.bingSiteVerification } } : {}),
+  },
 };
 
 export const viewport: Viewport = {

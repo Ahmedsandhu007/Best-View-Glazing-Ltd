@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // The proxy strips trailing slashes itself, together with the lower-case and host redirect, so every fix is one hop.
+  skipTrailingSlashRedirect: true,
   // Tailwind CSS v4 is compiled by its Turbopack loader (no PostCSS config needed).
   turbopack: {
     rules: {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, CircleAlert, ImagePlus, Info, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { trackEvent } from "@/lib/analytics";
 import { contactTimeOptions, propertyTypeOptions, serviceFormOptions } from "@/content/services";
 import {
   fileRules,
@@ -158,6 +159,7 @@ export function QuoteForm({ defaultService }: Props) {
       if (res.ok && data.ok && data.reference) {
         setReference(data.reference);
         setStatus("success");
+        trackEvent("generate_lead", { form_id: "quote-form", page_path: window.location.pathname, service: fields.service });
         requestAnimationFrame(() => successRef.current?.focus());
         return;
       }

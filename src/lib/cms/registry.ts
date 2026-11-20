@@ -90,7 +90,7 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "settings",
     label: "Site settings",
-    description: "Company name, tagline, description and the live site address.",
+    description: "Company name, tagline, description, the live site address, and the analytics and verification codes.",
     file: "src/content/settings.json",
     mode: "object",
     fields: [
@@ -101,6 +101,27 @@ const defs: Omit<Collection, "validate">[] = [
       { key: "description", label: "Site description (default for search engines and social previews)", type: "text", required: true, max: 400 },
       { key: "url", label: "Live site address", type: "string", format: "url", required: true },
       { key: "region", label: "Service area name", type: "string", required: true, max: 60 },
+      {
+        key: "ga4MeasurementId",
+        label: "Google Analytics 4 Measurement ID (e.g. G-XXXXXXXXXX)",
+        type: "string",
+        max: 20,
+        help: "Empty = no analytics. Set it and publish: GA4 then records page views, phone, WhatsApp and email clicks, and quote form submits (generate_lead).",
+      },
+      {
+        key: "googleSiteVerification",
+        label: "Google Search Console verification code (the content value of the HTML tag)",
+        type: "string",
+        max: 120,
+        help: "Paste only the code, not the whole <meta> tag. Empty = no tag.",
+      },
+      {
+        key: "bingSiteVerification",
+        label: "Bing Webmaster verification code (the content value of the msvalidate.01 tag)",
+        type: "string",
+        max: 120,
+        help: "Paste only the code, not the whole <meta> tag. Empty = no tag.",
+      },
     ],
   },
   {
