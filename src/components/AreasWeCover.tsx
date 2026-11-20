@@ -26,12 +26,16 @@ export function AreasWeCover({ detailed = false, headingLevel = "h3", showHeadin
               <ul className="mt-4 space-y-2">
                 {group.areas.map((area) => (
                   <li key={area.slug}>
-                    <Link
-                      href={`/areas/${area.slug}`}
-                      className="text-[0.9375rem] text-ink underline decoration-line underline-offset-4 transition-colors hover:text-teal hover:decoration-teal"
-                    >
-                      {area.name}
-                    </Link>
+                    {area.published ? (
+                      <Link
+                        href={`/areas/${area.slug}`}
+                        className="text-[0.9375rem] text-ink underline decoration-line underline-offset-4 transition-colors hover:text-teal hover:decoration-teal"
+                      >
+                        {area.name}
+                      </Link>
+                    ) : (
+                      <span className="text-[0.9375rem] text-ink">{area.name}</span>
+                    )}
                   </li>
                 ))}
               </ul>

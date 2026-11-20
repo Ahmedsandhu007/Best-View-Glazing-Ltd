@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { QuoteSection } from "@/components/QuoteSection";
 import { JsonLd } from "@/components/JsonLd";
-import { allAreas, areaGroups, findArea } from "@/content/areas";
+import { areaGroups, findArea, publishedAreas } from "@/content/areas";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { breadcrumbJsonLd } from "@/lib/seo";
@@ -14,7 +14,7 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 type Params = { slug: string };
 
 export function generateStaticParams(): Params[] {
-  return allAreas.map((a) => ({ slug: a.slug }));
+  return publishedAreas.map((a) => ({ slug: a.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -35,7 +35,7 @@ export default async function AreaPage({ params }: { params: Promise<Params> }) 
   const area = findArea(slug);
   if (!area) notFound();
   const group = areaGroups.find((g) => g.slug === area.regionSlug)!;
-  const neighbours = group.areas.filter((a) => a.slug !== area.slug);
+  const neighbours = group.areas.filter((a) => a.published === true && a.slug !== area.slug);
 
   return (
     <>
@@ -89,15 +89,17 @@ export default async function AreaPage({ params }: { params: Promise<Params> }) 
           <aside className="lg:col-span-5">
             <div className="rounded-[4px] border border-line bg-ivory p-6">
               <h2 className="font-heading text-lg font-semibold text-charcoal">Other areas in {area.region}</h2>
-              <ul className="mt-4 space-y-2">
-                {neighbours.map((n) => (
-                  <li key={n.slug}>
-                    <Link href={`/areas/${n.slug}`} className="text-[0.9375rem] text-ink underline decoration-line underline-offset-4 hover:text-teal hover:decoration-teal">
-                      Window &amp; door repairs in {n.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {neighbours.length > 0 && (
+                <ul className="mt-4 space-y-2">
+                  {neighbours.map((n) => (
+                    <li key={n.slug}>
+                      <Link href={`/areas/${n.slug}`} className="text-[0.9375rem] text-ink underline decoration-line underline-offset-4 hover:text-teal hover:decoration-teal">
+                        Window &amp; door repairs in {n.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
               <Link href="/areas" className="mt-5 inline-flex items-center gap-1.5 font-heading text-[0.9375rem] font-semibold text-teal">
                 All London areas
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

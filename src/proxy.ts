@@ -3,11 +3,13 @@ import type { NextRequest } from "next/server";
 
 import { ADMIN_COOKIE, verifySessionToken } from "@/lib/adminAuth";
 import settings from "@/content/settings.json";
+import { allAreas, isPublishedArea } from "@/content/areas";
 
 /**
  * Runs on every request except Next's static assets:
  * 1. URL hygiene: one address per page. A *.vercel.app host, an upper-case path or a
  *    trailing slash is sent to the canonical https://www host, lower-case, in ONE 308.
+ *    A district page switched off in the CMS ("Publish page") goes to /areas in the same hop.
  * 2. CMS gate: every /admin page and /api/admin route needs a valid session.
  */
 export const config = {
@@ -43,6 +45,10 @@ export async function proxy(req: NextRequest) {
   if (!keepsCase(pathname)) {
     wantPath = pathname.toLowerCase();
     if (wantPath.length > 1 && wantPath.endsWith("/")) wantPath = wantPath.slice(0, -1);
+  }
+  const district = wantPath.startsWith("/areas/") ? wantPath.slice("/areas/".length) : "";
+  if (district && !district.includes("/") && !isPublishedArea(district) && allAreas.some((a) => a.slug === district)) {
+    wantPath = "/areas";
   }
 
   if (wantHost !== host || wantPath !== pathname) {

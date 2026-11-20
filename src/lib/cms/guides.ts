@@ -114,11 +114,11 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
   },
   regions: {
     diagram: "areas",
-    title: "Areas we cover: the five London regions and their districts",
+    title: "Areas we cover: the regions and their districts",
     steps: [
       "Region name: the column heading.",
       "Intro: the sentence shown on the Areas page under the region.",
-      "Districts: each gets its own page at /areas/<slug>.",
+      "Districts: listed under their region on the Areas page. Publish page ON gives a district its own page at /areas/<slug>; OFF (the default) means no page, no links, and the old address goes to /areas.",
     ],
   },
   posts: {

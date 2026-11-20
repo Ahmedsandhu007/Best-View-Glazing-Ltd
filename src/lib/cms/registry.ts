@@ -426,7 +426,7 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "regions",
     label: "Areas we cover",
-    description: "The five London regions and the districts inside each. Every district gets its own page.",
+    description: "The regions and the districts inside each. A district is listed on the Areas page; its own page exists only while Publish page is on.",
     file: "src/content/regions.json",
     mode: "list",
     titleField: "region",
@@ -443,6 +443,12 @@ const defs: Omit<Collection, "validate">[] = [
         fields: [
           { key: "name", type: "string", required: true, max: 60 },
           { key: "slug", label: "Page address (a-z, 0-9, hyphens)", type: "string", format: "slug", required: true },
+          {
+            key: "published",
+            label: "Publish page",
+            type: "boolean",
+            help: "Off (default): the district is a plain name on the Areas page, has no page, is not in the sitemap, and /areas/<address> redirects to /areas. On: the page at /areas/<address> is live and linked.",
+          },
         ],
       },
     ],

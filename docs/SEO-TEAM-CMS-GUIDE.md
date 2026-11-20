@@ -40,7 +40,7 @@ Edit a section → Save (draft, nothing live) → Publish (sends every draft) �
 | Footer | Paragraph under the logo, column headings, bottom line | Every page |
 | Legal pages | Privacy Policy and Terms text, dated sections | /privacy-policy, /terms |
 | Services (list) | 14 services: title, summary, photo, paragraphs, common faults, form label, SEO title | Home grid, /services, one page per service |
-| Areas we cover (list) | 5 regions with their districts | Home, /areas, one page per district |
+| Areas we cover (list) | Regions with their districts and a Publish page switch per district | Home, /areas, one page per district switched on |
 | Blog articles (list) | Title, category, date, reading time, summary, picture, article, SEO fields | /blog, one page per article, three newest on the home page |
 | Case studies (list) | Title, category, location, summary, description, picture, tags, results, write-up, sample flag | /case-studies, one page each, first three on the home page |
 | FAQs (list) | Question and answer | Home page and /faqs |
@@ -87,7 +87,7 @@ The home page shows the first three entries, so keep the newest at the top with 
 
 **Services.** `Summary` is the card text and banner line; `Service page paragraphs` the body; `Common faults` the ticked list. `Form label` must match a `Service required` choice in `Enquiry form` exactly. Do not change the slugs of the 14 live service pages.
 
-**Areas we cover.** Adding a district adds a page at `/areas/<slug>` on the next publish; removing one removes the page.
+**Areas we cover.** A district is a plain name on the Areas page until its `Publish page` switch is on. Off (the default): no page, no links, not in the sitemap, and the old `/areas/<slug>` address redirects to `/areas`. On: the page is live and linked on the next publish. All 35 London districts are off since 20 November 2026; switch one on only once it has unique content.
 
 **Testimonials.** Tick `Sample content` on anything that is not a real review; stars are hidden and a notice shows until it is unticked.
 

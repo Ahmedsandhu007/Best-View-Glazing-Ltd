@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { services } from "@/content/services";
-import { allAreas } from "@/content/areas";
+import { publishedAreas } from "@/content/areas";
 import { posts } from "@/content/posts";
 import { caseStudies } from "@/content/case-studies";
 
@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...statics,
     ...services.map((s) => ({ url: url(`/services/${s.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 })),
-    ...allAreas.map((a) => ({ url: url(`/areas/${a.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.6 })),
+    ...publishedAreas.map((a) => ({ url: url(`/areas/${a.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.6 })),
     ...caseStudies.map((c) => ({ url: url(`/case-studies/${c.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 })),
     ...posts.map((p) => ({ url: url(`/blog/${p.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 })),
   ];
