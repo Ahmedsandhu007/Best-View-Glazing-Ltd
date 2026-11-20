@@ -6,7 +6,7 @@ export type FieldSpec = {
   label?: string;
   type: "string" | "text" | "string[]" | "number" | "boolean" | "object" | "object[]";
   required?: boolean;
-  format?: "email" | "url" | "slug" | "hex" | "image" | "path";
+  format?: "email" | "url" | "slug" | "hex" | "image" | "path" | "sitePath";
   max?: number;
   min?: number;
   enum?: string[];
@@ -27,6 +27,8 @@ export type CollectionMeta = {
   label: string;
   description?: string;
   guide?: FieldSpec["guide"];
+  /** Page root when the entries are pages: the address (slug) is editable and a change is redirected. */
+  pathPrefix?: string;
 };
 
 async function parse(res: Response) {
@@ -50,8 +52,8 @@ export const getContent = (id: string): Promise<CollectionMeta> => fetch(`/api/a
 
 export const saveObject = (id: string, data: unknown, sha: string | null) => fetch(`/api/admin/content/${id}`, jsonInit("PUT", { data, sha })).then(parse);
 
-export const saveEntry = (id: string, entry: Record<string, unknown>, sha: string | null) =>
-  fetch(`/api/admin/content/${id}`, jsonInit("PUT", { entry, sha })).then(parse);
+export const saveEntry = (id: string, entry: Record<string, unknown>, sha: string | null, originalId?: string): Promise<{ ok: true; id: string; redirects: { from: string; to: string }[] }> =>
+  fetch(`/api/admin/content/${id}`, jsonInit("PUT", { entry, sha, id: originalId })).then(parse);
 
 export const reorderEntries = (id: string, order: string[], sha: string | null) =>
   fetch(`/api/admin/content/${id}`, jsonInit("PUT", { order, sha })).then(parse);

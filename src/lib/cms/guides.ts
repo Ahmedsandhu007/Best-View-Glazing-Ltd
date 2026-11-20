@@ -121,6 +121,15 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Districts: listed under their region on the Areas page. Publish page ON gives a district its own page at /areas/<slug>; OFF (the default) means no page, no links, and the old address goes to /areas.",
     ],
   },
+  redirects: {
+    diagram: "redirects",
+    title: "Redirects: old addresses that send visitors to the new page",
+    steps: [
+      "Old address: the page that no longer exists, e.g. /services/old-name.",
+      "New address: where visitors (and Google) should land instead.",
+      "Added for you whenever a page address is changed in the CMS; add your own when you delete a page.",
+    ],
+  },
   posts: {
     diagram: "blogCard",
     title: "Blog articles: the cards on the Blog page and home page, and each article",

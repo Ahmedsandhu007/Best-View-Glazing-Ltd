@@ -4,12 +4,15 @@ import type { NextRequest } from "next/server";
 import { ADMIN_COOKIE, verifySessionToken } from "@/lib/adminAuth";
 import settings from "@/content/settings.json";
 import { allAreas, isPublishedArea } from "@/content/areas";
+import redirectsData from "@/content/redirects.json";
+import { buildRedirectMap, resolveRedirect, type Redirect } from "@/lib/redirects";
 
 /**
  * Runs on every request except Next's static assets:
  * 1. URL hygiene: one address per page. A *.vercel.app host, an upper-case path or a
  *    trailing slash is sent to the canonical https://www host, lower-case, in ONE 308.
- *    A district page switched off in the CMS ("Publish page") goes to /areas in the same hop.
+ *    The Redirects list (CMS) is applied next, chains already joined, then a district page
+ *    switched off in the CMS ("Publish page") goes to /areas, all in the same hop.
  * 2. CMS gate: every /admin page and /api/admin route needs a valid session.
  */
 export const config = {
@@ -24,6 +27,8 @@ function canonicalHost() {
     return "";
   }
 }
+
+const redirectMap = buildRedirectMap(redirectsData as Redirect[]);
 
 /** Paths that keep their case and slash: uploads, Next internals, the API and files with an extension. */
 function keepsCase(pathname: string) {
@@ -46,6 +51,9 @@ export async function proxy(req: NextRequest) {
     wantPath = pathname.toLowerCase();
     if (wantPath.length > 1 && wantPath.endsWith("/")) wantPath = wantPath.slice(0, -1);
   }
+  const moved = resolveRedirect(redirectMap, wantPath);
+  if (moved && /^https?:\/\//i.test(moved)) return NextResponse.redirect(new URL(moved), 308);
+  if (moved) wantPath = moved;
   const district = wantPath.startsWith("/areas/") ? wantPath.slice("/areas/".length) : "";
   if (district && !district.includes("/") && !isPublishedArea(district) && allAreas.some((a) => a.slug === district)) {
     wantPath = "/areas";

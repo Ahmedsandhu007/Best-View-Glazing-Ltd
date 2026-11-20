@@ -4,6 +4,8 @@ import { services } from "@/content/services";
 import { publishedAreas } from "@/content/areas";
 import { posts } from "@/content/posts";
 import { caseStudies } from "@/content/case-studies";
+import redirectsData from "@/content/redirects.json";
+import { buildRedirectMap, type Redirect } from "@/lib/redirects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -20,11 +22,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/privacy-policy"), lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: url("/terms"), lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
+  // An address with a redirect rule is no longer a page of its own.
+  const redirected = buildRedirectMap(redirectsData as Redirect[]);
+  const live = (entry: MetadataRoute.Sitemap[number]) => !redirected.has(new URL(entry.url).pathname.replace(/\/$/, "") || "/");
   return [
     ...statics,
     ...services.map((s) => ({ url: url(`/services/${s.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 })),
     ...publishedAreas.map((a) => ({ url: url(`/areas/${a.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.6 })),
     ...caseStudies.map((c) => ({ url: url(`/case-studies/${c.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 })),
     ...posts.map((p) => ({ url: url(`/blog/${p.slug}`), lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 })),
-  ];
+  ].filter(live);
 }

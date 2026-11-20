@@ -46,6 +46,7 @@ Edit a section → Save (draft, nothing live) → Publish (sends every draft) �
 | FAQs (list) | Question and answer | Home page and /faqs |
 | Testimonials (list) | Name, location, quote, stars, sample flag | Home page and /case-studies |
 | Trust strip, Why choose us, How it works, Quotation factors (lists) | Short titled points in order | Home page blocks of the same name |
+| Redirects (list) | Old address, new address, note | Visitors and search engines reaching an old address |
 
 List order is site order: the Move up and Move down arrows change what visitors see.
 
@@ -57,7 +58,7 @@ List order is site order: the Move up and Move down arrows change what visitors 
 - Meta descriptions: 140 to 160 characters, a plain sentence with the service and the area in it.
 - `Site keywords` feed the keywords meta tag only. Keep the list short and honest.
 
-**Slugs are URLs.** Every list entry has a `slug`, set from the title when it is created. It becomes the page address. Changing a slug moves the page with no redirect, so never change the slug of a live, indexed page.
+**Page addresses (slugs).** Every service, article, case study and district has a `Page address`, set from the title when it is created. Changing it moves the page, updates the sitemap and every generated link, and adds a rule under `Redirects` so the old address sends visitors to the new one in one hop. Links typed by hand inside article text still point at the old address; they work through the redirect, but update them when you can. Change an address of a live, indexed page only with a reason: rankings take time to follow.
 
 **Headings.** The banner title is the H1. Section titles and `## ` lines inside an article are H2s. Do not type "H1" or "H2" into the text.
 

@@ -5,6 +5,8 @@ import { type FieldSpec } from "@/lib/cms/validate";
 import { readCollection, writeCollection } from "@/lib/cms/store";
 import { slugify } from "@/lib/cms/limits";
 import { GitHubConfigError, GitHubConflictError } from "@/lib/github";
+import { detectRenames, normalizePath } from "@/lib/redirects";
+import { recordRenames } from "@/lib/cms/renames";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -50,7 +52,7 @@ export async function GET(_req: Request, { params }: Params) {
   if (!col) return json({ error: "unknown_collection" }, 404);
   try {
     const { data, sha } = await readCollection(col.file);
-    return json({ data, sha, mode: col.mode, idField: col.idField, titleField: col.titleField, fields: col.fields, label: col.label, description: col.description, guide: col.guide });
+    return json({ data, sha, mode: col.mode, idField: col.idField, titleField: col.titleField, fields: col.fields, label: col.label, description: col.description, guide: col.guide, pathPrefix: col.pathPrefix });
   } catch (e) {
     return handle(e);
   }
@@ -88,14 +90,24 @@ export async function PUT(req: Request, { params }: Params) {
 
     const entry = body.entry as Record<string, unknown> | undefined;
     if (!entry || typeof entry[idField] !== "string") return json({ error: "missing_entry" }, 400);
-    const idx = current.findIndex((e) => e?.[idField] === entry[idField]);
+    // `id` is the address the entry was opened with; it differs from entry[idField] when the editor changed the address.
+    const originalId = typeof body.id === "string" && body.id ? (body.id as string) : (entry[idField] as string);
+    const idx = current.findIndex((e) => e?.[idField] === originalId);
+    if (entry[idField] !== originalId && current.some((e, i) => i !== idx && e?.[idField] === entry[idField])) {
+      return json({ errors: [`The address "${entry[idField]}" is already used by another entry.`] }, 422);
+    }
+    const before = idx >= 0 ? current[idx] : null;
     if (idx >= 0) current[idx] = entry;
     else current.push(entry);
 
     const v = col.validate(current);
     if (!v.ok) return json({ errors: v.errors }, 422);
     await writeCollection(col.file, current, body.sha ?? null, `CMS: update ${col.label}/${entry[idField]}`);
-    return json({ ok: true });
+
+    // A moved page address gets a redirect from the old one (services, blog, case studies, districts).
+    const renames = detectRenames({ pathPrefix: col.pathPrefix, idField, districtPrefix: col.id === "regions" ? "/areas" : undefined }, before, entry);
+    await recordRenames(renames, col.label);
+    return json({ ok: true, id: entry[idField], redirects: renames });
   } catch (e) {
     return handle(e);
   }
@@ -112,8 +124,8 @@ export async function POST(req: Request, { params }: Params) {
     const { data } = await readCollection<Record<string, unknown>[]>(col.file);
     const arr = Array.isArray(data) ? data.slice() : [];
 
-    // the server owns the unique slug
-    const base = slugify(title) || "entry";
+    // the server owns the unique id: a slug from the title, or for Redirects the old address itself
+    const base = idField === "from" ? normalizePath(title.startsWith("/") ? title : `/${slugify(title)}`) : slugify(title) || "entry";
     let slug = base;
     let n = 1;
     while (arr.some((e) => e?.[idField] === slug)) slug = `${base}-${++n}`;
@@ -121,7 +133,7 @@ export async function POST(req: Request, { params }: Params) {
     const entry: Record<string, unknown> = {};
     for (const f of col.fields) entry[f.key] = defaultValue(f);
     entry[idField] = slug;
-    if (col.titleField) entry[col.titleField] = title;
+    if (col.titleField && col.titleField !== idField) entry[col.titleField] = title;
 
     arr.push(entry);
     const v = col.validate(arr);

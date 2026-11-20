@@ -462,6 +462,28 @@ const DIAGRAMS: Record<string, React.ReactNode> = {
     </>
   ),
   // Site settings
+  redirects: (
+    <>
+      <rect x="0" y="0" width="320" height="180" rx="6" fill={BG} />
+      <Box x={20} y={40} w={125} h={26} />
+      <Line x={30} y={50} w={95} h={6} />
+      <line x1="30" y1="53" x2="125" y2="53" stroke={DARK} strokeWidth="2" />
+      <path d="M152 53 H 172" stroke={HOT} strokeWidth="3" strokeLinecap="round" />
+      <path d="M166 46 L 174 53 L 166 60" fill="none" stroke={HOT} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <Box x={180} y={40} w={120} h={26} hot />
+      <Line x={190} y={50} w={90} h={6} hot />
+      <Box x={20} y={92} w={280} h={70} fill="#fff" />
+      <Line x={34} y={106} w={110} h={5} />
+      <Line x={170} y={106} w={110} h={5} hot />
+      <Line x={34} y={124} w={90} h={5} />
+      <Line x={170} y={124} w={120} h={5} hot />
+      <Line x={34} y={142} w={120} h={5} />
+      <Line x={170} y={142} w={80} h={5} hot />
+      <Marker x={82} y={30} n={1} />
+      <Marker x={240} y={30} n={2} />
+      <Marker x={300} y={92} n={3} />
+    </>
+  ),
   settings: (
     <>
       <rect x="0" y="0" width="320" height="180" rx="6" fill="#fff" stroke={BLOCK} />

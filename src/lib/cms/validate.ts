@@ -7,7 +7,7 @@ export type FieldSpec = {
   label?: string;
   type: FieldType;
   required?: boolean;
-  format?: "email" | "url" | "slug" | "hex" | "image" | "path";
+  format?: "email" | "url" | "slug" | "hex" | "image" | "path" | "sitePath";
   max?: number;
   min?: number;
   enum?: readonly string[];
@@ -28,6 +28,7 @@ function checkFormat(value: string, format: FieldSpec["format"]): string | null 
   if (format === "hex" && !isHexColor(value)) return "must be a hex colour (#rgb or #rrggbb)";
   if (format === "image" && !isImageRef(value)) return "must be an uploaded image (/uploads/…) or an https image address";
   if (format === "path" && !/^(\/|#|https?:\/\/)/.test(value)) return "must start with / (a page on this site), # (a section) or https://";
+  if (format === "sitePath" && !/^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+)*)?$/.test(value)) return "must be an address on this site: lower-case, starting with /, no trailing slash (e.g. /services/old-name)";
   return null;
 }
 

@@ -79,6 +79,8 @@ export const TEXT_LIMITS: Record<string, number> = {
   ga4MeasurementId: 20,
   googleSiteVerification: 120,
   bingSiteVerification: 120,
+  from: 200,
+  to: 200,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;

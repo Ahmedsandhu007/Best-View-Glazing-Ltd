@@ -13,6 +13,10 @@ export type Collection = {
   titleField?: string; // which field to show as an entry's title in lists
   fields: FieldSpec[];
   guide?: FieldSpec["guide"]; // picture + directions shown at the top of the section
+  /** Page root for a list whose entries are pages (/services, /blog, /case-studies): the slug is editable as the page address and a change is redirected. */
+  pathPrefix?: string;
+  /** Extra whole-collection checks beyond the field specs. */
+  check?: (data: unknown) => string[];
   validate: (data: unknown) => ValidationResult;
 };
 
@@ -84,6 +88,19 @@ const pointFields: FieldSpec[] = [
 
 const TRUST_ICONS = ["building", "wrench", "file", "map"] as const;
 const WHY_ICONS = ["search", "building", "hammer", "file", "map", "message"] as const;
+
+/** Extra checks for the Redirects list: no rule may point at itself or at a section anchor. */
+function checkRedirects(data: unknown): string[] {
+  if (!Array.isArray(data)) return [];
+  const errors: string[] = [];
+  data.forEach((r) => {
+    const rec = r as { from?: unknown; to?: unknown };
+    if (typeof rec.from !== "string" || typeof rec.to !== "string") return;
+    if (rec.to.startsWith("#")) errors.push(`${rec.from}: the new address cannot be a section (#); use a page like /contact`);
+    if (rec.from === rec.to.replace(/\/$/, "")) errors.push(`${rec.from}: the old and new address are the same`);
+  });
+  return errors;
+}
 
 const defs: Omit<Collection, "validate">[] = [
   /* ---------------------------------------------------------------- Site ---- */
@@ -410,6 +427,7 @@ const defs: Omit<Collection, "validate">[] = [
     file: "src/content/services.json",
     mode: "list",
     titleField: "title",
+    pathPrefix: "/services",
     fields: [
       { key: "slug", type: "string", format: "slug", required: true },
       { key: "title", type: "string", required: true, max: 80 },
@@ -442,7 +460,14 @@ const defs: Omit<Collection, "validate">[] = [
         itemLabel: "District",
         fields: [
           { key: "name", type: "string", required: true, max: 60 },
-          { key: "slug", label: "Page address (a-z, 0-9, hyphens)", type: "string", format: "slug", required: true },
+          {
+            key: "slug",
+            label: "Page address (a-z, 0-9, hyphens)",
+            type: "string",
+            format: "slug",
+            required: true,
+            help: "The page lives at /areas/<address>. Changing it moves the page; the old address is redirected automatically (see Redirects).",
+          },
           {
             key: "published",
             label: "Publish page",
@@ -454,12 +479,36 @@ const defs: Omit<Collection, "validate">[] = [
     ],
   },
   {
+    id: "redirects",
+    label: "Redirects",
+    description: "Old addresses that send visitors (and search engines) to a new page, each in one hop. Filled in automatically when a page address changes; add your own for pages you remove.",
+    file: "src/content/redirects.json",
+    mode: "list",
+    idField: "from",
+    titleField: "from",
+    check: checkRedirects,
+    fields: [
+      { key: "from", label: "Old address (e.g. /services/old-name)", type: "string", format: "sitePath", required: true, max: 200 },
+      {
+        key: "to",
+        label: "New address (a page like /services/new-name, or https://...)",
+        type: "string",
+        format: "path",
+        required: true,
+        max: 200,
+        help: "Visitors get a permanent (301/308) redirect. If the new address is itself redirected later, the rules are joined so it stays one hop.",
+      },
+      { key: "note", label: "Note (optional)", type: "string", max: 120 },
+    ],
+  },
+  {
     id: "posts",
     label: "Blog articles",
     description: "Advice articles. The first three show on the home page, so keep the newest at the top.",
     file: "src/content/posts.json",
     mode: "list",
     titleField: "title",
+    pathPrefix: "/blog",
     fields: [
       { key: "slug", type: "string", format: "slug", required: true },
       { key: "title", type: "string", required: true, max: 120 },
@@ -480,6 +529,7 @@ const defs: Omit<Collection, "validate">[] = [
     file: "src/content/case-studies.json",
     mode: "list",
     titleField: "title",
+    pathPrefix: "/case-studies",
     fields: [
       { key: "slug", type: "string", format: "slug", required: true },
       { key: "title", type: "string", required: true, max: 120 },
@@ -575,7 +625,12 @@ export const collections: Collection[] = defs.map((d) => ({
   ...d,
   guide: COLLECTION_GUIDES[d.id],
   idField: d.mode === "list" ? (d.idField ?? "slug") : undefined,
-  validate: (data: unknown) => validateCollection({ mode: d.mode, idField: d.idField ?? "slug", fields: d.fields }, data),
+  validate: (data: unknown) => {
+    const base = validateCollection({ mode: d.mode, idField: d.idField ?? "slug", fields: d.fields }, data);
+    const extra = d.check ? d.check(data) : [];
+    if (extra.length === 0) return base;
+    return { ok: false, errors: [...(base.ok ? [] : base.errors), ...extra] };
+  },
 }));
 
 const byId = Object.fromEntries(collections.map((c) => [c.id, c]));

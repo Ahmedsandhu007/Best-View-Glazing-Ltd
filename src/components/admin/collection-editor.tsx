@@ -7,6 +7,7 @@ import { AlertCircle, ArrowDown, ArrowLeft, ArrowUp, Check, Loader2, Pencil, Plu
 
 import { createEntry, deleteEntry, getContent, reorderEntries, saveEntry, saveObject, type CollectionMeta } from "@/components/admin/cms-client";
 import { ObjectForm } from "@/components/admin/fields";
+import { slugify } from "@/lib/cms/limits";
 import { GuidePanel } from "@/components/admin/guide";
 import { useCmsStatus } from "@/components/admin/admin-shell";
 
@@ -14,7 +15,9 @@ type Save = "idle" | "saving" | "saved" | "error";
 
 /** Edits an object collection, or a single entry of a list collection (when `slug` is given). */
 export function CollectionEditor({ id, slug }: { id: string; slug?: string }) {
+  const router = useRouter();
   const { refresh } = useCmsStatus();
+  const [moved, setMoved] = React.useState<{ from: string; to: string }[]>([]);
   const [meta, setMeta] = React.useState<CollectionMeta | null>(null);
   const [value, setValue] = React.useState<Record<string, unknown>>({});
   const [save, setSave] = React.useState<Save>("idle");
@@ -45,14 +48,21 @@ export function CollectionEditor({ id, slug }: { id: string; slug?: string }) {
     setSave("saving");
     setError(null);
     try {
+      let newId: string | null = null;
       if (meta.mode === "object") await saveObject(id, value, meta.sha);
-      else await saveEntry(id, value, meta.sha);
+      else {
+        const res = await saveEntry(id, value, meta.sha, slug);
+        setMoved(res.redirects ?? []);
+        if (res.id !== slug) newId = res.id;
+      }
       // refresh the sha so the next save does not conflict
       const fresh = await getContent(id);
       setMeta(fresh);
       setSave("saved");
       refresh();
       setTimeout(() => setSave("idle"), 2000);
+      // the entry now lives at its new address in the CMS too
+      if (newId) router.replace(`/admin/${id}/${encodeURIComponent(newId)}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Save failed");
       setSave("error");
@@ -84,6 +94,12 @@ export function CollectionEditor({ id, slug }: { id: string; slug?: string }) {
 
       {error ? <Notice className="mb-4">{error}</Notice> : null}
 
+      {moved.length > 0 ? (
+        <div role="status" className="mb-4 rounded-[4px] border border-teal/40 bg-teal-tint px-4 py-3 text-sm text-teal-dark">
+          Address changed. A redirect was added under Redirects: {moved.map((m) => `${m.from} \u2192 ${m.to}`).join(", ")}. It goes live with the next Publish.
+        </div>
+      ) : null}
+
       {meta.guide ? (
         <div className="mb-4">
           <GuidePanel guide={meta.guide} />
@@ -91,7 +107,12 @@ export function CollectionEditor({ id, slug }: { id: string; slug?: string }) {
       ) : null}
 
       <div className="rounded-[6px] border border-line bg-white p-6 shadow-card">
-        <ObjectForm fields={meta.fields} value={value} onChange={setValue} hiddenKeys={isList ? [idField] : []} />
+        {isList && meta.pathPrefix ? (
+          <div className="mb-5">
+            <AddressField prefix={meta.pathPrefix} value={String(value[idField] ?? "")} onChange={(v) => setValue({ ...value, [idField]: v })} />
+          </div>
+        ) : null}
+        <ObjectForm fields={meta.fields} value={value} onChange={setValue} hiddenKeys={isList && idField === "slug" ? [idField] : []} />
       </div>
 
       <div className="mt-6 flex justify-end">
@@ -120,11 +141,13 @@ export function CollectionIndex({ id }: { id: string }) {
   async function onNew() {
     setBusy(true);
     try {
-      const title = window.prompt(`New ${meta?.label ?? "entry"}: what is its title?`)?.trim();
+      const idField = meta?.idField ?? "slug";
+      const question = idField === "from" ? "New redirect: what is the OLD address? (e.g. /services/old-name)" : `New ${meta?.label ?? "entry"}: what is its title?`;
+      const title = window.prompt(question)?.trim();
       if (!title) return;
       const { slug } = await createEntry(id, title);
       refresh();
-      router.push(`/admin/${id}/${slug}`);
+      router.push(`/admin/${id}/${encodeURIComponent(slug)}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Create failed");
     } finally {
@@ -210,7 +233,7 @@ export function CollectionIndex({ id }: { id: string }) {
                 </div>
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
-                <IconLink href={`/admin/${id}/${slug}`} label="Edit">
+                <IconLink href={`/admin/${id}/${encodeURIComponent(slug)}`} label="Edit">
                   <Pencil className="size-4" />
                 </IconLink>
                 <IconButton onClick={() => onMove(i, -1)} label="Move up" disabled={busy || i === 0}>
@@ -228,6 +251,33 @@ export function CollectionIndex({ id }: { id: string }) {
         })}
       </ul>
     </div>
+  );
+}
+
+/** The page address (slug) of a list entry that is a page, shown with its fixed root. */
+function AddressField({ prefix, value, onChange }: { prefix: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 flex items-center justify-between gap-2">
+        <span className="font-heading text-sm font-semibold text-charcoal">
+          Page address <span className="text-teal"> *</span>
+        </span>
+        <span className="text-xs tabular-nums text-muted">{value.length}/60</span>
+      </span>
+      <span className="flex items-stretch overflow-hidden rounded-[4px] border border-line bg-white focus-within:border-teal focus-within:ring-2 focus-within:ring-teal/25">
+        <span className="flex items-center border-r border-line bg-ivory px-3 text-sm text-muted">{prefix}/</span>
+        <input
+          className="w-full px-3 py-2 text-sm text-ink outline-none"
+          value={value}
+          onChange={(e) => onChange(slugify(e.target.value.replace(/\s+$/, "-")))}
+          spellCheck={false}
+          autoComplete="off"
+        />
+      </span>
+      <span className="mt-1 block text-xs text-muted">
+        Lower-case words joined by hyphens. Changing it moves the page: the old address is redirected to the new one automatically and the sitemap updates. Do not change it without a reason, as rankings take time to follow.
+      </span>
+    </label>
   );
 }
 
