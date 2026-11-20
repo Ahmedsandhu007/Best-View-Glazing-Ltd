@@ -2,7 +2,8 @@
   "services": {
     "eyebrow": "Our services",
     "title": "Window & Door Repair Services in London",
-    "description": "Fourteen core services covering the mechanical, glazing and frame faults that affect windows and doors in London homes and commercial buildings. Choose a service to read what the repair involves, or go straight to the enquiry form."
+    "description": "Fourteen core services covering the mechanical, glazing and frame faults that affect windows and doors in London homes and commercial buildings. Choose a service to read what the repair involves, or go straight to the enquiry form.",
+    "coverageLine": "Available to residential and commercial customers across Greater London and the surrounding areas, including:"
   },
   "about": {
     "eyebrow": "About us",

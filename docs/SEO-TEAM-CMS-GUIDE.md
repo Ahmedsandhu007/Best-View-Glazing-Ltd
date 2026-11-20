@@ -29,13 +29,14 @@ Edit a section → Save (draft, nothing live) → Publish (sends every draft) �
 
 | Section | What it holds | Where it shows |
 | --- | --- | --- |
-| Site settings | Company name, short name, tagline, site description, live address, copyright line, GA4 Measurement ID, Search Console and Bing verification codes | Page titles, social previews, footer, tracking tags |
+| Site settings | Company name, short name, tagline, site description, service area name, live address, copyright line, profile links (sameAs), GA4 Measurement ID, Search Console and Bing verification codes | Page titles, social previews, footer, structured data, tracking tags |
 | Home page | Hero label, headline, text, two buttons, ticked lines, photo caption; introduction block | Home page, first two screens |
 | Section headings | Label, title, intro line and button text for every block of the home page, the enquiry-form section and the teal call-to-action band | Home page and the band on inner pages |
 | Page banners & copy | Dark banner of each inner page; About and Areas body text; FAQ, Blog and Case Studies closing banners | Top of the inner pages |
 | Photographs | Home hero and intro photos, About photos, Areas photo, each with alt text | Those pages |
-| Contact details | Phone, WhatsApp number and message, email, address, opening hours, map, floating WhatsApp button | Contact page, footer, every page |
-| Enquiry form | The dropdown choices: property type, service required, contact time | The enquiry form |
+| Contact details | Phone, WhatsApp number and message, email, address, opening hours (shown and in Google's format), map, floating WhatsApp button | Contact page, footer, every page, structured data |
+| Enquiry form | The dropdown choices: property type, service required, contact time; the line under Postcode; the optional outside-area notice | The enquiry form |
+| Page banners & copy > Services page | Banner plus the line above the area links on every service page | Service pages |
 | SEO titles & descriptions | Title and meta description per page; site keywords | Search results and browser tabs |
 | Footer | Paragraph under the logo, column headings, bottom line | Every page |
 | Legal pages | Privacy Policy and Terms text, dated sections | /privacy-policy, /terms |
@@ -92,7 +93,9 @@ The home page shows the first three entries, so keep the newest at the top with 
 
 **Testimonials.** Tick `Sample content` on anything that is not a real review; stars are hidden and a notice shows until it is unticked.
 
-**Contact details.** Phone, WhatsApp number (digits with country code), WhatsApp message, email, address, hours, map (an address or a Google Maps embed link), floating button. Empty values are hidden; an empty WhatsApp number removes every WhatsApp button. The shipped phone, WhatsApp, email and map are placeholders.
+**Contact details.** Phone, WhatsApp number (digits with country code), WhatsApp message, email, address, hours, map (an address or a Google Maps embed link), floating button. Empty values are hidden; an empty WhatsApp number removes every WhatsApp button. The shipped phone, WhatsApp, email, hours and map are placeholders. `Opening hours for Google` takes the same hours in Google's format (`Mo-Fr 08:00-18:00`) and feeds the structured data.
+
+**Coverage wording.** No "Greater London only" text is fixed in the templates any more: the service area name is in `Site settings`, the line under the Postcode box is in `Enquiry form`, and the line above the area links on service pages is in `Page banners & copy > Services page`. The outside-area notice on the form is off while its field is empty.
 
 ## Pictures
 

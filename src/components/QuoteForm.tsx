@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, CircleAlert, ImagePlus, Info, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { trackEvent } from "@/lib/analytics";
-import { contactTimeOptions, propertyTypeOptions, serviceFormOptions } from "@/content/services";
+import { contactTimeOptions, formCopy, propertyTypeOptions, serviceFormOptions } from "@/content/services";
 import {
   fileRules,
   isLikelyLondonPostcode,
@@ -103,9 +103,10 @@ export function QuoteForm({ defaultService }: Props) {
     setErrors((prev) => ({ files: prev.files, ...validateEnquiry(fields) }));
   };
 
+  // The outside-area notice is CMS text; empty (the default) switches the London postcode check off.
   const postcodeNotice =
-    fields.postcode && UK_POSTCODE_RE.test(fields.postcode.trim()) && !isLikelyLondonPostcode(fields.postcode)
-      ? "This postcode looks like it may be outside Greater London. We only carry out repairs within Greater London, but you can still send the enquiry and we will confirm whether we can help."
+    formCopy.outsideAreaNotice && fields.postcode && UK_POSTCODE_RE.test(fields.postcode.trim()) && !isLikelyLondonPostcode(fields.postcode)
+      ? formCopy.outsideAreaNotice
       : null;
 
   const addFiles = (list: FileList | null) => {
@@ -319,12 +320,14 @@ export function QuoteForm({ defaultService }: Props) {
             onChange={(e) => update("postcode", e.target.value.toUpperCase())}
             onBlur={() => blur("postcode")}
             aria-invalid={Boolean(visibleErrors.postcode)}
-            aria-describedby={describedBy("postcode", "quote-postcode-hint")}
+            aria-describedby={describedBy("postcode", formCopy.postcodeHint ? "quote-postcode-hint" : undefined)}
             className={`${inputClass} mt-1.5 uppercase`}
           />
-          <p id="quote-postcode-hint" className="mt-1.5 text-sm text-muted">
-            We carry out repairs within Greater London only.
-          </p>
+          {formCopy.postcodeHint ? (
+            <p id="quote-postcode-hint" className="mt-1.5 text-sm text-muted">
+              {formCopy.postcodeHint}
+            </p>
+          ) : null}
           <FieldError id={errorId("postcode")} message={visibleErrors.postcode} />
           {postcodeNotice && !visibleErrors.postcode && (
             <p className="mt-2 flex items-start gap-1.5 rounded-[4px] border border-brass/50 bg-ivory px-3 py-2 text-sm text-ink" role="note">

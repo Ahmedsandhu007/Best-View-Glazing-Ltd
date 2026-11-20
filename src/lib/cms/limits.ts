@@ -81,6 +81,11 @@ export const TEXT_LIMITS: Record<string, number> = {
   bingSiteVerification: 120,
   from: 200,
   to: 200,
+  postcodeHint: 160,
+  outsideAreaNotice: 300,
+  coverageLine: 200,
+  openingHoursSchema: 40,
+  sameAs: 200,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;

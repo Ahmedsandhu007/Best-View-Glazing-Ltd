@@ -25,5 +25,7 @@
     "Afternoon",
     "Evening",
     "Any time"
-  ]
+  ],
+  "postcodeHint": "We carry out repairs across Greater London and the surrounding areas.",
+  "outsideAreaNotice": ""
 }

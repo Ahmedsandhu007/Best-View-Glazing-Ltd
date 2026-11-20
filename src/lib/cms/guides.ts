@@ -14,6 +14,7 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Name: used in page titles, the sign-in page and the copyright line.",
       "Description: the default text search engines and social previews show.",
       "Site address: the live web address; change it only if the domain changes.",
+      "Profile links: the Google Business Profile, Facebook and other profile addresses, published as sameAs in the structured data.",
       "Tracking: paste the GA4 Measurement ID and the Search Console and Bing verification codes here, then publish. Empty fields add nothing to the site.",
     ],
   },
@@ -64,6 +65,7 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Phone, email, address and opening hours, one line each. Empty lines are not shown.",
       "The map, from an address or a pasted Google Maps embed address.",
       "The floating WhatsApp button that sits in the corner of every page.",
+      "Opening hours for Google: the same hours in Google's format (Mo-Fr 08:00-18:00), published in the structured data.",
     ],
   },
   form: {
@@ -73,6 +75,7 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Property type: the first dropdown.",
       "Service required: the second dropdown. Keep each service's Form label in Services matching one of these.",
       "Preferred contact time: the third dropdown.",
+      "Wording: the line under the Postcode box, and the optional outside-area notice (off while it is empty).",
     ],
   },
   seo: {

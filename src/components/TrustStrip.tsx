@@ -19,7 +19,7 @@ export function TrustStrip() {
               >
                 <Icon className="mt-0.5 h-6 w-6 shrink-0 text-brass" strokeWidth={1.75} aria-hidden="true" />
                 <div>
-                  <h2 className="font-heading text-base font-semibold text-white">{point.title}</h2>
+                  <h3 className="font-heading text-base font-semibold text-white">{point.title}</h3>
                   <p className="mt-1 text-sm leading-relaxed text-white/70">{point.text}</p>
                 </div>
               </li>

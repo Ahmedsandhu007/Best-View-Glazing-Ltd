@@ -107,9 +107,13 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "settings",
     label: "Site settings",
-    description: "Company name, tagline, description, the live site address, and the analytics and verification codes.",
+    description: "Company name, tagline, description, the live site address, profile links, and the analytics and verification codes.",
     file: "src/content/settings.json",
     mode: "object",
+    check: (data) => {
+      const links = (data as { sameAs?: unknown }).sameAs;
+      return Array.isArray(links) ? links.filter((l) => typeof l === "string" && l.trim() && !/^https:\/\/\S+$/.test(l.trim())).map((l) => `Profile link "${l}" must be a full https:// address`) : [];
+    },
     fields: [
       { key: "name", label: "Company name", type: "string", required: true, max: 80 },
       { key: "shortName", label: "Short name", type: "string", required: true, max: 40 },
@@ -117,7 +121,7 @@ const defs: Omit<Collection, "validate">[] = [
       { key: "tagline", type: "string", required: true, max: 160 },
       { key: "description", label: "Site description (default for search engines and social previews)", type: "text", required: true, max: 400 },
       { key: "url", label: "Live site address", type: "string", format: "url", required: true },
-      { key: "region", label: "Service area name", type: "string", required: true, max: 60 },
+      { key: "region", label: "Service area name (e.g. Greater London and the Thames Valley)", type: "string", required: true, max: 60, help: "Used in the structured data and in the service page meta descriptions." },
       {
         key: "ga4MeasurementId",
         label: "Google Analytics 4 Measurement ID (e.g. G-XXXXXXXXXX)",
@@ -131,6 +135,13 @@ const defs: Omit<Collection, "validate">[] = [
         type: "string",
         max: 120,
         help: "Paste only the code, not the whole <meta> tag. Empty = no tag.",
+      },
+      {
+        key: "sameAs",
+        label: "Profile links (Google Business Profile, Facebook, Instagram, …), one full https:// address per line",
+        type: "string[]",
+        max: 200,
+        help: "Published in the business structured data as sameAs. Empty = none.",
       },
       {
         key: "bingSiteVerification",
@@ -260,7 +271,16 @@ const defs: Omit<Collection, "validate">[] = [
     file: "src/content/pages.json",
     mode: "object",
     fields: [
-      { key: "services", label: "Services page", type: "object", required: true, fields: bannerFields },
+      {
+        key: "services",
+        label: "Services page",
+        type: "object",
+        required: true,
+        fields: [
+          ...bannerFields,
+          { key: "coverageLine", label: "Line above the area links on every service page (Where we carry out this work)", type: "text", required: true, max: 200 },
+        ],
+      },
       {
         key: "about",
         label: "About page",
@@ -346,6 +366,13 @@ const defs: Omit<Collection, "validate">[] = [
       { key: "address", label: "Address lines", type: "string[]", max: 80 },
       { key: "hoursTitle", label: "Opening hours heading", type: "string", max: 40 },
       { key: "hours", label: "Opening hours lines", type: "string[]", max: 80 },
+      {
+        key: "openingHoursSchema",
+        label: "Opening hours for Google (structured data), one rule per line",
+        type: "string[]",
+        max: 40,
+        help: "Google's format: Mo-Fr 08:00-18:00, Sa 09:00-13:00. Days Mo Tu We Th Fr Sa Su, 24-hour times. Keep it in step with the lines above. Empty = not published.",
+      },
       { key: "mapTitle", label: "Caption under the map", type: "string", max: 80 },
       { key: "mapQuery", label: "Map: the address or place to show (e.g. 12 High Street, Croydon CR0 1AA)", type: "string", max: 160, help: "Empty = no map." },
       {
@@ -362,13 +389,21 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "form",
     label: "Enquiry form",
-    description: "The dropdown choices on the enquiry form.",
+    description: "The dropdown choices and the wording on the enquiry form.",
     file: "src/content/form.json",
     mode: "object",
     fields: [
       { key: "propertyTypeOptions", label: "Property type choices", type: "string[]", required: true, max: 60 },
       { key: "serviceOptions", label: "Service required choices", type: "string[]", required: true, max: 60 },
       { key: "contactTimeOptions", label: "Preferred contact time choices", type: "string[]", required: true, max: 40 },
+      { key: "postcodeHint", label: "Line under the Postcode box", type: "text", max: 160, help: "Empty = no line." },
+      {
+        key: "outsideAreaNotice",
+        label: "Notice shown when the postcode is outside the London postcode areas",
+        type: "text",
+        max: 300,
+        help: "Empty (the default) = the postcode is never checked against London. Only fill this in if the business goes back to London only.",
+      },
     ],
   },
   {

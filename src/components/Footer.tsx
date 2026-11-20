@@ -51,7 +51,7 @@ export function Footer() {
 
           <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">
             <div>
-              <h2 className={headingClass}>{footer.navigationHeading}</h2>
+              <p className={headingClass}>{footer.navigationHeading}</p>
               <ul className="mt-4 space-y-2.5">
                 {navigation.map((item) => (
                   <li key={item.href}>
@@ -68,7 +68,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className={headingClass}>{footer.servicesHeading}</h2>
+              <p className={headingClass}>{footer.servicesHeading}</p>
               <ul className="mt-4 space-y-2.5">
                 {services.map((s) => (
                   <li key={s.slug}>
@@ -80,7 +80,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className={headingClass}>{footer.areasHeading}</h2>
+              <p className={headingClass}>{footer.areasHeading}</p>
               <ul className="mt-4 space-y-2.5">
                 {areaGroups.map((g) => (
                   <li key={g.slug}>
@@ -95,7 +95,7 @@ export function Footer() {
                   </Link>
                 </li>
               </ul>
-              <h2 className={`mt-8 ${headingClass}`}>{footer.legalHeading}</h2>
+              <p className={`mt-8 ${headingClass}`}>{footer.legalHeading}</p>
               <ul className="mt-4 space-y-2.5">
                 {legalLinks.map((item) => (
                   <li key={item.href}>

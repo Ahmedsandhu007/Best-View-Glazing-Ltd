@@ -12,7 +12,7 @@ import type { MenuPanel } from "@/content/site";
 function PanelHeading({ title, href, linkLabel }: { title: string; href: string; linkLabel: string }) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-b border-line pb-3">
-      <h2 className="font-heading text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-charcoal">{title}</h2>
+      <p className="font-heading text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-charcoal">{title}</p>
       <Link href={href} className="inline-flex items-center gap-1.5 font-heading text-sm font-semibold text-teal hover:text-teal-dark">
         {linkLabel}
         <ArrowRight className="h-4 w-4" aria-hidden="true" />

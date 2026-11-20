@@ -1,6 +1,6 @@
 import { contact, site } from "@/content/site";
 import { services, type Service } from "@/content/services";
-import { areaGroups } from "@/content/areas";
+import { areaGroups, publishedAreas } from "@/content/areas";
 import type { Faq } from "@/content/faqs";
 import type { Post } from "@/content/posts";
 
@@ -8,10 +8,21 @@ export function absoluteUrl(path = "/") {
   return new URL(path, site.url).toString();
 }
 
+/** Area served: the service-area name from Site settings, the regions, and every district page that is published. */
+function areaServed() {
+  return [
+    { "@type": "AdministrativeArea", name: site.region },
+    ...areaGroups.map((g) => ({ "@type": "Place", name: g.region })),
+    ...publishedAreas.map((a) => ({ "@type": "Place", name: a.name, url: absoluteUrl(`/areas/${a.slug}`) })),
+  ];
+}
+
+const openingHours = ((contact as { openingHoursSchema?: string[] }).openingHoursSchema ?? []).map((s) => s.trim()).filter(Boolean);
+const sameAs = ((site as { sameAs?: string[] }).sameAs ?? []).map((s) => s.trim()).filter(Boolean);
+
 /**
  * Organisation / local business entity.
- * Deliberately omits address, telephone, opening hours and coordinates:
- * none of those are published for this business and must not be invented.
+ * Address, telephone, opening hours and profile links appear only when entered in the CMS; nothing is invented.
  */
 export function organizationJsonLd() {
   return {
@@ -27,7 +38,9 @@ export function organizationJsonLd() {
     ...(contact.phone ? { telephone: contact.phone } : {}),
     ...(contact.email ? { email: contact.email } : {}),
     ...(contact.address?.filter(Boolean).length ? { address: { "@type": "PostalAddress", streetAddress: contact.address.filter(Boolean).join(", ") } } : {}),
-    areaServed: [{ "@type": "AdministrativeArea", name: "Greater London" }, ...areaGroups.map((g) => ({ "@type": "Place", name: g.region }))],
+    ...(openingHours.length ? { openingHours } : {}),
+    ...(sameAs.length ? { sameAs } : {}),
+    areaServed: areaServed(),
     knowsAbout: services.map((s) => s.title),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -64,7 +77,7 @@ export function serviceJsonLd(service: Service) {
     description: service.summary,
     url: absoluteUrl(`/services/${service.slug}`),
     provider: { "@id": absoluteUrl("/#organisation") },
-    areaServed: { "@type": "AdministrativeArea", name: "Greater London" },
+    areaServed: areaServed(),
   };
 }
 

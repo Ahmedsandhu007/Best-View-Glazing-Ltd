@@ -31,3 +31,9 @@ export function findService(slug: string) {
 export const serviceFormOptions: readonly string[] = formData.serviceOptions;
 export const propertyTypeOptions: readonly string[] = formData.propertyTypeOptions;
 export const contactTimeOptions: readonly string[] = formData.contactTimeOptions;
+
+/** Wording on the enquiry form, edited under "Enquiry form" in the CMS. Empty = the line is not shown. */
+export const formCopy = {
+  postcodeHint: (formData as { postcodeHint?: string }).postcodeHint ?? "",
+  outsideAreaNotice: (formData as { outsideAreaNotice?: string }).outsideAreaNotice ?? "",
+};

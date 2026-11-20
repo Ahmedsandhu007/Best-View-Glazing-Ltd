@@ -10,7 +10,7 @@ import { QuoteSection } from "@/components/QuoteSection";
 import { JsonLd } from "@/components/JsonLd";
 import { findService, services } from "@/content/services";
 import { areaGroups } from "@/content/areas";
-import { site } from "@/content/site";
+import { pages, site } from "@/content/site";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo";
 
 type Params = { slug: string };
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const path = `/services/${service.slug}`;
   return {
     title: service.seoTitle,
-    description: `${service.summary} Residential and commercial ${service.title.toLowerCase()} across Greater London. Request a free quotation.`,
+    description: `${service.summary} Residential and commercial ${service.title.toLowerCase()} across ${site.region}. Request a free quotation.`,
     alternates: { canonical: path },
     openGraph: { title: `${service.seoTitle} | ${site.name}`, url: path, images: [{ url: service.image, alt: service.imageAlt }] },
   };
@@ -76,9 +76,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
             )}
 
             <h2 className="mt-12 text-2xl font-bold md:text-3xl">Where we carry out this work</h2>
-            <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink">
-              {service.title} are available to residential and commercial customers throughout Greater London, including:
-            </p>
+            <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink">{pages.services.coverageLine}</p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {areaGroups.map((g) => (
                 <li key={g.slug}>
