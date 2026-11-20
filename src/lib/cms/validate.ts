@@ -11,6 +11,8 @@ export type FieldSpec = {
   max?: number;
   min?: number;
   enum?: readonly string[];
+  /** Choices read from another list collection at request time (its idField values), e.g. the regions for an area page. */
+  enumFrom?: { collection: string; valueField: string };
   fields?: FieldSpec[]; // for object / object[]
   itemLabel?: string; // for object[] entries
   longText?: boolean; // string[] edited as one big text box (one block per line)

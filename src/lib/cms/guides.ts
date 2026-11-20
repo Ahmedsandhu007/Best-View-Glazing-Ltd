@@ -117,11 +117,20 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
   },
   regions: {
     diagram: "areas",
-    title: "Areas we cover: the regions and their districts",
+    title: "Areas we cover: the regions on the Areas page",
     steps: [
-      "Region name: the column heading.",
+      "Region name: the column heading. Regions outside London are fine.",
       "Intro: the sentence shown on the Areas page under the region.",
-      "Districts: listed under their region on the Areas page. Publish page ON gives a district its own page at /areas/<slug>; OFF (the default) means no page, no links, and the old address goes to /areas.",
+      "The towns and districts in each column are edited under Area pages, where each has its own Publish page switch.",
+    ],
+  },
+  "area-pages": {
+    diagram: "areas",
+    title: "Area pages: one entry per town or district",
+    steps: [
+      "Name and region put the town in its column on the Areas page.",
+      "Write the page first: H1, intro, content sections with their own H2s, nearby places, questions and answers, photo, SEO title and meta description.",
+      "Then switch Publish page on and publish: the page goes live at /areas/<address>, is linked and joins the sitemap. Off = no page and the address redirects to /areas.",
     ],
   },
   redirects: {

@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/Button";
 import { ServiceCard } from "@/components/Services";
 import { QuoteSection } from "@/components/QuoteSection";
 import { JsonLd } from "@/components/JsonLd";
+import { FaqAccordion } from "@/components/FAQ";
 import { findService, services } from "@/content/services";
 import { areaGroups } from "@/content/areas";
 import { pages, site } from "@/content/site";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -37,6 +38,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
   const service = findService(slug);
   if (!service) notFound();
   const related = services.filter((s) => s.slug !== service.slug).slice(0, 3);
+  const faqs = (service.faqs ?? []).filter((f) => f.question?.trim() && f.answer?.trim());
 
   return (
     <>
@@ -117,6 +119,22 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
+      {faqs.length > 0 && (
+        <section className="section border-t border-line bg-white" aria-labelledby="service-faq-heading">
+          <div className="container-site grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <p className="eyebrow">Questions</p>
+              <h2 id="service-faq-heading" className="mt-3 text-2xl font-bold md:text-3xl">
+                {service.title}: common questions
+              </h2>
+            </div>
+            <div className="lg:col-span-8">
+              <FaqAccordion items={faqs.map((f, i) => ({ slug: `faq-${i}`, question: f.question, answer: f.answer }))} />
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="section bg-ivory" aria-labelledby="related-heading">
         <div className="container-site">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -142,6 +160,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       <JsonLd
         data={[
           serviceJsonLd(service),
+          ...(faqs.length > 0 ? [faqJsonLd(faqs)] : []),
           breadcrumbJsonLd([
             { name: "Our Services", path: "/services" },
             { name: service.title, path: `/services/${service.slug}` },

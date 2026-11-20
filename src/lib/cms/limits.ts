@@ -86,6 +86,10 @@ export const TEXT_LIMITS: Record<string, number> = {
   coverageLine: 200,
   openingHoursSchema: 40,
   sameAs: 200,
+  h1: 120,
+  regionSlug: 60,
+  nearby: 60,
+  imageSide: 10,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;

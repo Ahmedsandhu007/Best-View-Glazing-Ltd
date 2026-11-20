@@ -19,6 +19,8 @@ export type Service = {
   icon: string;
   /** SEO keyword phrase used in the page title. */
   seoTitle: string;
+  /** Questions and answers shown on the service page (FAQPage schema). */
+  faqs?: { question: string; answer: string }[];
 };
 
 export const services = servicesData as Service[];

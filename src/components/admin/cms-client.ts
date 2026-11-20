@@ -10,6 +10,7 @@ export type FieldSpec = {
   max?: number;
   min?: number;
   enum?: string[];
+  enumFrom?: { collection: string; valueField: string };
   fields?: FieldSpec[];
   itemLabel?: string;
   longText?: boolean;

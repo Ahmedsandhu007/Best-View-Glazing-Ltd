@@ -81,7 +81,7 @@ export function serviceJsonLd(service: Service) {
   };
 }
 
-export function faqJsonLd(faqs: Faq[]) {
+export function faqJsonLd(faqs: Pick<Faq, "question" | "answer">[]) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",

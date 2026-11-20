@@ -2,211 +2,26 @@
   {
     "region": "Central London",
     "slug": "central-london",
-    "intro": "Period townhouses, mansion blocks, offices and retail frontages where sash windows, timber doors and heavy commercial glazing all need regular attention.",
-    "areas": [
-      {
-        "name": "Westminster",
-        "slug": "westminster",
-        "published": false
-      },
-      {
-        "name": "Soho",
-        "slug": "soho",
-        "published": false
-      },
-      {
-        "name": "Mayfair",
-        "slug": "mayfair",
-        "published": false
-      },
-      {
-        "name": "Marylebone",
-        "slug": "marylebone",
-        "published": false
-      },
-      {
-        "name": "Covent Garden",
-        "slug": "covent-garden",
-        "published": false
-      },
-      {
-        "name": "Fitzrovia",
-        "slug": "fitzrovia",
-        "published": false
-      }
-    ]
+    "intro": "Period townhouses, mansion blocks, offices and retail frontages where sash windows, timber doors and heavy commercial glazing all need regular attention."
   },
   {
     "region": "North London",
     "slug": "north-london",
-    "intro": "Victorian and Edwardian terraces, 1930s semis and newer apartment developments with a wide mix of timber, uPVC and aluminium windows.",
-    "areas": [
-      {
-        "name": "Islington",
-        "slug": "islington",
-        "published": false
-      },
-      {
-        "name": "Camden",
-        "slug": "camden",
-        "published": false
-      },
-      {
-        "name": "Finchley",
-        "slug": "finchley",
-        "published": false
-      },
-      {
-        "name": "Barnet",
-        "slug": "barnet",
-        "published": false
-      },
-      {
-        "name": "Enfield",
-        "slug": "enfield",
-        "published": false
-      },
-      {
-        "name": "Tottenham",
-        "slug": "tottenham",
-        "published": false
-      }
-    ]
+    "intro": "Victorian and Edwardian terraces, 1930s semis and newer apartment developments with a wide mix of timber, uPVC and aluminium windows."
   },
   {
     "region": "East London",
     "slug": "east-london",
-    "intro": "Converted warehouses, high-rise flats, new-build estates and busy commercial units from Hackney through to the Essex border.",
-    "areas": [
-      {
-        "name": "Stratford",
-        "slug": "stratford",
-        "published": false
-      },
-      {
-        "name": "Hackney",
-        "slug": "hackney",
-        "published": false
-      },
-      {
-        "name": "Bow",
-        "slug": "bow",
-        "published": false
-      },
-      {
-        "name": "Canary Wharf",
-        "slug": "canary-wharf",
-        "published": false
-      },
-      {
-        "name": "Poplar",
-        "slug": "poplar",
-        "published": false
-      },
-      {
-        "name": "Ilford",
-        "slug": "ilford",
-        "published": false
-      },
-      {
-        "name": "Barking",
-        "slug": "barking",
-        "published": false
-      },
-      {
-        "name": "Romford",
-        "slug": "romford",
-        "published": false
-      }
-    ]
+    "intro": "Converted warehouses, high-rise flats, new-build estates and busy commercial units from Hackney through to the Essex border."
   },
   {
     "region": "South London",
     "slug": "south-london",
-    "intro": "Suburban family homes, mansion flats and high-street premises, with a large stock of uPVC and double-glazed units now reaching the age where hardware fails.",
-    "areas": [
-      {
-        "name": "Greenwich",
-        "slug": "greenwich",
-        "published": false
-      },
-      {
-        "name": "Lewisham",
-        "slug": "lewisham",
-        "published": false
-      },
-      {
-        "name": "Croydon",
-        "slug": "croydon",
-        "published": false
-      },
-      {
-        "name": "Bromley",
-        "slug": "bromley",
-        "published": false
-      },
-      {
-        "name": "Wimbledon",
-        "slug": "wimbledon",
-        "published": false
-      },
-      {
-        "name": "Sutton",
-        "slug": "sutton",
-        "published": false
-      },
-      {
-        "name": "Streatham",
-        "slug": "streatham",
-        "published": false
-      }
-    ]
+    "intro": "Suburban family homes, mansion flats and high-street premises, with a large stock of uPVC and double-glazed units now reaching the age where hardware fails."
   },
   {
     "region": "West London",
     "slug": "west-london",
-    "intro": "Riverside terraces, Metroland semis, purpose-built blocks and office parks, where aluminium and tilt-and-turn systems are as common as traditional timber.",
-    "areas": [
-      {
-        "name": "Hammersmith",
-        "slug": "hammersmith",
-        "published": false
-      },
-      {
-        "name": "Ealing",
-        "slug": "ealing",
-        "published": false
-      },
-      {
-        "name": "Acton",
-        "slug": "acton",
-        "published": false
-      },
-      {
-        "name": "Chiswick",
-        "slug": "chiswick",
-        "published": false
-      },
-      {
-        "name": "Richmond",
-        "slug": "richmond",
-        "published": false
-      },
-      {
-        "name": "Hounslow",
-        "slug": "hounslow",
-        "published": false
-      },
-      {
-        "name": "Wembley",
-        "slug": "wembley",
-        "published": false
-      },
-      {
-        "name": "Harrow",
-        "slug": "harrow",
-        "published": false
-      }
-    ]
+    "intro": "Riverside terraces, Metroland semis, purpose-built blocks and office parks, where aluminium and tilt-and-turn systems are as common as traditional timber."
   }
 ]
