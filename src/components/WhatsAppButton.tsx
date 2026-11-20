@@ -43,7 +43,7 @@ export function FloatingWhatsApp() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 left-5 z-40 inline-flex h-12 items-center gap-2 rounded-[4px] bg-teal pl-3.5 pr-4 font-heading text-sm font-semibold text-white shadow-raised transition-colors hover:bg-teal-dark"
+      className="floating-corner fixed bottom-5 left-5 z-40 inline-flex h-12 items-center gap-2 rounded-[4px] bg-teal pl-3.5 pr-4 font-heading text-sm font-semibold text-white shadow-raised transition-colors hover:bg-teal-dark"
     >
       <WhatsAppIcon className="h-6 w-6" />
       <span>{contact.floatingLabel || "WhatsApp us"}</span>

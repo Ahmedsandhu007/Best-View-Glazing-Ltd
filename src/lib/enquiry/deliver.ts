@@ -110,7 +110,7 @@ function resendProvider(): Provider | null {
         body: JSON.stringify({
           from,
           to: to.split(",").map((s) => s.trim()),
-          reply_to: payload.fields.email,
+          ...(payload.fields.email ? { reply_to: payload.fields.email } : {}),
           subject: `Website enquiry ${payload.reference} – ${payload.fields.service} (${payload.fields.postcode})`,
           text: renderEnquiryText(payload),
           html: renderEnquiryHtml(payload),

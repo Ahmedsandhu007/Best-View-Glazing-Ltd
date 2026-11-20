@@ -6,6 +6,7 @@ import {
   normalisePostcode,
   validateEnquiry,
   validateFileList,
+  validateShortEnquiry,
   type EnquiryFields,
 } from "@/lib/enquiry/validation";
 
@@ -77,7 +78,9 @@ export async function POST(req: Request) {
   ) as EnquiryFields;
   fields.postcode = normalisePostcode(fields.postcode);
 
-  const errors = validateEnquiry(fields);
+  // "short" = the quick form in a service page hero (name, phone, postcode, service, message).
+  const short = form.get("form") === "short";
+  const errors = short ? validateShortEnquiry(fields) : validateEnquiry(fields);
   if (Object.keys(errors).length > 0) {
     return NextResponse.json({ ok: false, message: "Please correct the highlighted fields.", errors }, { status: 422 });
   }
@@ -106,6 +109,7 @@ export async function POST(req: Request) {
     attachments,
     meta: {
       page: typeof form.get("page") === "string" ? (form.get("page") as string).slice(0, 200) : null,
+      form: short ? "quick quote (service page hero)" : "full enquiry form",
       userAgent: req.headers.get("user-agent")?.slice(0, 200) ?? null,
     },
   };

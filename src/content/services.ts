@@ -1,15 +1,35 @@
 import servicesData from "./services.json";
 import formData from "./form.json";
 
+export type ServiceSection = { heading: string; paragraphs: string[]; image?: string; imageAlt?: string; imageSide?: "right" | "left" };
+export type TitledPoint = { title: string; text: string };
+/** "default" follows the site-wide switch under Service page blocks; "on" / "off" override it for this service. */
+export type ServiceBlockMode = "default" | "on" | "off";
+export type ServiceBlocks = {
+  heroForm?: ServiceBlockMode;
+  stickyBar?: ServiceBlockMode;
+  whyUs?: { mode?: ServiceBlockMode; heading?: string; items?: TitledPoint[] };
+  benefits?: { mode?: ServiceBlockMode; heading?: string; items?: string[] };
+  process?: { mode?: ServiceBlockMode; heading?: string; items?: TitledPoint[] };
+  cost?: { mode?: ServiceBlockMode; heading?: string; intro?: string; items?: TitledPoint[] };
+  faqsHeading?: string;
+};
+
 export type Service = {
   slug: string;
   title: string;
+  /** Page heading; empty = "<title> in <service area>". */
+  h1?: string;
   /** Short name used in the enquiry form select. */
   formLabel: string;
   /** One-line summary for cards and metadata. */
   summary: string;
-  /** Longer copy for the service page. */
-  body: string[];
+  /** Content sections of the service page, each with its own H2. */
+  sections?: ServiceSection[];
+  /** Per-service switches and overrides for the optional blocks. */
+  blocks?: ServiceBlocks;
+  /** Published area pages linked under "Where we carry out this work" (their slugs). Empty = block hidden. */
+  areaPages?: string[];
   /** Typical faults handled under this service. */
   faults: string[];
   /** Photo: a site path (/uploads/…) or an https image URL. */
@@ -19,6 +39,8 @@ export type Service = {
   icon: string;
   /** SEO keyword phrase used in the page title. */
   seoTitle: string;
+  /** Meta description; empty = built from the summary. */
+  seoDescription?: string;
   /** Questions and answers shown on the service page (FAQPage schema). */
   faqs?: { question: string; answer: string }[];
 };

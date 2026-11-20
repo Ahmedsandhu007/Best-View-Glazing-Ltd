@@ -1,0 +1,43 @@
+{
+  "heroForm": {
+    "enabled": true,
+    "title": "Get a free quote",
+    "intro": "Takes a minute. We reply with a written quotation or a few questions.",
+    "buttonLabel": "Send my enquiry",
+    "note": "The full form with photo upload is at the bottom of the page."
+  },
+  "stickyBar": {
+    "enabled": true,
+    "callLabel": "Call us",
+    "whatsappLabel": "WhatsApp"
+  },
+  "whyUs": {
+    "enabled": true,
+    "heading": "Why choose Best View Glazing for {service}"
+  },
+  "benefits": {
+    "enabled": true,
+    "heading": "Benefits of repairing rather than replacing",
+    "items": [
+      "The existing frames and the look of the property are kept",
+      "Only the part that has failed is replaced",
+      "Less disruption than a full replacement",
+      "Less waste than taking the whole unit out"
+    ]
+  },
+  "process": {
+    "enabled": true,
+    "heading": "How a repair works"
+  },
+  "cost": {
+    "enabled": true,
+    "heading": "What affects the cost of {service}",
+    "intro": "Every quotation is written for the window or door in front of us. These are the things that move the price."
+  },
+  "faqs": {
+    "heading": "Questions about {service}"
+  },
+  "coverage": {
+    "heading": "Where we carry out this work"
+  }
+}

@@ -105,6 +105,15 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Paragraphs. Start a line with \"- \" to make it a bullet point.",
     ],
   },
+  "service-page": {
+    diagram: "hero",
+    title: "Service page blocks: what every service page shows unless a service says otherwise",
+    steps: [
+      "The quote form in the banner and the Call / WhatsApp bar on phones: on or off site-wide.",
+      "Why choose us, Benefits, Our process, What affects the cost: a default switch and heading each; the points come from the matching site-wide lists.",
+      "Any service can switch a block on or off and give it its own heading, intro or points under its Optional blocks.",
+    ],
+  },
   services: {
     diagram: "tile",
     title: "Services: the cards on the home page and each service's own page",

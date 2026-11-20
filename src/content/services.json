@@ -2,12 +2,22 @@
   {
     "slug": "upvc-window-repairs",
     "title": "uPVC Window Repairs",
-    "formLabel": "uPVC Window Repair",
+    "h1": "",
     "summary": "Hinges, handles, locks, seals and sealed units repaired on casement and sliding uPVC windows.",
-    "body": [
-      "uPVC windows are the most common type in London homes and most faults are mechanical rather than structural. Friction hinges wear and let the sash drop, espagnolette locks seize, handles snap and gaskets harden and shrink, letting in draughts and water.",
-      "We repair and replace this hardware with like-for-like or compatible parts and re-align the sash so the window closes and locks as it should. Where the sealed unit has misted or cracked we replace the glass while keeping the existing frame.",
-      "A uPVC frame itself rarely needs replacing. In most cases a targeted repair restores the window for a fraction of the cost and disruption of a new unit."
+    "image": "https://images.unsplash.com/photo-1503594384566-461fe158e797?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "White uPVC casement windows on the gable of a rendered house",
+    "sections": [
+      {
+        "heading": "About our upvc window repairs",
+        "paragraphs": [
+          "uPVC windows are the most common type in London homes and most faults are mechanical rather than structural. Friction hinges wear and let the sash drop, espagnolette locks seize, handles snap and gaskets harden and shrink, letting in draughts and water.",
+          "We repair and replace this hardware with like-for-like or compatible parts and re-align the sash so the window closes and locks as it should. Where the sealed unit has misted or cracked we replace the glass while keeping the existing frame.",
+          "A uPVC frame itself rarely needs replacing. In most cases a targeted repair restores the window for a fraction of the cost and disruption of a new unit."
+        ],
+        "image": "https://images.unsplash.com/photo-1503594384566-461fe158e797?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "White uPVC casement windows on the gable of a rendered house",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Window will not close, lock or open fully",
@@ -17,21 +27,58 @@
       "Misted or cracked double-glazed unit",
       "Snapped or worn friction hinges"
     ],
-    "image": "https://images.unsplash.com/photo-1503594384566-461fe158e797?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "AppWindow",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "uPVC Window Repair",
     "seoTitle": "uPVC Window Repairs London",
-    "imageAlt": "White uPVC casement windows on the gable of a rendered house",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "AppWindow"
   },
   {
     "slug": "aluminium-window-repairs",
     "title": "Aluminium Window Repairs",
-    "formLabel": "Aluminium Window Repair",
+    "h1": "",
     "summary": "Hardware, gasket and glazing repairs to casement, sliding and tilt and turn aluminium systems.",
-    "body": [
-      "Aluminium windows are found in flats, offices, schools and modern houses throughout London. The frames last for decades, but hinges, rollers, locking gear and gaskets wear with use and the sealed units eventually fail.",
-      "We identify the system and source the correct hinges, handles, rollers, shoot bolts and gaskets, including parts for older systems that are no longer in production where a compatible equivalent exists. Sealed units are measured and replaced within the existing frame.",
-      "Because many aluminium windows are above ground level or in occupied commercial buildings, we plan access and working hours with you before the visit."
+    "image": "https://images.unsplash.com/photo-1600047509782-20d39509f26d?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Modern white house with dark grey aluminium framed windows",
+    "sections": [
+      {
+        "heading": "About our aluminium window repairs",
+        "paragraphs": [
+          "Aluminium windows are found in flats, offices, schools and modern houses throughout London. The frames last for decades, but hinges, rollers, locking gear and gaskets wear with use and the sealed units eventually fail.",
+          "We identify the system and source the correct hinges, handles, rollers, shoot bolts and gaskets, including parts for older systems that are no longer in production where a compatible equivalent exists. Sealed units are measured and replaced within the existing frame.",
+          "Because many aluminium windows are above ground level or in occupied commercial buildings, we plan access and working hours with you before the visit."
+        ],
+        "image": "https://images.unsplash.com/photo-1600047509782-20d39509f26d?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Modern white house with dark grey aluminium framed windows",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Sliding window stiff or jumping its track",
@@ -41,21 +88,58 @@
       "Condensation between the panes",
       "Loose or damaged beading"
     ],
-    "image": "https://images.unsplash.com/photo-1600047509782-20d39509f26d?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Frame",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Aluminium Window Repair",
     "seoTitle": "Aluminium Window Repairs London",
-    "imageAlt": "Modern white house with dark grey aluminium framed windows",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Frame"
   },
   {
     "slug": "wooden-window-repairs",
     "title": "Wooden Window Repairs",
-    "formLabel": "Wooden Window Repair",
+    "h1": "",
     "summary": "Timber casement repairs including rot treatment, splicing, re-glazing and new ironmongery.",
-    "body": [
-      "Timber windows suit the character of London’s older housing stock and, when maintained, outlast many modern alternatives. Problems usually begin with failed paint or putty that lets water into the joinery, followed by swelling, sticking and localised rot.",
-      "We cut out and splice in new timber where rot is confined to sills, lower rails or corners, ease and adjust swollen sashes, re-putty and re-glaze panes, and replace worn stays, fasteners and hinges with appropriate ironmongery.",
-      "Full replacement is only recommended where the joinery is beyond economic repair, and we will tell you plainly when that is the case."
+    "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Carpenter working on a length of timber with a cordless drill",
+    "sections": [
+      {
+        "heading": "About our wooden window repairs",
+        "paragraphs": [
+          "Timber windows suit the character of London’s older housing stock and, when maintained, outlast many modern alternatives. Problems usually begin with failed paint or putty that lets water into the joinery, followed by swelling, sticking and localised rot.",
+          "We cut out and splice in new timber where rot is confined to sills, lower rails or corners, ease and adjust swollen sashes, re-putty and re-glaze panes, and replace worn stays, fasteners and hinges with appropriate ironmongery.",
+          "Full replacement is only recommended where the joinery is beyond economic repair, and we will tell you plainly when that is the case."
+        ],
+        "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Carpenter working on a length of timber with a cordless drill",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Soft or rotten sills and bottom rails",
@@ -65,21 +149,58 @@
       "Broken stays, fasteners or hinges",
       "Flaking finish exposing bare timber"
     ],
-    "image": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "TreePine",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Wooden Window Repair",
     "seoTitle": "Wooden Window Repairs London",
-    "imageAlt": "Carpenter working on a length of timber with a cordless drill",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "TreePine"
   },
   {
     "slug": "sash-window-repairs",
     "title": "Sash Window Repairs",
-    "formLabel": "Sash Window Repair",
+    "h1": "",
     "summary": "Cords, weights, balances, rattles, draught-proofing and timber repairs for box sash windows.",
-    "body": [
-      "Box sash windows are a defining feature of Georgian, Victorian and Edwardian London. They are also robust, repairable and often painted shut or left rattling for years because owners assume the only option is replacement.",
-      "We replace broken sash cords and spiral balances, re-hang sashes, free windows that have been painted or swollen shut, renew parting and staff beads, repair rotten sills and meeting rails, and fit discreet draught-proofing that cuts noise and heat loss without changing the appearance.",
-      "Cracked or broken panes are re-glazed with suitable glass, and we can advise on slimline double-glazed units for existing sashes where the frame allows."
+    "image": "https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Living room with three tall traditional sash windows",
+    "sections": [
+      {
+        "heading": "About our sash window repairs",
+        "paragraphs": [
+          "Box sash windows are a defining feature of Georgian, Victorian and Edwardian London. They are also robust, repairable and often painted shut or left rattling for years because owners assume the only option is replacement.",
+          "We replace broken sash cords and spiral balances, re-hang sashes, free windows that have been painted or swollen shut, renew parting and staff beads, repair rotten sills and meeting rails, and fit discreet draught-proofing that cuts noise and heat loss without changing the appearance.",
+          "Cracked or broken panes are re-glazed with suitable glass, and we can advise on slimline double-glazed units for existing sashes where the frame allows."
+        ],
+        "image": "https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Living room with three tall traditional sash windows",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Sash will not stay open or slides down",
@@ -89,21 +210,58 @@
       "Rotten sill, meeting rail or bottom rail",
       "Cracked or broken single-glazed pane"
     ],
-    "image": "https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "ArrowUpDown",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Sash Window Repair",
     "seoTitle": "Sash Window Repairs London",
-    "imageAlt": "Living room with three tall traditional sash windows",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "ArrowUpDown"
   },
   {
     "slug": "tilt-and-turn-window-repairs",
     "title": "Tilt & Turn Window Repairs",
-    "formLabel": "Tilt & Turn Window Repair",
+    "h1": "",
     "summary": "Gearing, hinge and handle faults corrected on uPVC and aluminium tilt and turn units.",
-    "body": [
-      "Tilt and turn windows are common in flats and apartment blocks, where they provide ventilation and safe inward cleaning. Their gearing is more complex than a standard casement, and a fault often shows as a window stuck in both modes at once or a handle that will not move.",
-      "We release jammed sashes safely, replace worn gearboxes, scissor stays, corner drives and handles, and re-set the mechanism so the tilt and turn functions operate independently again. Sealed units and gaskets are replaced where required.",
-      "Most tilt and turn systems are repairable with the correct parts, and a repair avoids the cost of removing and replacing a large sash from an upper floor."
+    "image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Apartment interior with white framed opening windows",
+    "sections": [
+      {
+        "heading": "About our tilt & turn window repairs",
+        "paragraphs": [
+          "Tilt and turn windows are common in flats and apartment blocks, where they provide ventilation and safe inward cleaning. Their gearing is more complex than a standard casement, and a fault often shows as a window stuck in both modes at once or a handle that will not move.",
+          "We release jammed sashes safely, replace worn gearboxes, scissor stays, corner drives and handles, and re-set the mechanism so the tilt and turn functions operate independently again. Sealed units and gaskets are replaced where required.",
+          "Most tilt and turn systems are repairable with the correct parts, and a repair avoids the cost of removing and replacing a large sash from an upper floor."
+        ],
+        "image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Apartment interior with white framed opening windows",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Sash hanging on one hinge after a mis-operation",
@@ -113,21 +271,58 @@
       "Draughts around a sash that no longer seals",
       "Failed sealed unit"
     ],
-    "image": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "RotateCw",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Tilt & Turn Window Repair",
     "seoTitle": "Tilt and Turn Window Repairs London",
-    "imageAlt": "Apartment interior with white framed opening windows",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "RotateCw"
   },
   {
     "slug": "double-glazing-repairs",
     "title": "Double Glazing Repairs",
-    "formLabel": "Double Glazing Repair",
+    "h1": "",
     "summary": "Misted, cracked or failed sealed units replaced within existing uPVC, aluminium and timber frames.",
-    "body": [
-      "Condensation or a cloudy haze between the two panes of a double-glazed window means the edge seal of the sealed unit has failed. The frame is almost always fine, and the correct repair is a new sealed unit rather than a new window.",
-      "We measure the unit, confirm the glass specification and spacer size, and fit a replacement that matches the existing window. Toughened, laminated, obscure and low-emissivity glass can all be specified where appropriate.",
-      "The same approach applies to cracked or broken double-glazed panes and to units that have slipped within the frame, leaving the window hard to lock."
+    "image": "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Open-plan living space with large double-glazed windows",
+    "sections": [
+      {
+        "heading": "About our double glazing repairs",
+        "paragraphs": [
+          "Condensation or a cloudy haze between the two panes of a double-glazed window means the edge seal of the sealed unit has failed. The frame is almost always fine, and the correct repair is a new sealed unit rather than a new window.",
+          "We measure the unit, confirm the glass specification and spacer size, and fit a replacement that matches the existing window. Toughened, laminated, obscure and low-emissivity glass can all be specified where appropriate.",
+          "The same approach applies to cracked or broken double-glazed panes and to units that have slipped within the frame, leaving the window hard to lock."
+        ],
+        "image": "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Open-plan living space with large double-glazed windows",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Misting or water between the panes",
@@ -136,21 +331,58 @@
       "Loose, cracked or missing glazing beads",
       "Cold spots and noise through a failed unit"
     ],
-    "image": "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Layers",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Double Glazing Repair",
     "seoTitle": "Double Glazing Repairs London",
-    "imageAlt": "Open-plan living space with large double-glazed windows",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Layers"
   },
   {
     "slug": "window-lock-and-handle-repairs",
     "title": "Window Lock & Handle Repairs",
-    "formLabel": "Window Lock / Handle Repair",
+    "h1": "",
     "summary": "Broken handles, seized locks, lost keys and failed espagnolette gearing replaced and adjusted.",
-    "body": [
-      "Window locks and handles take the most use of any part of the window and fail accordingly. A handle that spins freely, a lock that will not throw or a window that locks but does not pull tight usually points to the espagnolette gearbox, the keeps or the handle spindle.",
-      "We replace cockspur and espagnolette handles, gearboxes, shoot bolts, keeps and restrictors across uPVC, aluminium and timber windows, including locking handles where security or insurance requirements call for them.",
-      "Where keys have been lost we can replace the handle rather than the whole window, and we will advise on child restrictors and egress hinges for upper floors."
+    "image": "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Tool bag holding pliers, screwdrivers and hand tools used for window hardware",
+    "sections": [
+      {
+        "heading": "About our window lock & handle repairs",
+        "paragraphs": [
+          "Window locks and handles take the most use of any part of the window and fail accordingly. A handle that spins freely, a lock that will not throw or a window that locks but does not pull tight usually points to the espagnolette gearbox, the keeps or the handle spindle.",
+          "We replace cockspur and espagnolette handles, gearboxes, shoot bolts, keeps and restrictors across uPVC, aluminium and timber windows, including locking handles where security or insurance requirements call for them.",
+          "Where keys have been lost we can replace the handle rather than the whole window, and we will advise on child restrictors and egress hinges for upper floors."
+        ],
+        "image": "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Tool bag holding pliers, screwdrivers and hand tools used for window hardware",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Handle spins or has snapped off",
@@ -159,21 +391,58 @@
       "Keys lost for locking handles",
       "Keeps and strikers worn or misaligned"
     ],
-    "image": "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "KeyRound",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Window Lock / Handle Repair",
     "seoTitle": "Window Lock Repairs London",
-    "imageAlt": "Tool bag holding pliers, screwdrivers and hand tools used for window hardware",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "KeyRound"
   },
   {
     "slug": "window-hinge-replacement",
     "title": "Window Hinge Replacement",
-    "formLabel": "Window Hinge Repair",
+    "h1": "",
     "summary": "Friction stays, egress and butt hinges replaced on casements that drop, stick or will not stay open.",
-    "body": [
-      "A window that has dropped on the handle side, scrapes the frame or slams shut in the wind has almost always got worn friction hinges. Replacing them is one of the most effective and economical window repairs there is.",
-      "We identify the stack height and hinge length, fit matching friction stays or fire-escape egress hinges, and re-adjust the sash so it closes squarely and compresses the seals. On timber and aluminium windows we also replace butt and projecting hinges.",
-      "Replacing hinges in pairs keeps the sash balanced and avoids a repeat visit when the second hinge fails shortly after the first."
+    "image": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Cordless drill driver on a white surface",
+    "sections": [
+      {
+        "heading": "About our window hinge replacement",
+        "paragraphs": [
+          "A window that has dropped on the handle side, scrapes the frame or slams shut in the wind has almost always got worn friction hinges. Replacing them is one of the most effective and economical window repairs there is.",
+          "We identify the stack height and hinge length, fit matching friction stays or fire-escape egress hinges, and re-adjust the sash so it closes squarely and compresses the seals. On timber and aluminium windows we also replace butt and projecting hinges.",
+          "Replacing hinges in pairs keeps the sash balanced and avoids a repeat visit when the second hinge fails shortly after the first."
+        ],
+        "image": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Cordless drill driver on a white surface",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Window has dropped and catches on the frame",
@@ -182,21 +451,58 @@
       "Rusted, bent or snapped hinge arms",
       "Draughts at the top or hinge edge"
     ],
-    "image": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Link2",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Window Hinge Repair",
     "seoTitle": "Window Hinge Replacement London",
-    "imageAlt": "Cordless drill driver on a white surface",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Link2"
   },
   {
     "slug": "broken-window-glass-repairs",
     "title": "Broken Window Glass Repairs",
-    "formLabel": "Broken Glass Repair",
+    "h1": "",
     "summary": "Cracked, broken and damaged panes replaced in single and double-glazed windows and doors.",
-    "body": [
-      "Broken glass needs dealing with promptly for safety, security and weather protection. We remove the damaged pane, make the opening safe and fit replacement glass of the correct type and thickness.",
-      "Single-glazed panes in timber and sash windows are re-puttied or re-beaded; double-glazed units are measured and replaced like for like. Where safety glazing is required by regulation, for example in doors or low-level glazing, we fit toughened or laminated glass.",
-      "If a replacement unit has to be manufactured to size we can make the opening secure in the meantime."
+    "image": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Bright white framed window letting daylight into a living room",
+    "sections": [
+      {
+        "heading": "About our broken window glass repairs",
+        "paragraphs": [
+          "Broken glass needs dealing with promptly for safety, security and weather protection. We remove the damaged pane, make the opening safe and fit replacement glass of the correct type and thickness.",
+          "Single-glazed panes in timber and sash windows are re-puttied or re-beaded; double-glazed units are measured and replaced like for like. Where safety glazing is required by regulation, for example in doors or low-level glazing, we fit toughened or laminated glass.",
+          "If a replacement unit has to be manufactured to size we can make the opening secure in the meantime."
+        ],
+        "image": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Bright white framed window letting daylight into a living room",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Cracked or shattered pane",
@@ -205,21 +511,58 @@
       "Damage after a break-in or accident",
       "Glass that no longer meets safety requirements"
     ],
-    "image": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "TriangleAlert",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Broken Glass Repair",
     "seoTitle": "Broken Window Glass Repairs London",
-    "imageAlt": "Bright white framed window letting daylight into a living room",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "TriangleAlert"
   },
   {
     "slug": "window-seal-replacement",
     "title": "Window Seal Replacement",
-    "formLabel": "Window Seal Replacement",
+    "h1": "",
     "summary": "Perished gaskets, weather seals and draught strips renewed to stop draughts, rattles and leaks.",
-    "body": [
-      "The rubber gaskets and brush or pile seals around a window are what keep the weather out. Over time they shrink, harden and pull away from the corners, leaving draughts, rattles, water staining and higher heating bills.",
-      "We replace wedge gaskets, bubble seals, flipper seals and pile strips on uPVC and aluminium windows with the correct profile for the system, and fit discreet draught-proofing to timber casements and sashes.",
-      "New seals are often combined with hinge and lock adjustment so the sash compresses the seal evenly all the way round."
+    "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Pair of white windows in a light sitting room",
+    "sections": [
+      {
+        "heading": "About our window seal replacement",
+        "paragraphs": [
+          "The rubber gaskets and brush or pile seals around a window are what keep the weather out. Over time they shrink, harden and pull away from the corners, leaving draughts, rattles, water staining and higher heating bills.",
+          "We replace wedge gaskets, bubble seals, flipper seals and pile strips on uPVC and aluminium windows with the correct profile for the system, and fit discreet draught-proofing to timber casements and sashes.",
+          "New seals are often combined with hinge and lock adjustment so the sash compresses the seal evenly all the way round."
+        ],
+        "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Pair of white windows in a light sitting room",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Cold draughts around a closed window",
@@ -228,21 +571,58 @@
       "Gasket shrunk back from the corners",
       "Black, cracked or crumbling rubber seals"
     ],
-    "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Droplets",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Window Seal Replacement",
     "seoTitle": "Window Seal Replacement London",
-    "imageAlt": "Pair of white windows in a light sitting room",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Droplets"
   },
   {
     "slug": "window-frame-repairs",
     "title": "Window Frame Repairs",
-    "formLabel": "Window Frame Repair",
+    "h1": "",
     "summary": "Damaged, split, rotten or discoloured frames repaired in timber, uPVC and aluminium.",
-    "body": [
-      "Frame damage ranges from a small split at a mitre joint to rot through a timber sill or a uPVC frame that has been forced during a break-in. In most cases the frame can be repaired without disturbing the glazing or the surrounding wall.",
-      "Timber is spliced or filled with resin repair systems and re-finished; uPVC is welded, filled and colour-matched; aluminium is straightened, re-sealed and re-fixed. We also re-seal the perimeter where the mastic joint to the brickwork has failed.",
-      "A sound frame protects the glazing and hardware, so frame repairs are often the sensible first step before other work."
+    "image": "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Living room with arched black framed windows",
+    "sections": [
+      {
+        "heading": "About our window frame repairs",
+        "paragraphs": [
+          "Frame damage ranges from a small split at a mitre joint to rot through a timber sill or a uPVC frame that has been forced during a break-in. In most cases the frame can be repaired without disturbing the glazing or the surrounding wall.",
+          "Timber is spliced or filled with resin repair systems and re-finished; uPVC is welded, filled and colour-matched; aluminium is straightened, re-sealed and re-fixed. We also re-seal the perimeter where the mastic joint to the brickwork has failed.",
+          "A sound frame protects the glazing and hardware, so frame repairs are often the sensible first step before other work."
+        ],
+        "image": "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Living room with arched black framed windows",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Split or open mitre joints",
@@ -251,21 +631,58 @@
       "Failed mastic between frame and wall",
       "Frame loose in the opening"
     ],
-    "image": "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Ruler",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Window Frame Repair",
     "seoTitle": "Window Frame Repairs London",
-    "imageAlt": "Living room with arched black framed windows",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Ruler"
   },
   {
     "slug": "commercial-window-repairs",
     "title": "Commercial Window Repairs",
-    "formLabel": "Commercial Repair",
+    "h1": "",
     "summary": "Planned and reactive window and door repairs for offices, retail, schools, surgeries and managed blocks.",
-    "body": [
-      "Commercial buildings depend on windows and doors that work every day, and a fault affects staff, tenants and customers at once. We carry out reactive repairs and planned maintenance for offices, shops, restaurants, schools, healthcare premises and residential blocks managed by agents and management companies.",
-      "Work covers aluminium and steel window systems, shopfront glazing, communal entrance doors, fire exit hardware and the locks, closers and hinges that fail with heavy use. We can schedule visits outside trading or office hours where disruption must be kept to a minimum.",
-      "Letting agents and property managers receive clear written quotations per property and a single point of contact for the work."
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Office interior with floor-to-ceiling glass partitions and windows",
+    "sections": [
+      {
+        "heading": "About our commercial window repairs",
+        "paragraphs": [
+          "Commercial buildings depend on windows and doors that work every day, and a fault affects staff, tenants and customers at once. We carry out reactive repairs and planned maintenance for offices, shops, restaurants, schools, healthcare premises and residential blocks managed by agents and management companies.",
+          "Work covers aluminium and steel window systems, shopfront glazing, communal entrance doors, fire exit hardware and the locks, closers and hinges that fail with heavy use. We can schedule visits outside trading or office hours where disruption must be kept to a minimum.",
+          "Letting agents and property managers receive clear written quotations per property and a single point of contact for the work."
+        ],
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Office interior with floor-to-ceiling glass partitions and windows",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Office windows that will not open or lock",
@@ -274,21 +691,58 @@
       "Fire exit hardware not operating correctly",
       "Programme of repairs across several properties"
     ],
-    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Building2",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Commercial Repair",
     "seoTitle": "Commercial Window Repairs London",
-    "imageAlt": "Office interior with floor-to-ceiling glass partitions and windows",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Building2"
   },
   {
     "slug": "door-lock-and-handle-repairs",
     "title": "Door Lock & Handle Repairs",
-    "formLabel": "Door Repair",
+    "h1": "",
     "summary": "Cylinders, multi-point locks, handles and keeps repaired or replaced on uPVC, composite, aluminium and timber doors.",
-    "body": [
-      "Door locks fail gradually. The handle gets stiff, the key needs persuading, the door has to be lifted to lock, and then one day the mechanism will not move at all. Addressing the fault early avoids being locked out or in.",
-      "We replace euro cylinders, multi-point gearboxes, handles, letterplates, keeps and night latches, and upgrade cylinders to higher-security standards where appropriate. Mortice locks and rim locks on timber doors are repaired or replaced with suitable equivalents.",
-      "Lock and handle work is usually combined with hinge adjustment so the door closes without force and the locking points line up with the keeps."
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Specialist wearing a head torch working on a brass lock cylinder",
+    "sections": [
+      {
+        "heading": "About our door lock & handle repairs",
+        "paragraphs": [
+          "Door locks fail gradually. The handle gets stiff, the key needs persuading, the door has to be lifted to lock, and then one day the mechanism will not move at all. Addressing the fault early avoids being locked out or in.",
+          "We replace euro cylinders, multi-point gearboxes, handles, letterplates, keeps and night latches, and upgrade cylinders to higher-security standards where appropriate. Mortice locks and rim locks on timber doors are repaired or replaced with suitable equivalents.",
+          "Lock and handle work is usually combined with hinge adjustment so the door closes without force and the locking points line up with the keeps."
+        ],
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Specialist wearing a head torch working on a brass lock cylinder",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Door has to be lifted or pushed to lock",
@@ -297,21 +751,58 @@
       "Multi-point lock jammed",
       "Cylinder or lock needs upgrading after a loss of keys"
     ],
-    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "DoorOpen",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Door Repair",
     "seoTitle": "Door Lock Repairs London",
-    "imageAlt": "Specialist wearing a head torch working on a brass lock cylinder",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "DoorOpen"
   },
   {
     "slug": "door-hinge-and-mechanism-repairs",
     "title": "Door Hinge & Mechanism Repairs",
-    "formLabel": "Door Repair",
+    "h1": "",
     "summary": "Dropped, sticking and misaligned doors corrected with new hinges, adjustments and closer repairs.",
-    "body": [
-      "A door that scrapes the floor, catches on the frame or no longer lines up with its keeps has usually dropped on its hinges. On heavier composite and glazed doors this happens sooner, and on communal entrance doors the closer is often the cause.",
-      "We adjust and replace flag, butt and rebate hinges on uPVC, composite, aluminium and timber doors, re-align the slab, replace worn closers and anti-slam devices, and renew seals and thresholds so the door shuts quietly and seals properly.",
-      "Patio, bi-fold and French doors are covered too, including rollers, tracks and the shoot bolts that keep secondary leaves secure."
+    "image": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?auto=format&fit=crop&w=1200&h=800&q=80",
+    "imageAlt": "Screwdriver, pliers, fixings and brush laid out on a white bench",
+    "sections": [
+      {
+        "heading": "About our door hinge & mechanism repairs",
+        "paragraphs": [
+          "A door that scrapes the floor, catches on the frame or no longer lines up with its keeps has usually dropped on its hinges. On heavier composite and glazed doors this happens sooner, and on communal entrance doors the closer is often the cause.",
+          "We adjust and replace flag, butt and rebate hinges on uPVC, composite, aluminium and timber doors, re-align the slab, replace worn closers and anti-slam devices, and renew seals and thresholds so the door shuts quietly and seals properly.",
+          "Patio, bi-fold and French doors are covered too, including rollers, tracks and the shoot bolts that keep secondary leaves secure."
+        ],
+        "image": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?auto=format&fit=crop&w=1200&h=800&q=80",
+        "imageAlt": "Screwdriver, pliers, fixings and brush laid out on a white bench",
+        "imageSide": "right"
+      }
     ],
     "faults": [
       "Door dropped and scraping the floor or frame",
@@ -320,10 +811,37 @@
       "Door closer leaking or slamming",
       "Patio or bi-fold door stiff on its track"
     ],
-    "image": "https://images.unsplash.com/photo-1581783898377-1c85bf937427?auto=format&fit=crop&w=1200&h=800&q=80",
-    "icon": "Settings2",
+    "blocks": {
+      "heroForm": "default",
+      "stickyBar": "default",
+      "whyUs": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "benefits": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "process": {
+        "mode": "default",
+        "heading": "",
+        "items": []
+      },
+      "cost": {
+        "mode": "default",
+        "heading": "",
+        "intro": "",
+        "items": []
+      },
+      "faqsHeading": ""
+    },
+    "faqs": [],
+    "areaPages": [],
+    "formLabel": "Door Repair",
     "seoTitle": "Door Repairs London",
-    "imageAlt": "Screwdriver, pliers, fixings and brush laid out on a white bench",
-    "faqs": []
+    "seoDescription": "",
+    "icon": "Settings2"
   }
 ]

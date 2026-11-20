@@ -90,6 +90,12 @@ export const TEXT_LIMITS: Record<string, number> = {
   regionSlug: 60,
   nearby: 60,
   imageSide: 10,
+  mode: 10,
+  enabled: 10,
+  areaPages: 60,
+  faqsHeading: 140,
+  callLabel: 30,
+  items: 400,
 };
 
 export const limitFor = (key: string) => TEXT_LIMITS[key] ?? 400;

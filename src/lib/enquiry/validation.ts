@@ -65,6 +65,33 @@ export function isLikelyLondonPostcode(value: string) {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^[+()\d\s-]{7,30}$/;
 
+/**
+ * The short quote form in a service page hero: name, phone, postcode, service and an optional message.
+ * The phone number is required because there is no email to reply to.
+ */
+export function validateShortEnquiry(fields: EnquiryFields): EnquiryErrors {
+  const errors: EnquiryErrors = {};
+  const v = (k: EnquiryFieldName) => (fields[k] ?? "").trim();
+
+  if (!v("fullName")) errors.fullName = "Please enter your name.";
+  else if (v("fullName").length > limits.fullName) errors.fullName = `Please keep your name under ${limits.fullName} characters.`;
+
+  if (!v("phone")) errors.phone = "Please enter a phone number so we can call you back.";
+  else if (!PHONE_RE.test(v("phone"))) errors.phone = "Please enter a valid phone number.";
+
+  if (v("email") && (!EMAIL_RE.test(v("email")) || v("email").length > limits.email)) errors.email = "Please enter a valid email address or leave it blank.";
+
+  if (!v("postcode")) errors.postcode = "Please enter the property postcode.";
+  else if (!UK_POSTCODE_RE.test(v("postcode"))) errors.postcode = "Please enter a valid UK postcode, for example SW1A 1AA.";
+
+  if (!v("service")) errors.service = "Please choose a service.";
+  else if (!(serviceFormOptions as readonly string[]).includes(v("service"))) errors.service = "Please choose a service from the list.";
+
+  if (v("description").length > limits.descriptionMax) errors.description = `Please keep the message under ${limits.descriptionMax} characters.`;
+
+  return errors;
+}
+
 export function validateEnquiry(fields: EnquiryFields): EnquiryErrors {
   const errors: EnquiryErrors = {};
   const v = (k: EnquiryFieldName) => (fields[k] ?? "").trim();

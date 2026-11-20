@@ -84,6 +84,7 @@ export function validateObject(fields: FieldSpec[], obj: unknown, prefix = ""): 
           v.forEach((item, i) => {
             if (typeof item !== "string") errors.push(`${at(f.key)}[${i}] must be text`);
             else if (item.length > max) errors.push(`${at(f.key)}[${i}] is too long (max ${max})`);
+            else if (f.enum && item.trim() && !f.enum.includes(item.trim())) errors.push(`${at(f.key)}[${i}] "${item}" is not one of: ${f.enum.join(", ")}`);
           });
         }
         break;
