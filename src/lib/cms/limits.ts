@@ -77,6 +77,8 @@ export const TEXT_LIMITS: Record<string, number> = {
   hours: 80,
   address: 80,
   ga4MeasurementId: 20,
+  gtmId: 20,
+  ahrefsKey: 60,
   googleSiteVerification: 120,
   bingSiteVerification: 120,
   from: 200,

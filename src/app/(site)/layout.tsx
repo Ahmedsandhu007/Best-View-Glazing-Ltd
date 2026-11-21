@@ -24,7 +24,7 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
       <FloatingWhatsApp />
       <BackToTop />
       <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
-      <Analytics measurementId={site.ga4MeasurementId} />
+      <Analytics measurementId={site.ga4MeasurementId} gtmId={site.gtmId} ahrefsKey={site.ahrefsKey} />
     </>
   );
 }

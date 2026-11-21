@@ -29,7 +29,7 @@ Edit a section → Save (draft, nothing live) → Publish (sends every draft) �
 
 | Section | What it holds | Where it shows |
 | --- | --- | --- |
-| Site settings | Company name, short name, tagline, site description, service area name, live address, copyright line, profile links (sameAs), GA4 Measurement ID, Search Console and Bing verification codes | Page titles, social previews, footer, structured data, tracking tags |
+| Site settings | Company name, short name, tagline, site description, service area name, live address, copyright line, profile links (sameAs), GA4 Measurement ID, GTM container ID, Ahrefs key, Search Console and Bing verification codes | Page titles, social previews, footer, structured data, tracking tags |
 | Home page | Hero label, headline, text, two buttons, ticked lines, photo caption; introduction block | Home page, first two screens |
 | Section headings | Label, title, intro line and button text for every block of the home page, the enquiry-form section and the teal call-to-action band | Home page and the band on inner pages |
 | Page banners & copy | Dark banner of each inner page; About and Areas body text; FAQ, Blog and Case Studies closing banners | Top of the inner pages |
@@ -71,7 +71,7 @@ List order is site order: the Move up and Move down arrows change what visitors 
 
 **Automatic, nothing to do:** sitemap and robots, canonical URLs, Open Graph and Twitter tags, structured data (business, services, FAQs, breadcrumbs, BlogPosting), `noindex` on `/admin`, and one address per page (upper-case paths, trailing slashes and the vercel.app address all redirect to the www address in one hop).
 
-**Tracking.** Paste the GA4 Measurement ID and the Search Console and Bing verification codes into `Site settings` and publish. GA4 then records page views, `phone_click`, `whatsapp_click`, `email_click` and `generate_lead` (quote form sent). Mark `generate_lead` as a key event in GA4.
+**Tracking.** Paste the GA4 Measurement ID, the Google Tag Manager container ID, the Ahrefs Web Analytics key and the Search Console and Bing verification codes into `Site settings` and publish. If the GTM container sends GA4 page views itself, leave the Measurement ID empty so views are not counted twice. GA4 then records page views, `phone_click`, `whatsapp_click`, `email_click` and `generate_lead` (quote form sent). Mark `generate_lead` as a key event in GA4.
 
 ## Publishing a blog article, step by step
 

@@ -15,7 +15,7 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
       "Description: the default text search engines and social previews show.",
       "Site address: the live web address; change it only if the domain changes.",
       "Profile links: the Google Business Profile, Facebook and other profile addresses, published as sameAs in the structured data.",
-      "Tracking: paste the GA4 Measurement ID and the Search Console and Bing verification codes here, then publish. Empty fields add nothing to the site.",
+      "Tracking: paste the GA4 Measurement ID, the Google Tag Manager container ID, the Ahrefs key and the Search Console and Bing verification codes here, then publish. Empty fields add nothing to the site.",
     ],
   },
   home: {

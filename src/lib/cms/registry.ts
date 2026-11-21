@@ -130,6 +130,20 @@ const defs: Omit<Collection, "validate">[] = [
         help: "Empty = no analytics. Set it and publish: GA4 then records page views, phone, WhatsApp and email clicks, and quote form submits (generate_lead).",
       },
       {
+        key: "gtmId",
+        label: "Google Tag Manager container ID (e.g. GTM-XXXXXXX)",
+        type: "string",
+        max: 20,
+        help: "Loads the GTM container on every page. Empty = not loaded. If the container itself sends GA4 page views, leave the Measurement ID above empty to avoid counting twice.",
+      },
+      {
+        key: "ahrefsKey",
+        label: "Ahrefs Web Analytics key (the data-key value)",
+        type: "string",
+        max: 60,
+        help: "Paste only the key, not the whole script tag. Empty = not loaded.",
+      },
+      {
         key: "googleSiteVerification",
         label: "Google Search Console verification code (the content value of the HTML tag)",
         type: "string",
