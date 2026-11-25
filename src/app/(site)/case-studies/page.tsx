@@ -25,7 +25,7 @@ export default function CaseStudiesPage() {
           {hasPlaceholderCaseStudies && (
             <p className="mb-8 inline-block rounded-[4px] border border-brass/60 bg-ivory px-3 py-1.5 text-sm text-ink">{sections.caseStudies.placeholderNotice}</p>
           )}
-          {caseStudies.length === 0 ? <p className="text-muted">No case studies yet.</p> : <CaseStudiesGrid studies={caseStudies} />}
+          {caseStudies.length === 0 ? <p className="text-muted">Case studies of recent repairs are being added. In the meantime, ask us about similar jobs when you request a quote.</p> : <CaseStudiesGrid studies={caseStudies} />}
         </div>
       </section>
       <Testimonials />

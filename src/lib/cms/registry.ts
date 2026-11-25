@@ -757,7 +757,7 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "case-studies",
     label: "Case studies",
-    description: "Examples of past work. The first three show on the home page. Tick Sample content on any entry that is not a real project yet.",
+    description: "Verified past projects only. Starts empty; the home-page section, Blog menu column and /case-studies page appear with the first entry. The first three show on the home page.",
     file: "src/content/case-studies.json",
     mode: "list",
     titleField: "title",
@@ -802,7 +802,7 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "testimonials",
     label: "Testimonials",
-    description: "Customer feedback cards. Tick Sample content on any placeholder quote.",
+    description: "Verified customer reviews only. Starts empty; the section appears on the home page and /case-studies with the first entry. Tick Sample content on any quote that is not a real review.",
     file: "src/content/testimonials.json",
     mode: "list",
     titleField: "name",

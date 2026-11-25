@@ -83,10 +83,11 @@ function PictureTile({ href, image, label, title, meta }: { href: string; image:
   );
 }
 
-/** Blog dropdown: the three newest articles and case studies with their pictures. */
+/** Blog dropdown: the three newest articles and case studies with their pictures. The case-study column is hidden while there are none. */
 export function BlogMenu() {
+  const studies = caseStudies.slice(0, 3);
   return (
-    <div className="grid gap-8 p-7 lg:grid-cols-2">
+    <div className={`grid gap-8 p-7 ${studies.length > 0 ? "lg:grid-cols-2" : ""}`}>
       <div>
         <PanelHeading title="Articles" href="/blog" linkLabel="All articles" />
         <ul className="mt-4 grid grid-cols-3 gap-5">
@@ -97,16 +98,22 @@ export function BlogMenu() {
           ))}
         </ul>
       </div>
+      {studies.length > 0 ? (
       <div className="lg:border-l lg:border-line lg:pl-8">
         <PanelHeading title="Case Studies" href="/case-studies" linkLabel="All case studies" />
         <ul className="mt-4 grid grid-cols-3 gap-5">
-          {caseStudies.slice(0, 3).map((c) => (
+          {studies.map((c) => (
             <li key={c.slug}>
               <PictureTile href={`/case-studies/${c.slug}`} image={c.image} label={c.category} title={c.title} meta={c.location} />
             </li>
           ))}
         </ul>
       </div>
+      ) : (
+        <p className="self-end text-sm text-muted lg:border-l lg:border-line lg:pl-8">
+          <Link href="/case-studies" className="font-heading font-semibold text-charcoal transition-colors hover:text-teal">Case studies</Link> are being added.
+        </p>
+      )}
     </div>
   );
 }

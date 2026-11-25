@@ -87,7 +87,7 @@ The home page shows the first three entries, so keep the newest at the top with 
 
 ## Case studies, services, areas, testimonials, contact details
 
-**Case studies.** `Category` is a fixed choice and doubles as the filter button. `Summary` goes on the card, `Description` at the top of the page, the optional `Full write-up` below. `Results` are up to three number-and-label pairs. The shipped entries are samples: untick `Sample content` only on real jobs, and state only figures the company can stand behind.
+**Case studies.** `Category` is a fixed choice and doubles as the filter button. `Summary` goes on the card, `Description` at the top of the page, the optional `Full write-up` below. `Results` are up to three number-and-label pairs. The list ships empty: the home-page section, the Blog menu column and the /case-studies grid appear as soon as the first entry is saved. Add only verified projects, state only figures the company can stand behind, and use `Sample content` only for a draft you do not want to look real yet.
 
 **Services.** `Card title` is the card and menu name; `H1` the page heading (empty = card title plus the service area); `Summary` the card text and banner intro. `Content sections` are the body, each with its own H2, paragraphs and an optional photo on the left or right. `Common faults` is the ticked list (empty = hidden). `Optional blocks` switch Why choose us, Benefits, Our process, What affects the cost, the banner quote form and the phone bar on or off for this service, and can override the site-wide heading, intro or points; the site-wide settings live under `Service page blocks`, where `{service}` in a heading becomes the service name. `Questions and answers` show with FAQ schema. `Where we carry out this work` takes the page addresses of published area pages (empty = block hidden). `Form label` must match a `Service required` choice in `Enquiry form` exactly. `Meta description` is per service; empty = built from the summary.
 
@@ -95,7 +95,7 @@ The home page shows the first three entries, so keep the newest at the top with 
 
 **Service FAQs.** Each service has its own `Questions and answers` list at the bottom of its entry. Filled in, they show on the service page with FAQ schema; empty, nothing shows.
 
-**Testimonials.** Tick `Sample content` on anything that is not a real review; stars are hidden and a notice shows until it is unticked.
+**Testimonials.** The list ships empty and the section is hidden until the first entry is saved. Add verified reviews only. Tick `Sample content` on anything that is not a real review; stars are hidden and a notice shows until it is unticked.
 
 **Contact details.** Phone, WhatsApp number (digits with country code), WhatsApp message, email, address, hours, map (an address or a Google Maps embed link), floating button. Empty values are hidden; an empty WhatsApp number removes every WhatsApp button. The shipped phone, WhatsApp, email, hours and map are placeholders. `Opening hours for Google` takes the same hours in Google's format (`Mo-Fr 08:00-18:00`) and feeds the structured data.
 
