@@ -22,7 +22,7 @@ export type Collection = {
 
 const ctaFields: FieldSpec[] = [
   { key: "label", label: "Button text", type: "string", required: true, max: 60 },
-  { key: "href", label: "Button link (a page like /contact, a section like #quote-form, or https://…)", type: "string", format: "path", required: true },
+  { key: "href", label: "Button link (a page like /contact, a section like #quote-form, https://…, or tel:+447876071648)", type: "string", format: "path", required: true },
 ];
 
 const linkFields: FieldSpec[] = [
@@ -35,6 +35,7 @@ const headingFields: FieldSpec[] = [
   { key: "title", type: "string", required: true },
   { key: "description", label: "Intro line", type: "text", required: true, max: 400 },
 ];
+const optionalIntroFields: FieldSpec[] = [headingFields[0], headingFields[1], { ...headingFields[2], label: "Intro line (optional)", required: false }];
 
 const bannerFields: FieldSpec[] = [
   { key: "eyebrow", label: "Small label", type: "string", required: true, max: 60 },
@@ -86,8 +87,9 @@ const pointFields: FieldSpec[] = [
   { key: "text", type: "text", required: true, max: 400 },
 ];
 
-const TRUST_ICONS = ["building", "wrench", "file", "map"] as const;
-const WHY_ICONS = ["search", "building", "hammer", "file", "map", "message"] as const;
+const TRUST_ICONS = ["building", "wrench", "file", "map", "clock", "shield"] as const;
+const WHY_ICONS = ["search", "building", "hammer", "file", "map", "message", "clock", "shield", "home", "receipt"] as const;
+const GROUP_ICONS = ["window", "glass", "lock", "building"] as const;
 
 /** Extra checks for the Redirects list: no rule may point at itself or at a section anchor. */
 function checkRedirects(data: unknown): string[] {
@@ -169,7 +171,7 @@ const defs: Omit<Collection, "validate">[] = [
   {
     id: "home",
     label: "Home page",
-    description: "The hero (headline, buttons, reassurance lines) and the introduction block.",
+    description: "Every block of copy on the home page that is not a shared list: hero, introduction, service groups, door repairs, signs, repair or replace, cost table and the home FAQs.",
     file: "src/content/home.json",
     mode: "object",
     fields: [
@@ -181,10 +183,10 @@ const defs: Omit<Collection, "validate">[] = [
         fields: [
           { key: "eyebrow", label: "Small label", type: "string", required: true, max: 60 },
           { key: "title", label: "Headline", type: "string", required: true, max: 120 },
-          { key: "subtitle", label: "Text under the headline", type: "text", required: true, max: 400 },
+          { key: "paragraphs", label: "Paragraphs under the headline (links allowed: [text](/page) or [07876 071648](tel:+447876071648))", type: "string[]", required: true, max: 600 },
           { key: "primaryCta", label: "Primary button", type: "object", required: true, fields: ctaFields },
           { key: "secondaryCta", label: "Secondary button", type: "object", required: true, fields: ctaFields },
-          { key: "reassurance", label: "Ticked lines under the buttons", type: "string[]", required: true, max: 120 },
+          { key: "reassurance", label: "Ticked lines under the buttons (optional)", type: "string[]", max: 120 },
           { key: "imageCaption", label: "Caption under the photo (optional)", type: "string", max: 200 },
         ],
       },
@@ -201,6 +203,90 @@ const defs: Omit<Collection, "validate">[] = [
           { key: "cta", label: "Button", type: "object", required: true, fields: ctaFields },
         ],
       },
+      {
+        key: "serviceGroups",
+        label: "Service groups (the four cards under the services heading)",
+        type: "object[]",
+        itemLabel: "Group",
+        fields: [
+          { key: "heading", type: "string", required: true, max: 60 },
+          { key: "icon", type: "string", enum: GROUP_ICONS, required: true },
+          { key: "text", label: "Text (link each service: [uPVC window repairs](/services/upvc-window-repairs))", type: "text", required: true, max: 600 },
+        ],
+      },
+      {
+        key: "doors",
+        label: "Door repairs block",
+        type: "object",
+        required: true,
+        fields: [
+          { key: "heading", type: "string", required: true, max: 140 },
+          { key: "paragraphs", label: "Paragraphs (links allowed)", type: "string[]", required: true, max: 1500 },
+        ],
+      },
+      {
+        key: "signs",
+        label: "Signs your windows need repairing",
+        type: "object",
+        required: true,
+        fields: [
+          { key: "heading", type: "string", required: true, max: 140 },
+          { key: "intro", label: "Line under the heading", type: "text", max: 400 },
+          {
+            key: "items",
+            label: "Signs",
+            type: "object[]",
+            itemLabel: "Sign",
+            required: true,
+            fields: [
+              { key: "symptom", label: "What the customer sees", type: "string", required: true, max: 120 },
+              { key: "cause", label: "What it usually is", type: "text", required: true, max: 300 },
+              { key: "linkLabel", label: "Link text (optional)", type: "string", max: 60 },
+              { key: "href", label: "Link (e.g. /services/double-glazing-repairs)", type: "string", format: "path" },
+            ],
+          },
+          { key: "outro", label: "Closing line (links allowed)", type: "text", max: 400 },
+        ],
+      },
+      {
+        key: "repairOrReplace",
+        label: "Repair or replace block",
+        type: "object",
+        required: true,
+        fields: [
+          { key: "heading", type: "string", required: true, max: 140 },
+          { key: "paragraphs", label: "Paragraphs (links allowed)", type: "string[]", required: true, max: 1500 },
+        ],
+      },
+      {
+        key: "cost",
+        label: "Cost block (the heading and intro are under Section headings > Cost guide)",
+        type: "object",
+        required: true,
+        fields: [
+          {
+            key: "rows",
+            label: "Price table",
+            type: "object[]",
+            itemLabel: "Row",
+            fields: [
+              { key: "repair", type: "string", required: true, max: 80 },
+              { key: "price", label: "Guide price", type: "string", required: true, max: 60 },
+            ],
+          },
+          { key: "paragraphs", label: "Paragraphs under the table (links allowed)", type: "string[]", max: 600 },
+        ],
+      },
+      {
+        key: "faqs",
+        label: "Home page FAQs (the FAQs page has its own list under FAQs)",
+        type: "object[]",
+        itemLabel: "Question",
+        fields: [
+          { key: "question", type: "string", required: true, max: 180 },
+          { key: "answer", label: "Answer (links allowed)", type: "text", required: true, max: 1500 },
+        ],
+      },
     ],
   },
   {
@@ -211,8 +297,20 @@ const defs: Omit<Collection, "validate">[] = [
     mode: "object",
     fields: [
       { key: "services", label: "Services grid (home)", type: "object", required: true, fields: [...headingFields, { key: "buttonLabel", type: "string", required: true, max: 60 }] },
-      { key: "whyUs", label: "Why choose us", type: "object", required: true, fields: [...headingFields, { key: "buttonLabel", type: "string", required: true, max: 60 }] },
-      { key: "process", label: "How it works", type: "object", required: true, fields: headingFields },
+      {
+        key: "whyUs",
+        label: "Why choose us",
+        type: "object",
+        required: true,
+        fields: [...headingFields, { key: "listIntro", label: "Line above the list (optional)", type: "string", max: 80 }, { key: "buttonLabel", type: "string", required: true, max: 60 }],
+      },
+      {
+        key: "process",
+        label: "How it works",
+        type: "object",
+        required: true,
+        fields: [...optionalIntroFields, { key: "note", label: "Line under the steps (optional)", type: "text", max: 400 }],
+      },
       {
         key: "areas",
         label: "Areas we cover (home)",
@@ -234,7 +332,7 @@ const defs: Omit<Collection, "validate">[] = [
         required: true,
         fields: [
           ...headingFields,
-          { key: "factorsHeading", label: "Heading over the list", type: "string", required: true, max: 80 },
+          { key: "tableHeading", label: "Heading above the price table", type: "string", required: true, max: 80 },
           { key: "primaryLabel", label: "Primary button text", type: "string", required: true, max: 60 },
           { key: "secondaryLabel", label: "Secondary button text (opens the FAQs)", type: "string", required: true, max: 60 },
         ],

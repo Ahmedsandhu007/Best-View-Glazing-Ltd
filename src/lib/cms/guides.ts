@@ -20,13 +20,14 @@ export const COLLECTION_GUIDES: Record<string, Guide> = {
   },
   home: {
     diagram: "homeHero",
-    title: "Home page: the first screen and the introduction block",
+    title: "Home page: every block of copy, top to bottom",
     steps: [
-      "Small label above the headline.",
-      "Headline and the sentence under it.",
-      "The two buttons (text and where they go).",
-      "The ticked reassurance lines under the buttons.",
-      "Introduction: label, title, paragraphs, quick links and button.",
+      "Hero: small label, headline, the paragraphs under it and the two buttons (the second can be a phone number: tel:+44…).",
+      "Introduction: label, title, paragraphs and button.",
+      "Service groups: four cards; link each service inside the text as [name](/services/slug).",
+      "Door repairs, Signs, Repair or replace and the Cost table are plain text blocks; a block with no text is hidden.",
+      "Home page FAQs are separate from the FAQs page list. Links are allowed in answers.",
+      "Headings for the shared blocks (services, why us, how it works, areas, cost, FAQs, quote) are under Section headings.",
     ],
   },
   sections: {

@@ -1,38 +1,38 @@
 [
   {
-    "slug": "experienced-repair-approach",
-    "title": "Experienced Repair Approach",
-    "text": "Our specialists work on the mechanisms, glazing units and frames that fail most often, so faults are identified quickly and the right repair is proposed first time.",
-    "icon": "search"
-  },
-  {
-    "slug": "residential-and-commercial-expertise",
-    "title": "Residential & Commercial Expertise",
-    "text": "We look after family homes, flats and managed blocks as well as offices, shops and other commercial buildings, adapting how we work to the property and the people using it.",
-    "icon": "building"
-  },
-  {
-    "slug": "practical-repair-solutions",
-    "title": "Practical Repair Solutions",
-    "text": "Where a window or door can be repaired properly, we repair it. Replacement is only suggested when a repair would not give a lasting or cost-effective result.",
-    "icon": "hammer"
-  },
-  {
-    "slug": "clear-quotations",
-    "title": "Clear Quotations",
-    "text": "Every quotation describes the fault, the proposed work and the parts involved in plain English, so you know what you are agreeing to before work begins.",
+    "slug": "fixed-written-quote",
+    "title": "A fixed written quote before work starts",
+    "text": "No price surprises when the job is finished.",
     "icon": "file"
   },
   {
-    "slug": "local-london-coverage",
-    "title": "Local London Coverage",
-    "text": "We operate across Greater London rather than a single borough, which means consistent service whether the property is in Croydon, Camden or Canary Wharf.",
-    "icon": "map"
+    "slug": "calls-answered-7-days",
+    "title": "Calls answered from 8am to 10pm, seven days a week",
+    "text": "Evenings and Sundays included.",
+    "icon": "clock"
   },
   {
-    "slug": "customer-focused-service",
-    "title": "Customer-Focused Service",
-    "text": "Enquiries are reviewed by people who understand window and door hardware, and we keep you informed from the first message to the finished repair.",
+    "slug": "fault-explained",
+    "title": "The fault explained in plain English",
+    "text": "You see the worn part before it is replaced.",
     "icon": "message"
+  },
+  {
+    "slug": "home-left-as-found",
+    "title": "Your home left as we found it",
+    "text": "Dust sheets down, old parts and glass taken away.",
+    "icon": "home"
+  },
+  {
+    "slug": "guarantee-parts-and-labour",
+    "title": "Guarantee on parts and labour",
+    "text": "If the repair fails, we come back.",
+    "icon": "shield"
+  },
+  {
+    "slug": "invoice-on-the-day",
+    "title": "Invoice and receipt on the day",
+    "text": "Paid work is always documented.",
+    "icon": "receipt"
   }
 ]

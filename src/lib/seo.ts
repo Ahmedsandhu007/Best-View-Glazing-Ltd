@@ -1,3 +1,4 @@
+import { plainText } from "@/components/RichText";
 import { contact, site } from "@/content/site";
 import { services, type Service } from "@/content/services";
 import { areaGroups, publishedAreas } from "@/content/areas";
@@ -88,7 +89,7 @@ export function faqJsonLd(faqs: Pick<Faq, "question" | "answer">[]) {
     mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.question,
-      acceptedAnswer: { "@type": "Answer", text: f.answer },
+      acceptedAnswer: { "@type": "Answer", text: plainText(f.answer) },
     })),
   };
 }

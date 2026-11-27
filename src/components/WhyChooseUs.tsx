@@ -1,4 +1,4 @@
-import { Building2, FileText, Hammer, MapPin, MessageSquare, SearchCheck, type LucideIcon } from "lucide-react";
+import { Building2, Clock, FileText, Hammer, House, MapPin, MessageSquare, Receipt, SearchCheck, ShieldCheck, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { sections, site, whyChooseUs } from "@/content/site";
@@ -10,6 +10,10 @@ const icons: Record<string, LucideIcon> = {
   file: FileText,
   map: MapPin,
   message: MessageSquare,
+  clock: Clock,
+  shield: ShieldCheck,
+  home: House,
+  receipt: Receipt,
 };
 const fallback = [SearchCheck, Building2, Hammer, FileText, MapPin, MessageSquare];
 
@@ -26,7 +30,9 @@ export function WhyChooseUs({ ctaHref = `#${site.enquiryFormId}` }: { ctaHref?: 
             </div>
           </div>
         </div>
-        <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:col-span-8">
+        <div className="lg:col-span-8">
+          {copy.listIntro ? <p className="mb-8 font-heading text-sm font-semibold uppercase tracking-[0.12em] text-teal">{copy.listIntro}</p> : null}
+        <ul className="grid gap-x-8 gap-y-10 sm:grid-cols-2">
           {whyChooseUs.map((item, i) => {
             const Icon = (item.icon && icons[item.icon]) || fallback[i % fallback.length];
             return (
@@ -42,6 +48,7 @@ export function WhyChooseUs({ ctaHref = `#${site.enquiryFormId}` }: { ctaHref?: 
             );
           })}
         </ul>
+        </div>
       </div>
     </section>
   );

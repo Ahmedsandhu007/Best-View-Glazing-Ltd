@@ -45,6 +45,7 @@ Edit a section → Save (draft, nothing live) → Publish (sends every draft) �
 | Areas we cover (list) | The regions (columns on the Areas page) | Home, /areas |
 | Area pages (list) | One entry per town or district: region, Publish page switch, H1, intro, photo, content sections, nearby places, FAQs, SEO title and meta description | /areas, one page per town switched on |
 | Blog articles (list) | Title, category, date, reading time, summary, picture, article, SEO fields | /blog, one page per article, three newest on the home page |
+| Home page (object) | Hero (label, headline, paragraphs, two buttons), introduction, four service groups, door repairs block, signs list, repair-or-replace block, cost table and the home FAQs | Home page only. Links inside text: `[name](/services/slug)`, `[07876 071648](tel:+447876071648)`, `[text](https://…)` |
 | Case studies (list) | Title, category, location, summary, description, picture, tags, results, write-up, sample flag | /case-studies, one page each, first three on the home page |
 | FAQs (list) | Question and answer | Home page and /faqs |
 | Testimonials (list) | Name, location, quote, stars, sample flag | Home page and /case-studies |
@@ -137,3 +138,9 @@ What not to do: do not edit `slug` on existing entries; do not delete the only e
 | New district or article missing | Not published, or a bad slug | Check the unpublished-changes bar; slugs are lower-case words joined by hyphens |
 
 A mistake can always be fixed by editing again and publishing, or by Discard before publishing. Site owner for anything outside the CMS: Ahmed (Alpha Digital Solutions).
+
+## Home page copy (27 Nov 2026)
+
+The home page now carries the SEO team's copy block by block. Under **Home page** in the CMS: hero, introduction, service groups, door repairs, signs, repair or replace, the cost table and the home FAQs. The headings and intro lines of the shared blocks (services, why choose us, how it works, areas, cost guide, FAQs, quote) are under **Section headings**; the trust strip, why-us points, process steps and regions are their own lists. Links inside any paragraph: `[text](/page)`, `[text](https://…)`, `[07876 071648](tel:+447876071648)` or `[07876 071648](https://wa.me/447876071648)`.
+
+Still to confirm with the client: the years in business (the trust strip shows a written-quote point in its place), the guarantee length, the call-out charge policy (that FAQ is left out) and the Google reviews (the testimonials section stays hidden until real reviews are added).

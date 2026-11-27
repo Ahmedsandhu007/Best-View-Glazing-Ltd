@@ -1,26 +1,26 @@
 [
   {
-    "slug": "residential-and-commercial",
-    "title": "Residential & Commercial",
-    "text": "Homes, flats, rented property, offices and retail premises across London.",
-    "icon": "building"
+    "slug": "open-7-days",
+    "title": "Open 8am to 10pm, 7 Days",
+    "text": "Calls answered every day, evenings and Sundays included.",
+    "icon": "clock"
   },
   {
-    "slug": "experienced-repair-specialists",
-    "title": "Experienced Repair Specialists",
-    "text": "Mechanical, glazing and frame faults diagnosed and repaired rather than replaced where practical.",
-    "icon": "wrench"
+    "slug": "based-in-slough",
+    "title": "Based in Slough, Covering London",
+    "text": "124 Oatlands Drive, Slough. London, Berkshire and Buckinghamshire covered.",
+    "icon": "map"
   },
   {
-    "slug": "transparent-quotations",
-    "title": "Transparent Quotations",
-    "text": "A written quotation that sets out the work and the parts required before anything is agreed.",
+    "slug": "written-quote-first",
+    "title": "Fixed Written Quote First",
+    "text": "A clear written price before any work starts. No surprises when the job is done.",
     "icon": "file"
   },
   {
-    "slug": "greater-london-coverage",
-    "title": "Greater London Coverage",
-    "text": "Central, North, East, South and West London served from one team.",
-    "icon": "map"
+    "slug": "guarantee-on-every-repair",
+    "title": "Guarantee on Every Repair",
+    "text": "Parts and labour covered. If the repair fails, we come back.",
+    "icon": "shield"
   }
 ]

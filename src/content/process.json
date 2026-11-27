@@ -1,22 +1,22 @@
 [
   {
-    "slug": "submit-your-enquiry",
-    "title": "Submit Your Enquiry",
-    "text": "Complete the website enquiry form and tell us about the window or door problem. Photographs are welcome and help us assess the fault."
+    "slug": "tell-us-the-problem",
+    "title": "Tell us the problem",
+    "text": "Call, WhatsApp a photo or use the form below."
   },
   {
-    "slug": "review-and-assessment",
-    "title": "Review & Assessment",
-    "text": "Our team reviews the information you have provided and assesses the likely cause, the parts involved and the access required."
+    "slug": "get-a-written-price",
+    "title": "Get a written price",
+    "text": "Simple hardware jobs can often be priced from photos. Glass needs measuring."
   },
   {
-    "slug": "quotation",
-    "title": "Quotation",
-    "text": "You receive a response setting out the relevant repair information together with a clear quotation for the work."
+    "slug": "book-a-time",
+    "title": "Book a time that suits you",
+    "text": "Visits are available seven days a week."
   },
   {
-    "slug": "arrange-the-repair",
-    "title": "Arrange the Repair",
-    "text": "Once the quotation is agreed, the repair visit is arranged at a time that suits the property and the people in it."
+    "slug": "the-repair",
+    "title": "The repair",
+    "text": "Most hinges, handles, locks and seals are fixed on the first visit. Sealed glass units are made to measure, so glass jobs usually need a second short visit to fit the new unit."
   }
 ]

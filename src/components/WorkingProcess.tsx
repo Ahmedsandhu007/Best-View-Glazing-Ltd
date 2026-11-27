@@ -6,7 +6,7 @@ export function WorkingProcess({ tone = "ivory" }: { tone?: "ivory" | "white" })
   return (
     <section className={`section ${tone === "ivory" ? "bg-ivory" : "bg-white"}`}>
       <div className="container-site">
-        <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.description} />
+        <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.description || undefined} />
         <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {processSteps.map((step, i) => (
             <li key={step.slug} className={`flex flex-col rounded-[4px] border border-line p-6 ${tone === "ivory" ? "bg-white" : "bg-ivory"}`}>
@@ -21,6 +21,7 @@ export function WorkingProcess({ tone = "ivory" }: { tone?: "ivory" | "white" })
             </li>
           ))}
         </ol>
+        {copy.note ? <p className="mt-8 max-w-3xl text-[1.0625rem] leading-relaxed text-ink">{copy.note}</p> : null}
       </div>
     </section>
   );

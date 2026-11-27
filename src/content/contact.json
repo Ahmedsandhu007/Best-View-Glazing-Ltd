@@ -4,26 +4,25 @@
   "addressTitle": "Office",
   "address": [
     "Best View Glazing Ltd",
-    "London"
+    "124 Oatlands Drive",
+    "Slough",
+    "SL1 3HT"
   ],
-  "phone": "+44 7000 000000",
-  "whatsappNumber": "447000000000",
+  "phone": "07876 071648",
+  "whatsappNumber": "447876071648",
   "whatsappLabel": "Message us on WhatsApp",
   "whatsappMessage": "Hello Best View Glazing, I would like a quote for a window or door repair.",
-  "email": "hello@bestviewglazing.co.uk",
+  "email": "bestviewglazing@gmail.com",
   "hoursTitle": "Opening hours",
   "hours": [
-    "Monday to Friday: 8am to 6pm",
-    "Saturday: 9am to 1pm",
-    "Sunday: closed"
+    "Monday to Sunday: 8am to 10pm"
   ],
   "mapTitle": "Where we are",
-  "mapQuery": "London, United Kingdom",
+  "mapQuery": "124 Oatlands Drive, Slough SL1 3HT",
   "mapEmbedUrl": "",
   "showFloatingButton": true,
   "floatingLabel": "WhatsApp us",
   "openingHoursSchema": [
-    "Mo-Fr 08:00-18:00",
-    "Sa 09:00-13:00"
+    "Mo-Su 08:00-22:00"
   ]
 }

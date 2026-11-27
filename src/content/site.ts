@@ -71,11 +71,11 @@ export const legalLinks = [
   { label: "Terms & Conditions", href: "/terms" },
 ] as const;
 
-export type TrustIcon = "building" | "wrench" | "file" | "map";
+export type TrustIcon = "building" | "wrench" | "file" | "map" | "clock" | "shield";
 export type TrustPoint = { slug: string; title: string; text: string; icon: TrustIcon };
 export const trustPoints = trustData as TrustPoint[];
 
-export type WhyUsIcon = "search" | "building" | "hammer" | "file" | "map" | "message";
+export type WhyUsIcon = "search" | "building" | "hammer" | "file" | "map" | "message" | "clock" | "shield" | "home" | "receipt";
 export type WhyUsPoint = { slug: string; title: string; text: string; icon?: WhyUsIcon };
 export const whyChooseUs = whyData as WhyUsPoint[];
 
@@ -85,7 +85,18 @@ export const processSteps = processData as ProcessStep[];
 export type QuoteFactor = { slug: string; title: string; text: string };
 export const quoteFactors = factorsData as QuoteFactor[];
 
-export const home = homeData;
+export type HomeCta = { label: string; href: string };
+export type HomeContent = {
+  hero: { eyebrow: string; title: string; paragraphs: string[]; primaryCta: HomeCta; secondaryCta: HomeCta; reassurance?: string[]; imageCaption?: string };
+  intro: { eyebrow: string; title: string; paragraphs: string[]; quickLinks: NavLink[]; cta: HomeCta };
+  serviceGroups: { heading: string; icon: string; text: string }[];
+  doors: { heading: string; paragraphs: string[] };
+  signs: { heading: string; intro?: string; items: { symptom: string; cause: string; linkLabel?: string; href?: string }[]; outro?: string };
+  repairOrReplace: { heading: string; paragraphs: string[] };
+  cost: { rows: { repair: string; price: string }[]; paragraphs: string[] };
+  faqs: { question: string; answer: string }[];
+};
+export const home = homeData as HomeContent;
 export const sections = sectionsData;
 export const pages = pagesData;
 export const footer = footerData;

@@ -1,4 +1,5 @@
 import { QuoteForm } from "@/components/QuoteForm";
+import { RichInline } from "@/components/RichText";
 import { processSteps, sections, site } from "@/content/site";
 
 type Props = {
@@ -35,7 +36,9 @@ export function QuoteSection({ defaultService, headingLevel = "h2", tone = "ivor
               ))}
             </ol>
           </div>
-          <p className="mt-8 text-sm leading-relaxed text-muted">{copy.note}</p>
+          <p className="mt-8 text-sm leading-relaxed text-muted">
+            <RichInline text={copy.note} />
+          </p>
         </div>
         <div className="lg:col-span-7">
           <QuoteForm defaultService={defaultService} />

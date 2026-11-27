@@ -4,10 +4,10 @@ import { BlogCard } from "@/components/BlogCard";
 import { posts } from "@/content/posts";
 import { sections } from "@/content/site";
 
-/** Home page: the three most recent articles (the first three entries; the list is kept newest first in the CMS). */
+/** Home page: the four most recent articles (the first four entries; the list is kept newest first in the CMS). */
 export function BlogTeasers() {
   const copy = sections.blog;
-  const latest = posts.slice(0, 3);
+  const latest = posts.slice(0, 4);
   if (latest.length === 0) return null;
   return (
     <section className="section bg-white">
@@ -18,7 +18,7 @@ export function BlogTeasers() {
             {copy.buttonLabel}
           </Button>
         </div>
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className={`mt-10 grid gap-6 sm:grid-cols-2 ${latest.length > 3 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
           {latest.map((p) => (
             <li key={p.slug}>
               <BlogCard post={p} />

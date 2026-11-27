@@ -59,6 +59,11 @@ export function RichInline({ text }: { text: string }): React.ReactNode {
   return <>{out}</>;
 }
 
+/** The same text with the **bold**, *italic* and [link](…) markup removed (for schema and meta text). */
+export function plainText(text: string): string {
+  return text.replace(INLINE, (_m, b, i, l) => b ?? i ?? l ?? "");
+}
+
 /** If the whole block is an image line, return its parts. */
 export function parseImageLine(block: string): { alt: string; src: string } | null {
   const m = IMAGE_LINE.exec(block.trim());

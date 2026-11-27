@@ -1,7 +1,7 @@
-import { Building2, FileText, MapPin, Wrench, type LucideIcon } from "lucide-react";
+import { Building2, Clock, FileText, MapPin, ShieldCheck, Wrench, type LucideIcon } from "lucide-react";
 import { trustPoints } from "@/content/site";
 
-const icons: Record<string, LucideIcon> = { building: Building2, wrench: Wrench, file: FileText, map: MapPin };
+const icons: Record<string, LucideIcon> = { building: Building2, wrench: Wrench, file: FileText, map: MapPin, clock: Clock, shield: ShieldCheck };
 
 export function TrustStrip() {
   return (

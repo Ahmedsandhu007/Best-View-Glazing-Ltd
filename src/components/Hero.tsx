@@ -1,19 +1,28 @@
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { RichInline } from "@/components/RichText";
 import { images } from "@/content/images";
 import { home } from "@/content/site";
 
 export function Hero() {
   const img = images.hero;
   const hero = home.hero;
+  const paragraphs = hero.paragraphs.filter((p) => p.trim());
+  const reassurance = (hero.reassurance ?? []).filter((r) => r.trim());
   return (
     <section className="border-b border-line bg-ivory">
       <div className="container-site grid items-center gap-10 py-14 md:py-20 lg:grid-cols-12 lg:gap-14 lg:py-24">
         <div className="lg:col-span-6">
           <p className="eyebrow">{hero.eyebrow}</p>
           <h1 className="mt-4 text-[2.5rem] font-bold leading-[1.08] md:text-5xl lg:text-[3.375rem]">{hero.title}</h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{hero.subtitle}</p>
+          <div className="mt-6 max-w-xl space-y-4 text-lg leading-relaxed text-muted">
+            {paragraphs.map((p) => (
+              <p key={p.slice(0, 40)}>
+                <RichInline text={p} />
+              </p>
+            ))}
+          </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href={hero.primaryCta.href} size="lg">
               {hero.primaryCta.label}
@@ -22,14 +31,16 @@ export function Hero() {
               {hero.secondaryCta.label}
             </Button>
           </div>
-          <ul className="mt-9 space-y-2 border-t border-line pt-6 text-[0.9375rem] text-ink">
-            {hero.reassurance.map((item) => (
-              <li key={item} className="flex items-start gap-2.5">
-                <Check className="mt-1 h-4 w-4 shrink-0 text-teal" aria-hidden="true" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+          {reassurance.length > 0 ? (
+            <ul className="mt-9 space-y-2 border-t border-line pt-6 text-[0.9375rem] text-ink">
+              {reassurance.map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <Check className="mt-1 h-4 w-4 shrink-0 text-teal" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
 
         <div className="lg:col-span-6">

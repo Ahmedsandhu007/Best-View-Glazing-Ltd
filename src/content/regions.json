@@ -1,27 +1,32 @@
 [
   {
-    "region": "Central London",
-    "slug": "central-london",
-    "intro": "Period townhouses, mansion blocks, offices and retail frontages where sash windows, timber doors and heavy commercial glazing all need regular attention."
-  },
-  {
-    "region": "North London",
     "slug": "north-london",
-    "intro": "Victorian and Edwardian terraces, 1930s semis and newer apartment developments with a wide mix of timber, uPVC and aluminium windows."
+    "region": "North London",
+    "intro": "Harrow, Wembley, Barnet, Finchley and Enfield. Window repairs North London customers book most often are hinges, handles and misted units."
   },
   {
-    "region": "East London",
-    "slug": "east-london",
-    "intro": "Converted warehouses, high-rise flats, new-build estates and busy commercial units from Hackney through to the Essex border."
-  },
-  {
-    "region": "South London",
-    "slug": "south-london",
-    "intro": "Suburban family homes, mansion flats and high-street premises, with a large stock of uPVC and double-glazed units now reaching the age where hardware fails."
-  },
-  {
-    "region": "West London",
     "slug": "west-london",
-    "intro": "Riverside terraces, Metroland semis, purpose-built blocks and office parks, where aluminium and tilt-and-turn systems are as common as traditional timber."
+    "region": "West London",
+    "intro": "Ealing, Greenford, Acton, Chiswick, Hammersmith and Hounslow."
+  },
+  {
+    "slug": "central-london",
+    "region": "Central London",
+    "intro": "Westminster, Marylebone, Mayfair and Fitzrovia, including period sash windows in mansion blocks."
+  },
+  {
+    "slug": "east-london",
+    "region": "East London",
+    "intro": "Window repairs East London homes and businesses need, from Stratford and Hackney to Canary Wharf flats."
+  },
+  {
+    "slug": "south-london",
+    "region": "South London",
+    "intro": "Wimbledon, Croydon, Bromley, Greenwich and Lewisham."
+  },
+  {
+    "slug": "slough-windsor-maidenhead-high-wycombe",
+    "region": "Slough, Windsor, Maidenhead and High Wycombe",
+    "intro": "Our home patch. Slough is our base, so Langley, Cippenham, Burnham, Windsor, Eton, Maidenhead and High Wycombe are a short drive away."
   }
 ]

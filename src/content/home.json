@@ -1,60 +1,170 @@
 {
   "hero": {
-    "eyebrow": "Greater London · Windows & Doors",
-    "title": "Professional Window & Door Repairs Across London",
-    "subtitle": "Reliable repair solutions for residential and commercial properties. From faulty window mechanisms and damaged locks to glazing problems and worn-out frames, our services are focused on restoring security, functionality and peace of mind.",
+    "eyebrow": "London, Slough & Berkshire · Windows & Doors",
+    "title": "Window Stuck, Draughty or Misted? Window Repair in London, 7 Days a Week",
+    "paragraphs": [
+      "Most faulty windows do not need replacing. A dropped hinge, a handle that spins, a lock that will not catch or a misted pane is usually a single part, and our window repair London service fixes that part while your frame stays where it is. You call [07876 071648](tel:+447876071648), describe the problem or send a photo, and get a clear written price before any work starts.",
+      "We are based on Oatlands Drive in Slough and cover London, Berkshire and Buckinghamshire. Lines are open from 8am to 10pm, seven days a week."
+    ],
     "primaryCta": {
-      "label": "Request a Free Quote",
+      "label": "Request a free quote",
       "href": "#quote-form"
     },
     "secondaryCta": {
-      "label": "View Our Services",
-      "href": "/services"
+      "label": "Call 07876 071648",
+      "href": "tel:+447876071648"
     },
-    "reassurance": [
-      "Residential and commercial properties",
-      "Written quotation before any work is agreed",
-      "Repair first, replacement only when it is the right answer"
-    ],
-    "imageCaption": "Timber sash, uPVC, aluminium and composite units repaired across the capital."
+    "reassurance": [],
+    "imageCaption": "Timber sash, uPVC, aluminium and composite units repaired across London and the Thames Valley."
   },
   "intro": {
-    "eyebrow": "Who we are",
-    "title": "Window & Door Repair Specialists in London",
+    "eyebrow": "Window repair specialists",
+    "title": "Window Repair Specialists for London Homes and Businesses",
     "paragraphs": [
-      "Windows and doors do a great deal of quiet work. They keep a property secure, warm, dry and ventilated, and most people only notice them when a handle snaps, a sash drops or condensation appears between the panes. Left alone, a small mechanical fault tends to become a larger and more expensive one.",
-      "Best View Glazing Ltd repairs the common mechanical and glazing problems that affect uPVC, aluminium, timber and sash windows, together with the locks, hinges and mechanisms on external and internal doors. We replace failed hinges, handles, locks and gaskets, re-glaze misted or broken sealed units, free jammed sashes and repair damaged frames, keeping the original window wherever that is the sensible option.",
-      "We work for homeowners, tenants and landlords, for letting agencies and property management companies, and for offices, shops and other commercial premises. Whatever the property, the approach is the same: understand the fault, propose a practical repair and quote for it clearly. We cover the whole of Greater London."
+      "A window repair specialist does one job: keep the windows you already own working. That focus changes the advice you get. You hear what is wrong, what it costs to put right and whether the frame has years left in it, without a sales pitch for a full set of new windows.",
+      "You might be a homeowner in Ealing with a sash that rattles, a landlord in Harrow with a tenant reporting a draught, or a shop in Slough with a door that will not lock at closing time. The work is the same in each case. Find the failed part, replace it and leave the window opening, closing and locking properly.",
+      "Small jobs are welcome. One handle counts."
     ],
-    "quickLinks": [
-      {
-        "label": "uPVC window repairs",
-        "href": "/services/upvc-window-repairs"
-      },
-      {
-        "label": "Aluminium window repairs",
-        "href": "/services/aluminium-window-repairs"
-      },
-      {
-        "label": "Sash window repairs",
-        "href": "/services/sash-window-repairs"
-      },
-      {
-        "label": "Double glazing repairs",
-        "href": "/services/double-glazing-repairs"
-      },
-      {
-        "label": "Window lock and handle repairs",
-        "href": "/services/window-lock-and-handle-repairs"
-      },
-      {
-        "label": "Door lock and mechanism repairs",
-        "href": "/services/door-lock-and-handle-repairs"
-      }
-    ],
+    "quickLinks": [],
     "cta": {
       "label": "More about how we work",
       "href": "/about"
     }
-  }
+  },
+  "serviceGroups": [
+    {
+      "heading": "Window Repairs",
+      "icon": "window",
+      "text": "[uPVC window repairs](/services/upvc-window-repairs), [sash window repairs](/services/sash-window-repairs), [wooden window repairs](/services/wooden-window-repairs), [aluminium window repairs](/services/aluminium-window-repairs), [tilt and turn window repairs](/services/tilt-and-turn-window-repairs), [window hinge replacement](/services/window-hinge-replacement), [window seal replacement](/services/window-seal-replacement) and [window frame repairs](/services/window-frame-repairs)."
+    },
+    {
+      "heading": "Glass Repairs",
+      "icon": "glass",
+      "text": "[Misted double glazing repairs](/services/double-glazing-repairs) and [broken window glass replacement](/services/broken-window-glass-repairs). We replace the sealed unit inside your existing frame."
+    },
+    {
+      "heading": "Locks and Handles",
+      "icon": "lock",
+      "text": "[Window lock and handle repairs](/services/window-lock-and-handle-repairs), including locking handles and child safety restrictors."
+    },
+    {
+      "heading": "Commercial Repairs",
+      "icon": "building",
+      "text": "[Commercial window repairs](/services/commercial-window-repairs) for shops, offices, landlords and managing agents across London and the Thames Valley."
+    }
+  ],
+  "doors": {
+    "heading": "Door Repairs in London for uPVC, Composite and Aluminium Doors",
+    "paragraphs": [
+      "A front door that will not lock is a security problem tonight, not next month. Door repairs London homeowners ask us for most often start with the same few symptoms: the handle will not lift, the key turns but the bolts do not engage, or the door has dropped and catches on the frame at the bottom corner.",
+      "Most of these come down to a worn multipoint lock gearbox, a tired euro cylinder or hinges that need adjusting. You can read about each fix on our [door lock and handle repairs](/services/door-lock-and-handle-repairs) and [door hinge and mechanism repairs](/services/door-hinge-and-mechanism-repairs) pages. Patio, bifold and French doors are covered too."
+    ]
+  },
+  "signs": {
+    "heading": "Signs Your Windows Need Repairing",
+    "intro": "You do not need to know the name of the part. Tell us what you can see and feel.",
+    "items": [
+      {
+        "symptom": "Misted up between the panes.",
+        "cause": "The seal on the glass unit has failed. You need a new sealed unit, not a new window.",
+        "linkLabel": "Double glazing repairs",
+        "href": "/services/double-glazing-repairs"
+      },
+      {
+        "symptom": "The window has dropped or catches the frame.",
+        "cause": "Worn friction hinges let the sash sag.",
+        "linkLabel": "Window hinge replacement",
+        "href": "/services/window-hinge-replacement"
+      },
+      {
+        "symptom": "The handle turns but nothing happens.",
+        "cause": "A broken spindle or gearbox.",
+        "linkLabel": "Window lock and handle repairs",
+        "href": "/services/window-lock-and-handle-repairs"
+      },
+      {
+        "symptom": "A whistle or cold draught along one side.",
+        "cause": "Perished seals or a sash out of line.",
+        "linkLabel": "Window seal replacement",
+        "href": "/services/window-seal-replacement"
+      },
+      {
+        "symptom": "Cracked or broken glass.",
+        "cause": "We make it safe first, then measure for a new pane.",
+        "linkLabel": "Broken window glass repairs",
+        "href": "/services/broken-window-glass-repairs"
+      },
+      {
+        "symptom": "Soft or rotten timber at the bottom rail.",
+        "cause": "Often repairable by splicing in new wood.",
+        "linkLabel": "Window frame repairs",
+        "href": "/services/window-frame-repairs"
+      },
+      {
+        "symptom": "Rain getting in around the edge.",
+        "cause": "Usually seals or alignment rather than the frame itself.",
+        "linkLabel": "",
+        "href": ""
+      }
+    ],
+    "outro": "Seen one of these? Send a photo on WhatsApp to [07876 071648](https://wa.me/447876071648) and you will get an idea of the fix before anyone visits."
+  },
+  "repairOrReplace": {
+    "heading": "Is It Cheaper to Repair or Replace Your Windows?",
+    "paragraphs": [
+      "In most cases repair is far cheaper. MyJobQuote's UK cost guide puts a misted sealed unit at £55 to £220, while a full uPVC window replacement starts at £450 and timber or aluminium windows start at £800 ([MyJobQuote, November 2026](https://www.myjobquote.co.uk/costs/window-repair)).",
+      "Repair makes sense when the hardware has failed, one sealed unit is misted, the frame is still sound or timber rot is limited to one area. Replacement is worth thinking about when the frame is badly damaged or distorted, several parts have failed at once, or you are already planning major building work (same guide).",
+      "If your frame is past saving, we will tell you. We would rather lose a job than sell you a repair that will not last."
+    ]
+  },
+  "cost": {
+    "rows": [
+      {
+        "repair": "Misted sealed unit",
+        "price": "£55 to £220 per unit"
+      },
+      {
+        "repair": "Window handle",
+        "price": "£60 to £150 per handle"
+      },
+      {
+        "repair": "Window hinges",
+        "price": "£80 to £150 per pair"
+      },
+      {
+        "repair": "Window lock mechanism",
+        "price": "£80 to £300 per mechanism"
+      }
+    ],
+    "paragraphs": [
+      "Your exact price depends on the size of the glass, the type of hardware, access (a second floor flat in Kensington is not the same as a ground floor in Langley) and whether the part is still made. You get a fixed price in writing before any work starts.",
+      "Want a price for your window? Send a photo to [07876 071648](https://wa.me/447876071648)."
+    ]
+  },
+  "faqs": [
+    {
+      "question": "Can misted double glazing be repaired without a new window?",
+      "answer": "Yes. Only the sealed glass unit is replaced. Your frame, handles and hinges stay."
+    },
+    {
+      "question": "Is it cheaper to repair or replace a window?",
+      "answer": "Usually repair. A new sealed unit costs £55 to £220 against £450 or more for a new uPVC window, according to [MyJobQuote's 2026 guide](https://www.myjobquote.co.uk/costs/window-repair). Replacement only makes sense if the frame itself has failed."
+    },
+    {
+      "question": "I rent my home. Who pays for a broken window?",
+      "answer": "In England your landlord does. Shelter England says landlords must sort out repairs to doors and windows, and that your landlord is always responsible even if the tenancy agreement does not say so ([Shelter England](https://england.shelter.org.uk/housing_advice/repairs/landlord_and_tenant_responsibilities_for_repairs)). Landlords and letting agents can book us directly for the work."
+    },
+    {
+      "question": "What are your opening hours?",
+      "answer": "8am to 10pm, seven days a week."
+    },
+    {
+      "question": "Do you repair doors as well as windows?",
+      "answer": "Yes. uPVC, composite, aluminium, patio, bifold and French doors: locks, cylinders, handles, hinges and alignment."
+    },
+    {
+      "question": "Which areas do you cover?",
+      "answer": "All of London; Slough, Windsor, Maidenhead and Eton; High Wycombe and nearby Buckinghamshire towns. If you are searching for window and door repair near me and you live anywhere in that area, give us a call."
+    }
+  ]
 }

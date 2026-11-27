@@ -4,10 +4,13 @@ import { useId, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { RichInline } from "@/components/RichText";
 import type { Faq } from "@/content/faqs";
 import { sections, site } from "@/content/site";
 
-export function FaqAccordion({ items }: { items: Faq[] }) {
+type FaqItem = Pick<Faq, "question" | "answer"> & { slug?: string };
+
+export function FaqAccordion({ items }: { items: FaqItem[] }) {
   const prefix = useId();
   const [openItems, setOpenItems] = useState<Set<number>>(() => new Set());
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
@@ -70,7 +73,9 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
               className={`grid transition-[grid-template-rows] duration-200 ease-out ${expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
             >
               <div className="overflow-hidden">
-                <p className="pb-6 pr-2 text-[0.9375rem] leading-relaxed text-muted sm:pr-12">{faq.answer}</p>
+                <p className="pb-6 pr-2 text-[0.9375rem] leading-relaxed text-muted sm:pr-12">
+                  <RichInline text={faq.answer} />
+                </p>
               </div>
             </div>
           </div>
@@ -80,7 +85,7 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
   );
 }
 
-type Props = { items: Faq[]; ctaHref?: string; showHeading?: boolean };
+type Props = { items: FaqItem[]; ctaHref?: string; showHeading?: boolean };
 
 export function FAQ({ items, ctaHref = `#${site.enquiryFormId}`, showHeading = true }: Props) {
   const copy = sections.faq;
