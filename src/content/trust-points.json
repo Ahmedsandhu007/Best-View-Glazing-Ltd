@@ -12,14 +12,14 @@
     "icon": "map"
   },
   {
-    "slug": "written-quote-first",
-    "title": "Fixed Written Quote First",
-    "text": "A clear written price before any work starts. No surprises when the job is done.",
-    "icon": "file"
+    "slug": "10-years-repairing-windows",
+    "title": "10 Years Repairing Windows",
+    "text": "A decade of fixing hinges, handles, locks, seals and misted units.",
+    "icon": "wrench"
   },
   {
-    "slug": "guarantee-on-every-repair",
-    "title": "Guarantee on Every Repair",
+    "slug": "12-month-guarantee",
+    "title": "12-Month Guarantee on Every Repair",
     "text": "Parts and labour covered. If the repair fails, we come back.",
     "icon": "shield"
   }
